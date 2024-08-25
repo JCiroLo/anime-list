@@ -10,7 +10,8 @@ class Anime implements TAnime {
   synopsis: string;
   description: string;
   titles: {
-    en: string;
+    en?: string;
+    en_us?: string;
     en_jp: string;
     ja_jp: string;
   };
@@ -122,6 +123,10 @@ class Anime implements TAnime {
     this.showType = data.showType;
     this.nsfw = data.nsfw;
     this.coverImageTopOffset = data.coverImageTopOffset;
+  }
+
+  getTitle(): string {
+    return this.titles.en || this.titles.en_us || this.titles.en_jp;
   }
 
   static fromNetwork(animes: any): TAnime {

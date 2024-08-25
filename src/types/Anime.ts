@@ -6,7 +6,8 @@ export type TAnime = {
   synopsis: string;
   description: string;
   titles: {
-    en: string;
+    en?: string;
+    en_us?: string;
     en_jp: string;
     ja_jp: string;
   };
@@ -84,6 +85,7 @@ export type TAnime = {
    * @deprecated The property should not be used
    */
   coverImageTopOffset: number;
+  getTitle: () => string;
 };
 
 export type TAnimeImage = {
