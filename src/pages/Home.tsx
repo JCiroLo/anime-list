@@ -30,7 +30,7 @@ const Home: FC = () => {
       <Container sx={{ position: "relative", zIndex: 10, mt: -4 }}>
         <Grid cols={6}>
           {trendingAnimes.data.map((anime) => (
-            <AnimeCard key={anime.id} anime={anime} props={{ card: { width: 400 } }} />
+            <AnimeCard key={anime.id} anime={anime} props={{ card: { width: 8 * 36 } }} />
           ))}
         </Grid>
       </Container>

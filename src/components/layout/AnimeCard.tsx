@@ -1,5 +1,5 @@
 import { FC, useMemo } from "react";
-import { Box, Button, IconButton, Stack, Tooltip, Typography, type BoxProps } from "@mui/material";
+import { Box, Button, IconButton, Stack, StackProps, Tooltip, Typography, type BoxProps } from "@mui/material";
 
 import { Grid, Image } from "@/components";
 import { EyeIcon, PlusIcon } from "@/icons";
@@ -7,7 +7,7 @@ import { EyeIcon, PlusIcon } from "@/icons";
 import { type TAnime } from "@/types/Anime";
 
 type TAnimeCardProps = {
-  width: number | string | Record<string, string>;
+  width: StackProps["width"];
 };
 type TAnimeCard = FC<{
   anime: TAnime;
@@ -56,11 +56,13 @@ const AnimeCard: TAnimeCard = ({ anime, props }) => {
       >
         <Image src={anime.coverImage.original} alt={title} aspect={16 / 9} width="100%" />
         <Stack spacing={2} p={2}>
-          <Typography variant="h3" fontSize="1.25em" fontWeight={600}>
-            {title}
-            &nbsp;
-            <Typography variant="caption">({anime.titles.ja_jp})</Typography>
-          </Typography>
+          <Stack>
+            <Typography variant="h3" fontSize="1.25em" fontWeight={600}>
+              {title}
+              &nbsp;
+            </Typography>
+            <Typography variant="caption">{anime.titles.ja_jp}</Typography>
+          </Stack>
           <Stack direction="row" spacing={1}>
             <Tooltip title="Mark as watched" arrow>
               <IconButton>
@@ -74,8 +76,12 @@ const AnimeCard: TAnimeCard = ({ anime, props }) => {
             </Tooltip>
           </Stack>
           <Stack spacing={0.5}>
-            <Typography fontWeight={600}>Synopsis:</Typography>
-            <Typography sx={{ display: "-webkit-box", overflow: "hidden", WebkitBoxOrient: "vertical", WebkitLineClamp: 4 }}>
+            <Typography fontWeight={700}>Synopsis:</Typography>
+            <Typography
+              variant="body2"
+              fontWeight={300}
+              sx={{ display: "-webkit-box", overflow: "hidden", WebkitBoxOrient: "vertical", WebkitLineClamp: 4 }}
+            >
               {anime.synopsis}
             </Typography>
           </Stack>
