@@ -43,6 +43,16 @@ class Network {
       return Response.error(error as Error);
     }
   }
+
+  async fakeRequest(seconds: number, status: "success" | "error"): Promise<TResponse<{ ok: boolean }>> {
+    await new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+
+    if (status === "error") {
+      return Response.error(new Error("Error"));
+    }
+
+    return Response.success({ ok: true });
+  }
 }
 
 export default Network;

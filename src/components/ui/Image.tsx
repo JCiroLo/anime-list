@@ -1,23 +1,35 @@
 import React from "react";
+import { Box } from "@mui/material";
 
 type TImage = React.FC<{
   src: string;
   alt: string;
+  aspect?: number;
   width?: number | string;
   height?: number | string;
   borderRadius?: number | string;
-  aspect?: number;
+  objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
   blur?: boolean;
   style?: React.CSSProperties;
 }>;
 
-const Image: TImage = ({ src, alt, width = 4, height = 4, borderRadius = 0, aspect, blur = false, style }) => {
+const Image: TImage = ({
+  src,
+  alt,
+  aspect,
+  width = "auto",
+  height = "auto",
+  borderRadius = 0,
+  objectFit = "cover",
+  blur = false,
+  style,
+}) => {
   const realWidth = typeof width === "string" ? width : 8 * width;
   const realHeight = typeof height === "string" ? height : 8 * height;
   const realBorderRadius = typeof borderRadius === "string" ? borderRadius : 8 * borderRadius;
 
   return (
-    <div className="relative">
+    <Box position="relative" display="flex">
       {blur && (
         <img
           src={src}
@@ -31,6 +43,7 @@ const Image: TImage = ({ src, alt, width = 4, height = 4, borderRadius = 0, aspe
             inset: 0,
             filter: "blur(12px) saturate(1.5)",
             borderRadius: realBorderRadius,
+            objectFit: objectFit,
             aspectRatio: aspect,
           }}
         />
@@ -43,10 +56,11 @@ const Image: TImage = ({ src, alt, width = 4, height = 4, borderRadius = 0, aspe
         style={{
           ...style,
           borderRadius: realBorderRadius,
+          objectFit: objectFit,
           aspectRatio: aspect,
         }}
       />
-    </div>
+    </Box>
   );
 };
 
