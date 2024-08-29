@@ -9,6 +9,7 @@ type TImage = React.FC<{
   height?: number | string;
   borderRadius?: number | string;
   objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
+  viewTransitionName?: string;
   blur?: boolean;
   style?: React.CSSProperties;
 }>;
@@ -21,6 +22,7 @@ const Image: TImage = ({
   height = "auto",
   borderRadius = 0,
   objectFit = "cover",
+  viewTransitionName,
   blur = false,
   style,
 }) => {
@@ -58,6 +60,7 @@ const Image: TImage = ({
           borderRadius: realBorderRadius,
           objectFit: objectFit,
           aspectRatio: aspect,
+          viewTransitionName: viewTransitionName,
         }}
       />
     </Box>

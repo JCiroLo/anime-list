@@ -4,6 +4,7 @@ import { Container } from "@mui/material";
 import { AnimeCard, Grid, Hero } from "@/components";
 import { useQuery } from "@/hooks";
 import { AnimeService } from "@/services";
+import { LAYOUT } from "@/constants";
 
 import { type TGetOptions } from "@/services/AnimeService";
 import { type TAnime } from "@/types/Anime";
@@ -28,9 +29,9 @@ const Home: FC = () => {
     <>
       <Hero slides={trendingAnimes.data} />
       <Container sx={{ position: "relative", zIndex: 10, mt: -4 }}>
-        <Grid cols={6}>
-          {trendingAnimes.data.map((anime) => (
-            <AnimeCard key={anime.id} anime={anime} props={{ card: { width: 8 * 36 } }} />
+        <Grid cols={LAYOUT.grid.columns}>
+          {trendingAnimes.data.map((anime, index) => (
+            <AnimeCard key={anime.id} anime={anime} flyoutWidth={8 * 36} props={{ flyout: { zIndex: 20 + index } }} />
           ))}
         </Grid>
       </Container>
