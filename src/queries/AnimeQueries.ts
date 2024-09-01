@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { gql } from "@apollo/client";
 import { Anime } from "@/models";
 
