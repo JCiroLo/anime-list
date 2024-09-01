@@ -16,6 +16,7 @@ const darkMode: TDarkTheme = {
   },
   background: {
     paper: "#29292ee0",
+    default: "#1b181d",
   },
   text: {
     primary: "#EDF2F4",

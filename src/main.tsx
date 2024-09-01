@@ -1,32 +1,22 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { Stack } from "@mui/material";
 
+import { Header } from "@/components";
 import router from "@/router";
-import { generateTheme } from "@/theme";
+
+import { ApolloProvider, ThemeProvider } from "@/providers";
 
 import "swiper/css";
 import "@/assets/styles/main.css";
 
-declare module "@mui/material/styles" {
-  interface Palette {
-    custom: {
-      overlay: string;
-    };
-  }
-  interface PaletteOptions {
-    custom?: {
-      overlay: string;
-    };
-  }
-}
-
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <ThemeProvider theme={generateTheme("dark")}>
-      <CssBaseline />
-      <RouterProvider router={router} />
+  <ApolloProvider>
+    <ThemeProvider>
+      <Header />
+      <Stack component="main" pb={24}>
+        <RouterProvider router={router} />
+      </Stack>
     </ThemeProvider>
-  </StrictMode>
+  </ApolloProvider>
 );

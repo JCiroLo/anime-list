@@ -1,7 +1,7 @@
-import { FC, useMemo } from "react";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { FC } from "react";
+import { Box, Button, Container, Stack, useTheme } from "@mui/material";
 
-import { Image, Overlay } from "@/components";
+import { Image, Overlay, Text } from "@/components";
 import { InfoCircleIcon, MovieIcon } from "@/icons";
 
 import { type TAnime } from "@/types/Anime";
@@ -11,20 +11,25 @@ type HeroPanelProps = FC<{
 }>;
 
 const HeroPanel: HeroPanelProps = ({ anime }) => {
-  const title = useMemo(() => anime.getTitle(), [anime]);
+  const theme = useTheme();
 
   return (
-    <Stack position="relative" width="100vw">
-      <Overlay />
-      <Overlay.Gradient color={(theme) => theme.palette.background.default} degrees={0} />
-      <Image src={anime?.coverImage.large} alt={title} width="100%" />
+    <Stack position="relative">
+      <Overlay top={0} left={0} />
+      <Overlay.Gradient top={0} left={0} color={theme.palette.background.default} degrees={0} />
+      <Image
+        src={anime.bannerImage || anime.coverImage.extraLarge || anime.coverImage.large}
+        alt={anime.title.userPreferred}
+        width="100%"
+        height={theme.sizes.hero.height}
+      />
       <Box position="absolute" zIndex={10} width="100%" height="100%">
         <Container
           sx={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
-            gap: 6,
+            gap: 4,
             width: "100%",
             height: "100%",
             p: 2,
@@ -32,10 +37,10 @@ const HeroPanel: HeroPanelProps = ({ anime }) => {
           }}
         >
           <Stack>
-            <Typography variant="h2" fontSize="2.5em" fontWeight={700}>
-              {title}
-            </Typography>
-            <Typography>{anime?.titles.ja_jp}</Typography>
+            <Text variant="h2" fontSize="2.5em" fontWeight={700} maxLines={2}>
+              {anime.title.userPreferred}
+            </Text>
+            {anime.title.native && <Text>{anime.title.native}</Text>}
           </Stack>
           <Stack direction="row" spacing={1}>
             <Button startIcon={<MovieIcon />}>Watch trailer</Button>

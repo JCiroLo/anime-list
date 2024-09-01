@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC } from "react";
 import { alpha, Box, type Breakpoint, Button, IconButton, Stack, type StackProps, Tooltip, Typography, type BoxProps } from "@mui/material";
 
 import { Grid, Image } from "@/components";
@@ -17,11 +17,10 @@ type TAnimeCard = FC<{
 }>;
 
 const AnimeCard: TAnimeCard = ({ anime, flyoutWidth, props }) => {
-  const title = useMemo(() => anime.getTitle(), [anime]);
-
   return (
     <Box
       position="relative"
+      display="flex"
       sx={(t) => ({
         "&:hover": {
           borderRadius: 1,
@@ -53,7 +52,7 @@ const AnimeCard: TAnimeCard = ({ anime, flyoutWidth, props }) => {
       })}
       {...props?.container}
     >
-      <Image src={anime.posterImage.large} alt={title} width="100%" borderRadius={0.5} />
+      <Image src={anime.coverImage?.large} alt={anime.title.userPreferred} width="100%" borderRadius={0.5} />
 
       <Stack
         className="anime-card__flyout"
@@ -77,14 +76,14 @@ const AnimeCard: TAnimeCard = ({ anime, flyoutWidth, props }) => {
           transition: (t) => t.transitions.create(["visibility", "opacity", "scale"], { delay: 0 }),
         }}
       >
-        <Image src={anime.coverImage.original} alt={title} aspect={16 / 9} width="100%" />
+        <Image src={anime.bannerImage || anime.coverImage.large} alt={anime.title.userPreferred} aspect={16 / 9} width="100%" />
         <Stack spacing={2} p={2}>
           <Stack>
             <Typography variant="h3" fontSize="1.25em" fontWeight={600}>
-              {title}
+              {anime.title.userPreferred}
               &nbsp;
             </Typography>
-            <Typography variant="caption">{anime.titles.ja_jp}</Typography>
+            {anime.title.native && <Typography variant="caption">{anime.title.native}</Typography>}
           </Stack>
           <Stack direction="row" spacing={1}>
             <Tooltip title="Mark as watched" arrow>
@@ -105,7 +104,7 @@ const AnimeCard: TAnimeCard = ({ anime, flyoutWidth, props }) => {
               fontWeight={300}
               sx={{ display: "-webkit-box", overflow: "hidden", WebkitBoxOrient: "vertical", WebkitLineClamp: 4 }}
             >
-              {anime.synopsis}
+              {anime.description}
             </Typography>
           </Stack>
           <Grid cols={2} gap={1}>

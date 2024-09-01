@@ -1,9 +1,9 @@
 import { Response } from ".";
-import { Anime } from "../models";
+import { AnimeModel } from "../models";
 
 import { type TResponse } from "./Response";
 
-type TRequestModel = typeof Anime;
+type TRequestModel = typeof AnimeModel;
 type TRequestURL = string | string[];
 type TRequestMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 type TRequestOptions = {
@@ -35,10 +35,10 @@ class Network {
       ).json();
 
       if (Array.isArray(response?.data)) {
-        return Response.success<M>(this.model.fromNetworkArray(response?.data) as M);
+        return Response.success<M>(this.model.fromArray(response?.data) as M);
       }
 
-      return Response.success<M>(this.model.fromNetwork(response?.data) as M);
+      return Response.success<M>(this.model.fromJSON(response?.data) as M);
     } catch (error) {
       return Response.error(error as Error);
     }

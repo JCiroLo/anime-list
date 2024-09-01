@@ -1,7 +1,7 @@
 import { Network } from "../utils";
-import { Anime } from "../models";
+import { Anime, AnimeImage } from "../models";
 
-import { type TAnime } from "../types/Anime";
+import { type TAnimeImage, type TAnime } from "../types/Anime";
 
 export type TPickOptions = {
   id: string;
@@ -13,22 +13,37 @@ export type TFakeOptions = {
   seconds: number;
   status: "success" | "error";
 };
+export type TImagesOptions = {
+  id: string;
+};
 
-const network = new Network(Anime);
+const network = {
+  anime: new Network(Anime),
+  image: new Network(AnimeImage),
+};
 
 const AnimeService = {
   async pick(options: TPickOptions) {
-    return await network.request<TAnime>(["/anime", options.id], "GET");
+    return await network.anime.request<TAnime>(["/anime", options.id], "GET");
   },
   async get(options?: TGetOptions) {
     if (options?.trending) {
-      return await network.request<TAnime[]>("/trending/anime", "GET");
+      return await network.anime.request<TAnime[]>("/top/anime", "GET");
     }
 
-    return await network.request<TAnime[]>("/anime", "GET");
+    return await network.anime.request<TAnime[]>("/anime", "GET");
   },
   async fake(options: TFakeOptions = { seconds: 3, status: "success" }) {
-    return await network.fakeRequest(options.seconds, options.status);
+    return await network.anime.fakeRequest(options.seconds, options.status);
+  },
+  images: {
+    async get(options: TImagesOptions) {
+      if (options.id) {
+        return await network.image.request<TAnimeImage>(["/anime", options.id, "pictures"], "GET");
+      }
+
+      return await network.image.request<TAnimeImage>(["/anime", "11212", "pictures"], "GET");
+    },
   },
 };
 

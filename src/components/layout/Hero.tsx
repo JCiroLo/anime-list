@@ -14,7 +14,7 @@ const Hero: HeroProps = ({ slides }) => {
   return (
     <Box position="relative">
       <Swiper
-      speed={500}
+        speed={500}
         autoplay={{
           delay: 5000,
           disableOnInteraction: false,
