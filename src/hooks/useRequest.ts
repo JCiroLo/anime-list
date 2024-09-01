@@ -1,10 +1,10 @@
 import { useEffect, useCallback, useState } from "react";
 import { type TResponse } from "../utils/Response";
 
-type TUseQuery<M> = { isLoading: boolean; data: M | null; error: Error };
+type TUseRequest<M> = { isLoading: boolean; data: M | null; error: Error };
 
-function useQuery<M, P = void>(fetcher: (params?: P) => Promise<TResponse<M>>, params?: P): TUseQuery<M> {
-  const [data, setData] = useState<M | null>(null);
+function useRequest<M, P = void>(fetcher: (params?: P) => Promise<TResponse<M>>, params?: P): TUseRequest<M> {
+  const [data, setData] = useState<M>(null!);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error>(null!);
 
@@ -27,7 +27,7 @@ function useQuery<M, P = void>(fetcher: (params?: P) => Promise<TResponse<M>>, p
   );
 
   useEffect(() => {
-    console.log("re-render from useQuery");
+    console.log("re-render from useRequest");
 
     fetchData(memoParams);
   }, [fetchData, memoParams]);
@@ -35,4 +35,4 @@ function useQuery<M, P = void>(fetcher: (params?: P) => Promise<TResponse<M>>, p
   return { isLoading, data, error };
 }
 
-export default useQuery;
+export default useRequest;

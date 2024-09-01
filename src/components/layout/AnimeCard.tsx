@@ -1,67 +1,89 @@
-import { FC, useMemo } from "react";
-import { Box, Button, IconButton, Stack, StackProps, Tooltip, Typography, type BoxProps } from "@mui/material";
+import { FC } from "react";
+import { alpha, Box, type Breakpoint, Button, IconButton, Stack, type StackProps, Tooltip, Typography, type BoxProps } from "@mui/material";
 
 import { Grid, Image } from "@/components";
 import { EyeIcon, PlusIcon } from "@/icons";
+import { LAYOUT } from "@/constants";
 
 import { type TAnime } from "@/types/Anime";
 
-type TAnimeCardProps = {
-  width: StackProps["width"];
-};
 type TAnimeCard = FC<{
   anime: TAnime;
+  flyoutWidth: number;
   props?: {
     container?: BoxProps;
-    card?: BoxProps & TAnimeCardProps;
+    flyout?: StackProps;
   };
 }>;
 
-const AnimeCard: TAnimeCard = ({ anime, props }) => {
-  const title = useMemo(() => anime.getTitle(), [anime]);
-
+const AnimeCard: TAnimeCard = ({ anime, flyoutWidth, props }) => {
   return (
     <Box
       position="relative"
-      sx={{
-        "&:hover > .anime-card__content": {
-          visibility: "visible",
-          opacity: 1,
-          scale: 1,
+      display="flex"
+      sx={(t) => ({
+        "&:hover": {
+          borderRadius: 1,
+          outline: 2,
+          outlineColor: alpha(t.palette.primary.main, 0.75),
+          "& > .anime-card__flyout": {
+            visibility: "visible",
+            opacity: 1,
+            scale: 1,
+            transition: t.transitions.create(["visibility", "opacity", "scale"], { delay: 400 }),
+          },
         },
-      }}
+        ...Object.entries(LAYOUT.grid.columns.exclude("xs", "xl")).reduce(
+          (breakpoints, [key, value]) => ({
+            ...breakpoints,
+            [t.breakpoints.only(key as Breakpoint)]: {
+              [`&:nth-of-type(${value}n) > .anime-card__flyout`]: {
+                transform: `translate(calc(-50% + -${flyoutWidth / 2}px), -50%)`,
+                left: "calc(100% + 24px - 4px)",
+              },
+              [`&:nth-of-type(${value}n + 1) > .anime-card__flyout`]: {
+                transform: `translate(calc(-50% + ${flyoutWidth / 2}px), -50%)`,
+                left: "calc(0% - 24px + 4px)",
+              },
+            },
+          }),
+          {}
+        ),
+      })}
       {...props?.container}
     >
-      <Image src={anime.posterImage.large} alt={title} width="100%" borderRadius={0.5} />
+      <Image src={anime.coverImage?.large} alt={anime.title.userPreferred} width="100%" borderRadius={0.5} />
 
       <Stack
-        className="anime-card__content"
+        className="anime-card__flyout"
         position="absolute"
         zIndex={20}
+        display={{ xs: "none", sm: "flex" }}
         left="50%"
         top="50%"
-        width={props?.card?.width}
+        width={flyoutWidth}
         borderRadius={2}
         overflow="hidden"
         bgcolor={(t) => t.palette.background.paper}
         sx={{
           backdropFilter: "blur(8px) saturate(1.5)",
+          viewTransitionName: `anime-card-${anime.id}`,
           visibility: "hidden",
           opacity: 0,
-          scale: 0.75,
+          scale: 0.4,
           transform: "translate(-50%, -50%)",
-          transformOrigin: "-12.5% -12.5%",
-          transition: (t) => t.transitions.create(["visibility", "opacity", "scale"]),
+          transformOrigin: "0 0",
+          transition: (t) => t.transitions.create(["visibility", "opacity", "scale"], { delay: 0 }),
         }}
       >
-        <Image src={anime.coverImage.original} alt={title} aspect={16 / 9} width="100%" />
+        <Image src={anime.bannerImage || anime.coverImage.large} alt={anime.title.userPreferred} aspect={16 / 9} width="100%" />
         <Stack spacing={2} p={2}>
           <Stack>
             <Typography variant="h3" fontSize="1.25em" fontWeight={600}>
-              {title}
+              {anime.title.userPreferred}
               &nbsp;
             </Typography>
-            <Typography variant="caption">{anime.titles.ja_jp}</Typography>
+            {anime.title.native && <Typography variant="caption">{anime.title.native}</Typography>}
           </Stack>
           <Stack direction="row" spacing={1}>
             <Tooltip title="Mark as watched" arrow>
@@ -82,7 +104,7 @@ const AnimeCard: TAnimeCard = ({ anime, props }) => {
               fontWeight={300}
               sx={{ display: "-webkit-box", overflow: "hidden", WebkitBoxOrient: "vertical", WebkitLineClamp: 4 }}
             >
-              {anime.synopsis}
+              {anime.description}
             </Typography>
           </Stack>
           <Grid cols={2} gap={1}>

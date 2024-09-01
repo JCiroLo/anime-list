@@ -1,4 +1,4 @@
-import { Shadows, createTheme } from "@mui/material";
+import { createTheme } from "@mui/material";
 import dark from "./dark";
 import light from "./light";
 
@@ -14,25 +14,56 @@ export const generateTheme = (mode: TThemeMode) =>
         fontWeight: 700,
       },
       h1: {
-        lineHeight: 1,
+        fontFamily: "'Dimitri', sans-serif",
+        fontSize: "2em",
+        lineHeight: 1.2,
       },
       h2: {
-        lineHeight: 1,
+        lineHeight: 1.2,
       },
       h3: {
-        lineHeight: 1,
+        lineHeight: 1.2,
       },
       h4: {
-        lineHeight: 1,
+        lineHeight: 1.2,
       },
       h5: {
-        lineHeight: 1,
+        lineHeight: 1.2,
       },
       h6: {
-        lineHeight: 1,
+        lineHeight: 1.2,
+      },
+      body1: {
+        lineHeight: 1.25,
+      },
+      body2: {
+        lineHeight: 1.25,
       },
     },
-    shape: { borderRadius: 4 },
+    shape: {
+      borderRadius: 4,
+    },
+    sizes: {
+      header: {
+        height: 9,
+        realHeight: 72,
+        activeHeight: 7,
+        activeRealHeight: 56,
+      },
+      hero: {
+        height: 40,
+        realHeight: 8 * 40,
+      },
+    },
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 576,
+        md: 768,
+        lg: 992,
+        xl: 1200,
+      },
+    },
     // debouncing: {
     //   delay: 500,
     // },
@@ -61,6 +92,24 @@ export const generateTheme = (mode: TThemeMode) =>
           useFlexGap: true,
         },
       },
+      MuiTextField: {
+        variants: [
+          {
+            props: {
+              variant: "filled",
+            },
+            style: {
+              "& .MuiInputBase-root": {
+                borderRadius: 32,
+                backdropFilter: "blur(8px) saturate(1.5)",
+                "&::after, &::before": {
+                  content: "none",
+                },
+              },
+            },
+          },
+        ],
+      },
       MuiButton: {
         defaultProps: {
           variant: "contained",
@@ -72,6 +121,11 @@ export const generateTheme = (mode: TThemeMode) =>
           sx: {
             minWidth: 32,
           },
+        },
+      },
+      MuiTooltip: {
+        defaultProps: {
+          arrow: true,
         },
       },
     },

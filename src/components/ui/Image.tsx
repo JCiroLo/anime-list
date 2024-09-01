@@ -1,7 +1,7 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Box } from "@mui/material";
 
-type TImage = React.FC<{
+type TImageProps = {
   src: string;
   alt: string;
   aspect?: number;
@@ -9,28 +9,41 @@ type TImage = React.FC<{
   height?: number | string;
   borderRadius?: number | string;
   objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
+  viewTransitionName?: string;
   blur?: boolean;
   style?: React.CSSProperties;
-}>;
+};
+export type TImageRef = HTMLElement;
 
-const Image: TImage = ({
-  src,
-  alt,
-  aspect,
-  width = "auto",
-  height = "auto",
-  borderRadius = 0,
-  objectFit = "cover",
-  blur = false,
-  style,
-}) => {
-  const realWidth = typeof width === "string" ? width : 8 * width;
-  const realHeight = typeof height === "string" ? height : 8 * height;
-  const realBorderRadius = typeof borderRadius === "string" ? borderRadius : 8 * borderRadius;
+const Image = forwardRef<TImageRef, TImageProps>(
+  (
+    { src, alt, aspect, width = "auto", height = "auto", borderRadius = 0, objectFit = "cover", viewTransitionName, blur = false, style },
+    ref
+  ) => {
+    const realWidth = typeof width === "string" ? width : 8 * width;
+    const realHeight = typeof height === "string" ? height : 8 * height;
+    const realBorderRadius = typeof borderRadius === "string" ? borderRadius : 8 * borderRadius;
 
-  return (
-    <Box position="relative" display="flex">
-      {blur && (
+    return (
+      <Box ref={ref} position="relative" display="flex" width={realWidth} height={aspect ? undefined : realHeight}>
+        {blur && (
+          <img
+            src={src}
+            alt={alt}
+            width={realWidth}
+            height={aspect ? undefined : realHeight}
+            style={{
+              ...style,
+              position: "absolute",
+              zIndex: -1,
+              inset: 0,
+              filter: "blur(12px) saturate(1.5)",
+              borderRadius: realBorderRadius,
+              objectFit: objectFit,
+              aspectRatio: aspect,
+            }}
+          />
+        )}
         <img
           src={src}
           alt={alt}
@@ -38,30 +51,15 @@ const Image: TImage = ({
           height={aspect ? undefined : realHeight}
           style={{
             ...style,
-            position: "absolute",
-            zIndex: -1,
-            inset: 0,
-            filter: "blur(12px) saturate(1.5)",
             borderRadius: realBorderRadius,
             objectFit: objectFit,
             aspectRatio: aspect,
+            viewTransitionName: viewTransitionName,
           }}
         />
-      )}
-      <img
-        src={src}
-        alt={alt}
-        width={realWidth}
-        height={aspect ? undefined : realHeight}
-        style={{
-          ...style,
-          borderRadius: realBorderRadius,
-          objectFit: objectFit,
-          aspectRatio: aspect,
-        }}
-      />
-    </Box>
-  );
-};
+      </Box>
+    );
+  }
+);
 
 export default Image;

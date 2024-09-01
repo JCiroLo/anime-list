@@ -1,140 +1,117 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { type TAnimeImage, type TShowType, type TAnime } from "../types/Anime";
+import {
+  TAnimeDate,
+  TAnimeFormat,
+  TAnimeImage,
+  TAnimeSeason,
+  TAnimeStatus,
+  TAnimeStudio,
+  TAnimeTitle,
+  TAnimeType,
+  type TAnime,
+} from "../types/Anime";
 
 class Anime implements TAnime {
   id: string;
-  createdAt: string;
-  updatedAt: string;
-  slug: string;
-  synopsis: string;
-  description: string;
-  titles: {
-    en?: string;
-    en_us?: string;
-    en_jp: string;
-    ja_jp: string;
-  };
-  canonicalTitle: string;
-  abbreviatedTitles: string[];
-  averageRating: string;
-  ratingFrequencies: {
-    "2": string;
-    "3": string;
-    "4": string;
-    "5": string;
-    "6": string;
-    "7": string;
-    "8": string;
-    "9": string;
-    "10": string;
-    "11": string;
-    "12": string;
-    "13": string;
-    "14": string;
-    "15": string;
-    "16": string;
-    "17": string;
-    "18": string;
-    "19": string;
-    "20": string;
-  };
-  userCount: number;
-  favoritesCount: number;
-  startDate: string;
-  endDate?: string;
-  nextRelease: string;
-  popularityRank: number;
-  ratingRank: number;
-  ageRating: "G" | "PG" | "R" | "R18";
-  ageRatingGuide: string;
-  subtype: TShowType;
-  status: "current" | "finished" | "tba" | "unreleased" | "upcoming";
-  tba?: string;
-  posterImage: {
-    tiny: string;
-    large: string;
-    small: string;
-    medium: string;
-    original: string;
-    meta: {
-      dimensions: {
-        tiny: TAnimeImage;
-        large: TAnimeImage;
-        small: TAnimeImage;
-        medium: TAnimeImage;
-      };
-    };
-  };
-  coverImage: {
-    tiny: string;
-    large: string;
-    small: string;
-    original: string;
-    meta: {
-      dimensions: {
-        tiny: TAnimeImage;
-        large: TAnimeImage;
-        small: TAnimeImage;
-      };
-    };
-  };
-  episodeCount?: number;
-  episodeLength: number;
-  totalLength: number;
-  youtubeVideoId: string;
-  showType: TShowType;
-  nsfw: boolean;
-  /**
-   * @deprecated The property should not be used
-   */
-  coverImageTopOffset: number;
+  title: TAnimeTitle;
+  bannerImage?: string;
+  coverImage: TAnimeImage;
+  startDate?: TAnimeDate;
+  endDate?: TAnimeDate;
+  season?: TAnimeSeason;
+  seasonYear?: number;
+  description?: string;
+  type?: TAnimeType;
+  format?: TAnimeFormat;
+  status?: TAnimeStatus;
+  episodes?: number;
+  duration?: number;
+  chapters?: number;
+  volumes?: number;
+  genres?: string[];
+  isAdult?: boolean;
+  averageScore?: number;
+  popularity?: number;
+  studios?: TAnimeStudio[];
 
   constructor(data: TAnime) {
     this.id = data.id;
-    this.createdAt = data.createdAt;
-    this.updatedAt = data.updatedAt;
-    this.slug = data.slug;
-    this.synopsis = data.synopsis;
-    this.description = data.description;
-    this.titles = data.titles;
-    this.canonicalTitle = data.canonicalTitle;
-    this.abbreviatedTitles = data.abbreviatedTitles;
-    this.averageRating = data.averageRating;
-    this.ratingFrequencies = data.ratingFrequencies;
-    this.userCount = data.userCount;
-    this.favoritesCount = data.favoritesCount;
+    this.title = data.title;
+    this.bannerImage = data.bannerImage;
+    this.coverImage = data.coverImage;
     this.startDate = data.startDate;
     this.endDate = data.endDate;
-    this.nextRelease = data.nextRelease;
-    this.popularityRank = data.popularityRank;
-    this.ratingRank = data.ratingRank;
-    this.ageRating = data.ageRating;
-    this.ageRatingGuide = data.ageRatingGuide;
-    this.subtype = data.subtype;
+    this.season = data.season;
+    this.seasonYear = data.seasonYear;
+    this.description = data.description;
+    this.type = data.type;
+    this.format = data.format;
     this.status = data.status;
-    this.tba = data.tba;
-    this.posterImage = data.posterImage;
-    this.coverImage = data.coverImage;
-    this.episodeCount = data.episodeCount;
-    this.episodeLength = data.episodeLength;
-    this.totalLength = data.totalLength;
-    this.youtubeVideoId = data.youtubeVideoId;
-    this.showType = data.showType;
-    this.nsfw = data.nsfw;
-    this.coverImageTopOffset = data.coverImageTopOffset;
+    this.episodes = data.episodes;
+    this.duration = data.duration;
+    this.chapters = data.chapters;
+    this.volumes = data.volumes;
+    this.genres = data.genres;
+    this.isAdult = data.isAdult;
+    this.averageScore = data.averageScore;
+    this.popularity = data.popularity;
+    this.studios = data.studios;
   }
 
-  getTitle(): string {
-    return this.titles.en || this.titles.en_us || this.titles.en_jp;
+  static fromJSON(anime: any): TAnime {
+    return new Anime({
+      id: anime.id,
+      title: {
+        romaji: anime.title?.romaji,
+        english: anime.title?.english,
+        native: anime.title?.native,
+        userPreferred: anime.title?.userPreferred || "Title not found",
+      },
+      bannerImage: anime.bannerImage,
+      coverImage: {
+        color: anime.coverImage?.color,
+        extraLarge: anime.coverImage?.extraLarge,
+        large: anime.coverImage?.large || "/img/common/cover-404.jpg",
+        medium: anime.coverImage?.medium,
+      },
+      startDate: {
+        day: anime.startDate?.day,
+        month: anime.startDate?.month,
+        year: anime.startDate?.year,
+      },
+      endDate: {
+        day: anime.endDate?.day,
+        month: anime.endDate?.month,
+        year: anime.endDate?.year,
+      },
+      season: anime.season,
+      seasonYear: anime.seasonYear,
+      description: anime.description,
+      type: anime.type,
+      format: anime.format,
+      status: anime.status,
+      episodes: anime.episodes,
+      duration: anime.duration,
+      chapters: anime.chapters,
+      volumes: anime.volumes,
+      genres: anime.genres,
+      isAdult: anime.isAdult,
+      averageScore: anime.averageScore,
+      popularity: anime.popularity,
+      studios:
+        anime.studios?.edges?.map(({ node }: any) => {
+          return {
+            id: node?.id,
+            name: node?.name,
+            type: node?.type,
+          };
+        }) || [],
+    });
   }
 
-  static fromNetwork(animes: any): TAnime {
-    return new Anime({ id: animes.id, ...animes.attributes });
-  }
-
-  static fromNetworkArray(animes: any[]): TAnime[] {
-    return animes.map((anime) => new Anime({ id: anime.id, ...anime.attributes }));
+  static fromArray(animes: any[]): TAnime[] {
+    return animes.map((anime) => this.fromJSON(anime));
   }
 }
 
