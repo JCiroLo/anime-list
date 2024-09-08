@@ -22,3 +22,4 @@
 - Create "Search suggestions" component
 - Create "My anime lists" page
 - Create "Anime Detail" page
+- Update custom hooks to use arrow functions instead of function expressions (this will help to define types easier)

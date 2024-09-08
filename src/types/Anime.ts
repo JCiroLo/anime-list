@@ -3,6 +3,7 @@ export type TAnime = {
   title: TAnimeTitle;
   bannerImage?: string;
   coverImage: TAnimeImage;
+  trailer: TAnimeTrailer;
   startDate?: TAnimeDate;
   endDate?: TAnimeDate;
   season?: TAnimeSeason;
@@ -46,6 +47,12 @@ export type TAnimeStudio = {
   id?: number;
   name?: string;
   isAnimationStudio?: boolean;
+};
+
+export type TAnimeTrailer = {
+  id: string;
+  site: string;
+  thumbnail: string;
 };
 
 export type TAnimeSeason = "WINTER" | "SPRING" | "SUMMER" | "FALL" | null;

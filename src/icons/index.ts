@@ -1,3 +1,4 @@
+export { default as CloseIcon } from './CloseIcon';
 export { default as EyeIcon } from './EyeIcon';
 export { default as InfoCircleIcon } from './InfoCircleIcon';
 export { default as MovieIcon } from './MovieIcon';

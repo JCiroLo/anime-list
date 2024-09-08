@@ -3,15 +3,21 @@ import { Box, Button, Container, Stack, useTheme } from "@mui/material";
 
 import { Image, Overlay, Text } from "@/components";
 import { InfoCircleIcon, MovieIcon } from "@/icons";
+import { LAYOUT } from "@/constants";
 
-import { type TAnime } from "@/types/Anime";
+import type { TAnime, TAnimeTrailer } from "@/types/Anime";
 
 type HeroPanelProps = FC<{
   anime: TAnime;
+  onWatchTrailer: (trailer: TAnimeTrailer, origin: string) => void;
 }>;
 
-const HeroPanel: HeroPanelProps = ({ anime }) => {
+const HeroPanel: HeroPanelProps = ({ anime, onWatchTrailer }) => {
   const theme = useTheme();
+
+  const handleWatchTrailer = () => {
+    onWatchTrailer(anime.trailer, LAYOUT.hero.disabledTrailerAnimationTag);
+  };
 
   return (
     <Stack position="relative">
@@ -43,7 +49,11 @@ const HeroPanel: HeroPanelProps = ({ anime }) => {
             {anime.title.native && <Text>{anime.title.native}</Text>}
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Button startIcon={<MovieIcon />}>Watch trailer</Button>
+            {anime.trailer.id && (
+              <Button startIcon={<MovieIcon />} onClick={handleWatchTrailer}>
+                Watch trailer
+              </Button>
+            )}
             <Button variant="outlined" startIcon={<InfoCircleIcon />}>
               More information
             </Button>
