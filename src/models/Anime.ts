@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { ANIME } from "@/constants";
 import type {
   TAnimeDate,
   TAnimeFormat,
@@ -69,7 +70,7 @@ class Anime implements TAnime {
         romaji: anime.title?.romaji,
         english: anime.title?.english,
         native: anime.title?.native,
-        userPreferred: anime.title?.userPreferred || "Title not found",
+        userPreferred: anime.title?.userPreferred || ANIME.title.notFound,
       },
       bannerImage: anime.bannerImage,
       trailer: {
@@ -78,10 +79,10 @@ class Anime implements TAnime {
         thumbnail: anime.trailer?.thumbnail,
       },
       coverImage: {
-        color: anime.coverImage?.color,
         extraLarge: anime.coverImage?.extraLarge,
-        large: anime.coverImage?.large || "/img/common/cover-404.jpg",
+        large: anime.coverImage?.large || ANIME.coverImage.notFound,
         medium: anime.coverImage?.medium,
+        color: anime.coverImage?.color || ANIME.coverImage.defaultColor,
       },
       startDate: {
         day: anime.startDate?.day,

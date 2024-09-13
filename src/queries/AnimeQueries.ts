@@ -44,6 +44,7 @@ const AnimeQueries = {
         coverImage {
           extraLarge
           large
+          medium
           color
         }
         trailer {

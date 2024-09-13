@@ -4,3 +4,7 @@
   font-weight: 700;
   src: url("/fonts/dimitri.ttf") format("truetype");
 }
+
+body {
+  background-color: #1b181d;
+}

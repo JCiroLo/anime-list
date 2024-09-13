@@ -5,6 +5,7 @@ function useViewTransition() {
   const doTransition = useCallback((callback: () => void) => {
     if (!document.startViewTransition) {
       callback();
+      return;
     }
 
     document.startViewTransition(() => {

@@ -23,3 +23,4 @@
 - Create "My anime lists" page
 - Create "Anime Detail" page
 - Update custom hooks to use arrow functions instead of function expressions (this will help to define types easier)
+- Use MUI popover for AnimeCard flyout instead of custom popover (this will improve performance and will reduce the complexity of the code)

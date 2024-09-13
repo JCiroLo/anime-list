@@ -16,11 +16,10 @@ type TAnimeCard = FC<{
     container?: BoxProps;
     flyout?: StackProps;
   };
-  hideImage?: boolean;
   onWatchTrailer: (trailer: TAnimeTrailer, origin: string) => void;
 }>;
 
-const AnimeCard: TAnimeCard = ({ anime, origin, flyoutWidth, props, hideImage = false, onWatchTrailer }) => {
+const AnimeCard: TAnimeCard = ({ anime, origin, flyoutWidth, props, onWatchTrailer }) => {
   const handleWatchTrailer = () => {
     onWatchTrailer(anime.trailer, origin);
   };
@@ -60,7 +59,7 @@ const AnimeCard: TAnimeCard = ({ anime, origin, flyoutWidth, props, hideImage = 
       })}
       {...props?.container}
     >
-      <Image src={anime.coverImage?.large} alt={anime.title.userPreferred} width="100%" borderRadius={0.5} />
+      <Image src={anime.coverImage} alt={anime.title.userPreferred} width="100%" borderRadius={1} aspect={115 / 163} preload />
       <Stack
         className="anime-card__flyout"
         position="absolute"
@@ -76,24 +75,14 @@ const AnimeCard: TAnimeCard = ({ anime, origin, flyoutWidth, props, hideImage = 
           backdropFilter: "blur(8px) saturate(1.5)",
           visibility: "hidden",
           opacity: 0,
-          scale: 0.4,
+          scale: 0.8,
           transform: "translate(-50%, -50%)",
           transformOrigin: "0 0",
           transition: (t) => t.transitions.create(["visibility", "opacity", "scale"], { delay: 0 }),
         }}
       >
         <Stack position="relative">
-          {hideImage ? (
-            <Box width="100%" sx={{ aspectRatio: "16 / 9" }} />
-          ) : (
-            <Image
-              src={anime.bannerImage || anime.coverImage.large}
-              alt={anime.title.userPreferred}
-              aspect={16 / 9}
-              width="100%"
-              viewTransitionName={anime.trailer.id ? `${origin}-${anime.trailer.id}` : undefined}
-            />
-          )}
+          <Image src={anime.bannerImage || anime.coverImage.large} alt={anime.title.userPreferred} aspect={16 / 9} width="100%" />
           <Stack position="absolute" direction="row" flexWrap="wrap-reverse" spacing={0.5} bottom={4} left={4}>
             {anime.genres?.map((genre) => (
               <Tag key={genre} label={genre} />

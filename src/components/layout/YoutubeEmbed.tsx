@@ -1,14 +1,19 @@
 import { FC, ReactNode } from "react";
 import { Box } from "@mui/material";
 
+import type { BoxProps } from "@mui/material";
+
 type TYoutubeEmbed = FC<{
   children?: ReactNode;
   videoId: string;
+  props?: {
+    container: BoxProps;
+  };
 }>;
 
-const YoutubeEmbed: TYoutubeEmbed = ({ children, videoId }) => {
+const YoutubeEmbed: TYoutubeEmbed = ({ children, videoId, props }) => {
   return (
-    <Box width={{ xs: "100%", sm: "100%" }} sx={{ aspectRatio: "16 / 9" }}>
+    <Box {...props?.container} width={{ xs: "100%", sm: "100%" }} sx={{ aspectRatio: "16 / 9" }}>
       <lite-youtube
         id="test-jsapi"
         videoid={videoId}

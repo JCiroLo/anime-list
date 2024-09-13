@@ -12,17 +12,17 @@ type TTrailerDialog = FC<{
   onClose?: () => void;
 }>;
 
-const TrailerDialog: TTrailerDialog = ({ trailer, origin, onClose }) => {
+const TrailerDialog: TTrailerDialog = ({ trailer, onClose }) => {
   return (
     <Dialog
       open={Boolean(trailer)}
-      TransitionComponent={GrowTransition}
       maxWidth="lg"
-      PaperProps={{ sx: { borderRadius: 4, backgroundColor: "transparent", backgroundImage: "none" } }}
+      PaperProps={{ sx: { borderRadius: 4, backgroundImage: "none" } }}
+      TransitionComponent={GrowTransition}
       fullWidth
       onClose={onClose}
     >
-      <DialogContent sx={{ position: "relative", padding: 0, viewTransitionName: `${origin || ""}-${trailer?.id || ""}` }}>
+      <DialogContent sx={{ position: "relative", padding: 0 }}>
         <Box position="absolute" zIndex={1} sx={{ top: 8, right: 8 }}>
           <IconButton size="small" onClick={onClose}>
             <CloseIcon />
@@ -32,11 +32,9 @@ const TrailerDialog: TTrailerDialog = ({ trailer, origin, onClose }) => {
           trailer?.site === "youtube" ? (
             <YoutubeEmbed videoId={trailer.id} />
           ) : (
-            <Image src={trailer.thumbnail} alt="Trailer" width="100%" aspect={16 / 9} />
+            <Image src={trailer.thumbnail} alt="Trailer thumbnail" width="100%" aspect={16 / 9} />
           )
-        ) : (
-          <Box width="100%" bgcolor="transparent" sx={{ aspectRatio: "16 / 9" }} />
-        )}
+        ) : null}
       </DialogContent>
     </Dialog>
   );
