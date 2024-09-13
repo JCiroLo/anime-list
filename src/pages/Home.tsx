@@ -2,11 +2,12 @@ import { FC, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { Container, Stack } from "@mui/material";
 
-import { AnimeCard, Grid, Hero, Loader, Text } from "@/components";
+import { AnimeCard, Grid, Hero, Loader, Text, TrailerDialog } from "@/components";
 import { LAYOUT } from "@/constants";
 import { AnimeQueries } from "@/queries";
+import { useViewTransition } from "@/hooks";
 
-import { type TAnime } from "@/types/Anime";
+import type { TAnimeTrailer, TAnime } from "@/types/Anime";
 
 const Home: FC = () => {
   const [animes, setAnimes] = useState({
@@ -16,11 +17,30 @@ const Home: FC = () => {
     top: [] as TAnime[],
     trending: [] as TAnime[],
   });
+  const [trailer, setTrailer] = useState({
+    data: null as TAnimeTrailer | null,
+    origin: null as string | null,
+  });
+
+  const viewTransition = useViewTransition();
 
   const response = useQuery(AnimeQueries.summary.query, {
     variables: AnimeQueries.summary.variables,
     onCompleted: (data) => setAnimes(AnimeQueries.summary.transform(data)),
   });
+
+  const handleWatchTrailer = (trailer: TAnimeTrailer, origin: string) => {
+    if (origin === LAYOUT.hero.disabledTrailerAnimationTag) {
+      setTrailer({ data: trailer, origin });
+      return;
+    }
+
+    viewTransition(() => setTrailer({ data: trailer, origin }));
+  };
+
+  const handleCloseTrailer = () => {
+    setTrailer({ data: null, origin: null });
+  };
 
   if (response.error) {
     return <div>{response.error.message}</div>;
@@ -30,7 +50,7 @@ const Home: FC = () => {
     <>
       <Loader show={response.loading} />
       <>
-        <Hero slides={animes.trending} />
+        <Hero slides={animes.trending} currentTrailer={trailer.data} onWatchTrailer={handleWatchTrailer} />
         <Container sx={{ position: "relative", zIndex: 10, mt: -4 }}>
           <Stack spacing={4}>
             <Stack spacing={2}>
@@ -39,7 +59,15 @@ const Home: FC = () => {
               </Text>
               <Grid cols={LAYOUT.grid.columns}>
                 {animes.season.map((anime, index) => (
-                  <AnimeCard key={anime.id} anime={anime} flyoutWidth={8 * 36} props={{ flyout: { zIndex: 20 + index } }} />
+                  <AnimeCard
+                    key={anime.id}
+                    anime={anime}
+                    origin="popular-this-season"
+                    flyoutWidth={8 * 36}
+                    props={{ flyout: { zIndex: 20 + index } }}
+                    hideImage={Boolean(anime.trailer.id) && anime.trailer.id === trailer.data?.id}
+                    onWatchTrailer={handleWatchTrailer}
+                  />
                 ))}
               </Grid>
             </Stack>
@@ -49,7 +77,15 @@ const Home: FC = () => {
               </Text>
               <Grid cols={LAYOUT.grid.columns}>
                 {animes.nextSeason.map((anime, index) => (
-                  <AnimeCard key={anime.id} anime={anime} flyoutWidth={8 * 36} props={{ flyout: { zIndex: 20 + index } }} />
+                  <AnimeCard
+                    key={anime.id}
+                    anime={anime}
+                    origin="upcoming-next-season"
+                    flyoutWidth={8 * 36}
+                    props={{ flyout: { zIndex: 20 + index } }}
+                    hideImage={Boolean(anime.trailer.id) && anime.trailer.id === trailer.data?.id}
+                    onWatchTrailer={handleWatchTrailer}
+                  />
                 ))}
               </Grid>
             </Stack>
@@ -59,7 +95,15 @@ const Home: FC = () => {
               </Text>
               <Grid cols={LAYOUT.grid.columns}>
                 {animes.top.map((anime, index) => (
-                  <AnimeCard key={anime.id} anime={anime} flyoutWidth={8 * 36} props={{ flyout: { zIndex: 20 + index } }} />
+                  <AnimeCard
+                    key={anime.id}
+                    anime={anime}
+                    origin="top-10-anime"
+                    flyoutWidth={8 * 36}
+                    props={{ flyout: { zIndex: 20 + index } }}
+                    hideImage={Boolean(anime.trailer.id) && anime.trailer.id === trailer.data?.id}
+                    onWatchTrailer={handleWatchTrailer}
+                  />
                 ))}
               </Grid>
             </Stack>
@@ -69,12 +113,21 @@ const Home: FC = () => {
               </Text>
               <Grid cols={LAYOUT.grid.columns}>
                 {animes.popular.map((anime, index) => (
-                  <AnimeCard key={anime.id} anime={anime} flyoutWidth={8 * 36} props={{ flyout: { zIndex: 20 + index } }} />
+                  <AnimeCard
+                    key={anime.id}
+                    anime={anime}
+                    origin="all-time-popular"
+                    flyoutWidth={8 * 36}
+                    props={{ flyout: { zIndex: 20 + index } }}
+                    hideImage={Boolean(anime.trailer.id) && anime.trailer.id === trailer.data?.id}
+                    onWatchTrailer={handleWatchTrailer}
+                  />
                 ))}
               </Grid>
             </Stack>
           </Stack>
         </Container>
+        <TrailerDialog trailer={trailer.data} origin={trailer.origin} onClose={handleCloseTrailer} />
       </>
     </>
   );

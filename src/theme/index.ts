@@ -79,10 +79,17 @@ export const generateTheme = (mode: TThemeMode) =>
       },
       MuiDialog: {
         defaultProps: {
-          sx: {
-            "& .MuiModal-backdrop": {
-              backgroundColor: "rgba(0, 0, 0, 0.2)",
-              backdropFilter: "blur(2.5px)",
+          PaperProps: {
+            sx: {
+              borderRadius: 4,
+            },
+          },
+          slotProps: {
+            backdrop: {
+              sx: {
+                backgroundColor: "rgba(0, 0, 0, 0.2)",
+                backdropFilter: "blur(4px)",
+              },
             },
           },
         },

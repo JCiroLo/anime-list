@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import {
+import type {
   TAnimeDate,
   TAnimeFormat,
   TAnimeImage,
@@ -8,8 +8,9 @@ import {
   TAnimeStatus,
   TAnimeStudio,
   TAnimeTitle,
+  TAnimeTrailer,
   TAnimeType,
-  type TAnime,
+  TAnime,
 } from "../types/Anime";
 
 class Anime implements TAnime {
@@ -17,6 +18,7 @@ class Anime implements TAnime {
   title: TAnimeTitle;
   bannerImage?: string;
   coverImage: TAnimeImage;
+  trailer: TAnimeTrailer;
   startDate?: TAnimeDate;
   endDate?: TAnimeDate;
   season?: TAnimeSeason;
@@ -40,6 +42,7 @@ class Anime implements TAnime {
     this.title = data.title;
     this.bannerImage = data.bannerImage;
     this.coverImage = data.coverImage;
+    this.trailer = data.trailer;
     this.startDate = data.startDate;
     this.endDate = data.endDate;
     this.season = data.season;
@@ -69,6 +72,11 @@ class Anime implements TAnime {
         userPreferred: anime.title?.userPreferred || "Title not found",
       },
       bannerImage: anime.bannerImage,
+      trailer: {
+        id: anime.trailer?.id,
+        site: anime.trailer?.site,
+        thumbnail: anime.trailer?.thumbnail,
+      },
       coverImage: {
         color: anime.coverImage?.color,
         extraLarge: anime.coverImage?.extraLarge,

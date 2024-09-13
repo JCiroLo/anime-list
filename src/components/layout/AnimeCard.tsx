@@ -1,22 +1,30 @@
 import { FC } from "react";
-import { alpha, Box, type Breakpoint, Button, IconButton, Stack, type StackProps, Tooltip, Typography, type BoxProps } from "@mui/material";
+import { alpha, Box, Button, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 
-import { Grid, Image } from "@/components";
+import { Grid, Image, Tag } from "@/components";
 import { EyeIcon, PlusIcon } from "@/icons";
 import { LAYOUT } from "@/constants";
 
-import { type TAnime } from "@/types/Anime";
+import type { Breakpoint, StackProps, BoxProps } from "@mui/material";
+import type { TAnime, TAnimeTrailer } from "@/types/Anime";
 
 type TAnimeCard = FC<{
   anime: TAnime;
+  origin: string;
   flyoutWidth: number;
   props?: {
     container?: BoxProps;
     flyout?: StackProps;
   };
+  hideImage?: boolean;
+  onWatchTrailer: (trailer: TAnimeTrailer, origin: string) => void;
 }>;
 
-const AnimeCard: TAnimeCard = ({ anime, flyoutWidth, props }) => {
+const AnimeCard: TAnimeCard = ({ anime, origin, flyoutWidth, props, hideImage = false, onWatchTrailer }) => {
+  const handleWatchTrailer = () => {
+    onWatchTrailer(anime.trailer, origin);
+  };
+
   return (
     <Box
       position="relative"
@@ -53,7 +61,6 @@ const AnimeCard: TAnimeCard = ({ anime, flyoutWidth, props }) => {
       {...props?.container}
     >
       <Image src={anime.coverImage?.large} alt={anime.title.userPreferred} width="100%" borderRadius={0.5} />
-
       <Stack
         className="anime-card__flyout"
         position="absolute"
@@ -67,7 +74,6 @@ const AnimeCard: TAnimeCard = ({ anime, flyoutWidth, props }) => {
         bgcolor={(t) => t.palette.background.paper}
         sx={{
           backdropFilter: "blur(8px) saturate(1.5)",
-          viewTransitionName: `anime-card-${anime.id}`,
           visibility: "hidden",
           opacity: 0,
           scale: 0.4,
@@ -76,7 +82,24 @@ const AnimeCard: TAnimeCard = ({ anime, flyoutWidth, props }) => {
           transition: (t) => t.transitions.create(["visibility", "opacity", "scale"], { delay: 0 }),
         }}
       >
-        <Image src={anime.bannerImage || anime.coverImage.large} alt={anime.title.userPreferred} aspect={16 / 9} width="100%" />
+        <Stack position="relative">
+          {hideImage ? (
+            <Box width="100%" sx={{ aspectRatio: "16 / 9" }} />
+          ) : (
+            <Image
+              src={anime.bannerImage || anime.coverImage.large}
+              alt={anime.title.userPreferred}
+              aspect={16 / 9}
+              width="100%"
+              viewTransitionName={anime.trailer.id ? `${origin}-${anime.trailer.id}` : undefined}
+            />
+          )}
+          <Stack position="absolute" direction="row" flexWrap="wrap-reverse" spacing={0.5} bottom={4} left={4}>
+            {anime.genres?.map((genre) => (
+              <Tag key={genre} label={genre} />
+            ))}
+          </Stack>
+        </Stack>
         <Stack spacing={2} p={2}>
           <Stack>
             <Typography variant="h3" fontSize="1.25em" fontWeight={600}>
@@ -107,8 +130,12 @@ const AnimeCard: TAnimeCard = ({ anime, flyoutWidth, props }) => {
               {anime.description}
             </Typography>
           </Stack>
-          <Grid cols={2} gap={1}>
-            <Button fullWidth>Watch trailer</Button>
+          <Grid cols={anime.trailer.id ? 2 : 1} gap={1}>
+            {anime.trailer.id && (
+              <Button fullWidth onClick={handleWatchTrailer}>
+                Watch trailer
+              </Button>
+            )}
             <Button variant="outlined" fullWidth>
               More info
             </Button>

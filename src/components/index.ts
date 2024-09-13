@@ -1,9 +1,13 @@
+export { default as TrailerDialog } from './dialog/TrailerDialog';
 export * from './index';
 export { default as AnimeCard } from './layout/AnimeCard';
 export { default as Header } from './layout/Header';
 export { default as Hero } from './layout/Hero';
 export { default as HeroPanel } from './layout/HeroPanel';
 export { default as Loader } from './layout/Loader';
+export { default as Tag } from './layout/Tag';
+export { default as YoutubeEmbed } from './layout/YoutubeEmbed';
+export { default as GrowTransition } from './transition/GrowTransition';
 export { default as Grid } from './ui/Grid';
 export { default as Image } from './ui/Image';
 export { default as Overlay } from './ui/Overlay';

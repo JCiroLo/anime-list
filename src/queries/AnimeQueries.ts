@@ -46,6 +46,11 @@ const AnimeQueries = {
           large
           color
         }
+        trailer {
+          id
+          site
+          thumbnail
+        }
         startDate {
           year
           month

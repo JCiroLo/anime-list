@@ -1,6 +1,9 @@
 import { type Breakpoint } from "@mui/material";
 
 export const LAYOUT = {
+  hero: {
+    disabledTrailerAnimationTag: "no-trailer-animation",
+  },
   grid: {
     columns: {
       xs: 3,
