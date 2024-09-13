@@ -25,3 +25,13 @@ export const LAYOUT = {
     } as Partial<Record<Breakpoint, number>> & { exclude(...breakpoints: Breakpoint[]): Partial<Record<Breakpoint, number>> },
   },
 };
+
+export const ANIME = {
+  title: {
+    notFound: "Title not found",
+  },
+  coverImage: {
+    notFound: "/img/common/cover-404.jpg",
+    defaultColor: "#646470",
+  },
+};

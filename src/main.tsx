@@ -9,7 +9,6 @@ import { ApolloProvider, ThemeProvider } from "@/providers";
 
 import "@justinribeiro/lite-youtube";
 import "swiper/css";
-import "@/assets/styles/main.css";
 
 createRoot(document.getElementById("root")!).render(
   <ApolloProvider>

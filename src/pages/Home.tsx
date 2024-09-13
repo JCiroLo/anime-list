@@ -5,7 +5,6 @@ import { Container, Stack } from "@mui/material";
 import { AnimeCard, Grid, Hero, Loader, Text, TrailerDialog } from "@/components";
 import { LAYOUT } from "@/constants";
 import { AnimeQueries } from "@/queries";
-import { useViewTransition } from "@/hooks";
 
 import type { TAnimeTrailer, TAnime } from "@/types/Anime";
 
@@ -22,8 +21,6 @@ const Home: FC = () => {
     origin: null as string | null,
   });
 
-  const viewTransition = useViewTransition();
-
   const response = useQuery(AnimeQueries.summary.query, {
     variables: AnimeQueries.summary.variables,
     onCompleted: (data) => setAnimes(AnimeQueries.summary.transform(data)),
@@ -35,7 +32,7 @@ const Home: FC = () => {
       return;
     }
 
-    viewTransition(() => setTrailer({ data: trailer, origin }));
+    setTrailer({ data: trailer, origin });
   };
 
   const handleCloseTrailer = () => {
@@ -65,7 +62,6 @@ const Home: FC = () => {
                     origin="popular-this-season"
                     flyoutWidth={8 * 36}
                     props={{ flyout: { zIndex: 20 + index } }}
-                    hideImage={Boolean(anime.trailer.id) && anime.trailer.id === trailer.data?.id}
                     onWatchTrailer={handleWatchTrailer}
                   />
                 ))}
@@ -83,7 +79,6 @@ const Home: FC = () => {
                     origin="upcoming-next-season"
                     flyoutWidth={8 * 36}
                     props={{ flyout: { zIndex: 20 + index } }}
-                    hideImage={Boolean(anime.trailer.id) && anime.trailer.id === trailer.data?.id}
                     onWatchTrailer={handleWatchTrailer}
                   />
                 ))}
@@ -101,7 +96,6 @@ const Home: FC = () => {
                     origin="top-10-anime"
                     flyoutWidth={8 * 36}
                     props={{ flyout: { zIndex: 20 + index } }}
-                    hideImage={Boolean(anime.trailer.id) && anime.trailer.id === trailer.data?.id}
                     onWatchTrailer={handleWatchTrailer}
                   />
                 ))}
@@ -119,7 +113,6 @@ const Home: FC = () => {
                     origin="all-time-popular"
                     flyoutWidth={8 * 36}
                     props={{ flyout: { zIndex: 20 + index } }}
-                    hideImage={Boolean(anime.trailer.id) && anime.trailer.id === trailer.data?.id}
                     onWatchTrailer={handleWatchTrailer}
                   />
                 ))}

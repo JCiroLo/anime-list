@@ -34,7 +34,7 @@ export type TAnimeImage = {
   extraLarge?: string;
   large: string;
   medium?: string;
-  color?: string;
+  color: string;
 };
 
 export type TAnimeDate = {
