@@ -1,9 +1,11 @@
 import { FC, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   alpha,
   Avatar,
   Box,
   ButtonBase,
+  Grow,
   IconButton,
   Stack,
   TextField,
@@ -14,27 +16,45 @@ import {
 } from "@mui/material";
 
 import { Overlay } from "@/components";
-import { SearchIcon } from "@/icons";
+import { CloseIcon, SearchIcon } from "@/icons";
 
 type THeader = FC;
 
 const Header: THeader = () => {
   const theme = useTheme();
+  const [searchParams, setSearchParams] = useSearchParams();
   const isScrolling = useScrollTrigger({
     disableHysteresis: true,
     threshold: theme.sizes.hero.realHeight - theme.sizes.header.realHeight * 2,
   });
+
+  const querySearch = searchParams.get("search");
+
+  const [isSearching, setIsSearching] = useState(false);
   const searchFieldRef = useRef<HTMLInputElement>(null);
-  const [search, setSearch] = useState({
-    open: false,
-    value: "",
-  });
 
   const handleSearchToggle = () => {
     if (searchFieldRef.current) {
       searchFieldRef.current.focus();
     }
-    setSearch((prev) => ({ ...prev, open: true }));
+    setIsSearching(true);
+  };
+
+  const handleSearchClear = () => {
+    setSearchParams({ search: "" });
+    setIsSearching(false);
+  };
+
+  const handleSearchBlur = () => {
+    if (!querySearch) {
+      setIsSearching(false);
+    }
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value;
+
+    setSearchParams({ search: query });
   };
 
   return (
@@ -76,29 +96,46 @@ const Header: THeader = () => {
         <Stack position="relative">
           <TextField
             inputRef={searchFieldRef}
+            value={querySearch || ""}
             size="small"
             placeholder="Cowboy Bebop"
             sx={{
               position: "absolute",
               right: 0,
-              opacity: search.open ? 1 : 0,
-              pointerEvents: search.open ? "auto" : "none",
-              transition: theme.transitions.create(["opacity", "width"]),
+              opacity: isSearching ? 1 : 0,
+              pointerEvents: isSearching ? "auto" : "none",
+              transition: theme.transitions.create(["opacity"]),
               "& .MuiInputBase-root": {
                 borderRadius: 32,
                 "& input": {
-                  width: search.open ? "32ch" : 12,
+                  width: isSearching ? "32ch" : 12,
                   transition: theme.transitions.create(["width"]),
                 },
               },
             }}
-            onBlur={() => setSearch((prev) => ({ ...prev, open: false }))}
+            onChange={handleSearchChange}
+            onBlur={handleSearchBlur}
           />
-          <Tooltip title="Search">
-            <IconButton onClick={handleSearchToggle}>
-              <SearchIcon />
-            </IconButton>
-          </Tooltip>
+          <Stack position="relative" width={40} height={40}>
+            <Grow in={isSearching}>
+              <Box position="absolute">
+                <Tooltip title="Clear">
+                  <IconButton onClick={handleSearchClear}>
+                    <CloseIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Grow>
+            <Grow in={!isSearching}>
+              <Box position="absolute">
+                <Tooltip title="Search">
+                  <IconButton onClick={handleSearchToggle}>
+                    <SearchIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Grow>
+          </Stack>
         </Stack>
         <Tooltip title="Profile">
           <ButtonBase sx={{ borderRadius: 2 }}>
