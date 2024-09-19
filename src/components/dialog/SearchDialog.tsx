@@ -1,6 +1,6 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { debounce, Dialog, Stack } from "@mui/material";
+import { Dialog, Stack } from "@mui/material";
 import { useLazyQuery } from "@apollo/client";
 
 import { AnimeCard, Grid, PageWrapper, Text } from "@/components";
@@ -12,7 +12,7 @@ import type { TAnime } from "@/types/Anime";
 import type { TQuerySearchVariables } from "@/queries/AnimeQueries";
 
 const SearchDialog = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const search = searchParams.get("search");
 
@@ -36,7 +36,7 @@ const SearchDialog = () => {
   }, [search]);
 
   return (
-    <Dialog open={Boolean(search)} sx={{ zIndex: "search" }} PaperProps={{ elevation: 0 }} fullScreen disableEnforceFocus disableAutoFocus>
+    <Dialog open={Boolean(search)} PaperProps={{ elevation: 0 }} sx={{ zIndex: "search" }} fullScreen disableEnforceFocus disableAutoFocus>
       <PageWrapper topGutter={4}>
         <Stack spacing={error || animes.length === 0 ? 2 : 4}>
           <Text variant="h3" fontSize="2em" fontWeight={700}>

@@ -227,6 +227,7 @@ const AnimeQueries = {
               month
               day
             }
+            description
             bannerImage
           }
         }
