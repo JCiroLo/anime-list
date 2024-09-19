@@ -17,7 +17,7 @@ const TrailerDialog: TTrailerDialog = ({ trailer, onClose }) => {
     <Dialog
       open={Boolean(trailer)}
       maxWidth="lg"
-      PaperProps={{ sx: { borderRadius: 4, backgroundImage: "none" } }}
+      PaperProps={{ elevation: 0, sx: { borderRadius: 4 } }}
       TransitionComponent={GrowTransition}
       fullWidth
       onClose={onClose}

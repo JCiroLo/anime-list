@@ -42,6 +42,9 @@ declare module "@mui/material/styles" {
       overlay: string;
     };
   }
+  interface ZIndex {
+    search: number;
+  }
 }
 
 type TThemeProvider = FC<{

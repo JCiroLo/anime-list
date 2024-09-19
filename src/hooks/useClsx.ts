@@ -1,8 +1,10 @@
 import { useMemo } from "react";
-import { type ClassValue, clsx } from "clsx";
+import { clsx } from "clsx";
 
-function useClsx(...input: ClassValue[]): string {
-  const className = useMemo(() => clsx(...input), [input]);
+import type { ClassValue } from "clsx";
+
+function useClsx(input: ClassValue | ClassValue[]): string | string[] {
+  const className = useMemo(() => (Array.isArray(input) ? input.map(clsx) : clsx(input)), [input]);
 
   return className;
 }

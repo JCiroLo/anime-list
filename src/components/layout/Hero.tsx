@@ -18,7 +18,7 @@ const Hero: HeroProps = ({ slides, onWatchTrailer }) => {
       <Swiper
         speed={500}
         autoplay={{
-          delay: 5000,
+          delay: 7500,
           disableOnInteraction: false,
         }}
         modules={[Autoplay]}

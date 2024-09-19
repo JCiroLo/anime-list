@@ -1,12 +1,13 @@
 import { FC, useState } from "react";
 import { useQuery } from "@apollo/client";
-import { Container, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 
-import { AnimeCard, Grid, Hero, Loader, Text, TrailerDialog } from "@/components";
+import { AnimeCard, Grid, Hero, Loader, PageWrapper, Text, TrailerDialog } from "@/components";
 import { LAYOUT } from "@/constants";
 import { AnimeQueries } from "@/queries";
 
 import type { TAnimeTrailer, TAnime } from "@/types/Anime";
+import type { TQuerySummaryVariables } from "@/queries/AnimeQueries";
 
 const Home: FC = () => {
   const [animes, setAnimes] = useState({
@@ -22,16 +23,17 @@ const Home: FC = () => {
   });
 
   const response = useQuery(AnimeQueries.summary.query, {
-    variables: AnimeQueries.summary.variables,
+    variables: {
+      type: "ANIME",
+      season: "SUMMER",
+      seasonYear: 2024,
+      nextSeason: "FALL",
+      nextYear: 2024,
+    } as TQuerySummaryVariables,
     onCompleted: (data) => setAnimes(AnimeQueries.summary.transform(data)),
   });
 
   const handleWatchTrailer = (trailer: TAnimeTrailer, origin: string) => {
-    if (origin === LAYOUT.hero.disabledTrailerAnimationTag) {
-      setTrailer({ data: trailer, origin });
-      return;
-    }
-
     setTrailer({ data: trailer, origin });
   };
 
@@ -48,7 +50,7 @@ const Home: FC = () => {
       <Loader show={response.loading} />
       <>
         <Hero slides={animes.trending} currentTrailer={trailer.data} onWatchTrailer={handleWatchTrailer} />
-        <Container sx={{ position: "relative", zIndex: 10, mt: -4 }}>
+        <PageWrapper topGutter={-4} keepHeaderSpacing={false}>
           <Stack spacing={4}>
             <Stack spacing={2}>
               <Text variant="h3" fontSize="1.25em" fontWeight={700}>
@@ -119,7 +121,7 @@ const Home: FC = () => {
               </Grid>
             </Stack>
           </Stack>
-        </Container>
+        </PageWrapper>
         <TrailerDialog trailer={trailer.data} origin={trailer.origin} onClose={handleCloseTrailer} />
       </>
     </>

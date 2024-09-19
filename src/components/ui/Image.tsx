@@ -1,5 +1,5 @@
 import { forwardRef, useMemo, useState } from "react";
-import { Box } from "@mui/material";
+import { alpha, Box } from "@mui/material";
 import { ANIME } from "@/constants";
 
 import type { TAnimeImage } from "@/types/Anime";
@@ -64,19 +64,19 @@ const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
           position: "absolute",
           zIndex: -1,
           inset: 0,
-          backgroundImage: `url(${computedSrc.preview || computedSrc.original})`,
+          backgroundImage: `url(${computedSrc.preview || computedSrc.original}) center/cover no-repeat`,
           filter: "blur(12px) saturate(1.5)",
           borderRadius: borderRadius,
         },
-        "&::after": {
-          content: computedSrc.isLazy && !isLoaded ? "''" : "none",
-          position: "absolute",
-          inset: 0,
-          opacity: 0.2,
-          background: `url(${computedSrc.preview}) center/cover no-repeat`,
-          backgroundColor: computedSrc.color,
-          borderRadius: borderRadius,
-        },
+        // "&::after": {
+        //   content: computedSrc.isLazy && !isLoaded ? "''" : "none",
+        //   position: "absolute",
+        //   zIndex: 1,
+        //   inset: 0,
+        //   opacity: 0.2,
+        //   background: `url(${computedSrc.preview}) center/cover no-repeat`,
+        //   borderRadius: borderRadius,
+        // },
         "& > img": {
           transition: (t) => t.transitions.create(["opacity"]),
         },
@@ -104,20 +104,19 @@ const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
           borderRadius={borderRadius}
           sx={{
             inset: 0,
-            zIndex: 1,
+            zIndex: 2,
             aspectRatio: aspect,
-            bgcolor: (t) => t.palette.action.disabled,
-            backdropFilter: "blur(16px) saturate(1.5)",
+            backdropFilter: "blur(4px) saturate(1.5)",
             animation: "image-pulse 2.5s ease infinite",
             "@keyframes image-pulse": {
               "0%": {
-                opacity: 0.1,
+                bgcolor: (t) => alpha(t.palette.action.disabled, 0.1),
               },
               "50%": {
-                opacity: 0.5,
+                bgcolor: (t) => alpha(t.palette.action.disabled, 0.3),
               },
               "100%": {
-                opacity: 0.1,
+                bgcolor: (t) => alpha(t.palette.action.disabled, 0.1),
               },
             },
           }}

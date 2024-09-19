@@ -40,6 +40,9 @@ export const generateTheme = (mode: TThemeMode) =>
         lineHeight: 1.25,
       },
     },
+    zIndex: {
+      search: 900,
+    },
     shape: {
       borderRadius: 4,
     },
