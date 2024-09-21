@@ -21,6 +21,7 @@ export type TAnime = {
   averageScore?: number;
   popularity?: number;
   studios?: TAnimeStudio[];
+  characters?: TAnimeCharacter[];
 };
 
 export type TAnimeTitle = {
@@ -49,6 +50,13 @@ export type TAnimeStudio = {
   isAnimationStudio?: boolean;
 };
 
+export type TAnimeCharacter = {
+  id: string;
+  image: TAnimeImage;
+  role?: TAnimeCharacterRole;
+  name?: TAnimeTitle;
+};
+
 export type TAnimeTrailer = {
   id: string;
   site: string;
@@ -62,3 +70,5 @@ export type TAnimeType = "ANIME" | "MANGA" | null;
 export type TAnimeFormat = "TV" | "TV_SHORT" | "MOVIE" | "SPECIAL" | "OVA" | "ONA" | "MUSIC" | "MANGA" | "NOVEL" | "ONE_SHOT" | null;
 
 export type TAnimeStatus = "FINISHED" | "RELEASING" | "NOT_YET_RELEASED" | "CANCELLED" | "HIATUS" | null;
+
+export type TAnimeCharacterRole = "MAIN" | "SUPPORTING" | null;

@@ -7,6 +7,7 @@ import { ApolloProvider, ThemeProvider } from "@/providers";
 
 import "@justinribeiro/lite-youtube";
 import "swiper/css";
+import "swiper/css/pagination";
 
 createRoot(document.getElementById("root")!).render(
   <ApolloProvider>

@@ -1,30 +1,32 @@
 import { FC } from "react";
-import { Box, Dialog, DialogContent, IconButton } from "@mui/material";
+import { Box, DialogContent, IconButton } from "@mui/material";
 
-import { GrowTransition, Image, YoutubeEmbed } from "@/components";
+import { Image, YoutubeEmbed } from "@/components";
 import { CloseIcon } from "@/icons";
+import { useDialog } from "@/hooks";
 
+import type { DialogProps } from "@mui/material";
 import type { TAnimeTrailer } from "@/types/Anime";
 
+type TDefaultDialogProps = Omit<DialogProps, "open" | "onClose">;
 type TTrailerDialog = FC<{
   trailer: TAnimeTrailer | null;
-  origin: string | null;
-  onClose?: () => void;
-}>;
+}> & {
+  defaultDialogProps: () => TDefaultDialogProps;
+};
 
-const TrailerDialog: TTrailerDialog = ({ trailer, onClose }) => {
+const TrailerDialog: TTrailerDialog = ({ trailer }) => {
+  const dialog = useDialog();
+
+  const handleClose = () => {
+    dialog.close();
+  };
+
   return (
-    <Dialog
-      open={Boolean(trailer)}
-      maxWidth="lg"
-      PaperProps={{ elevation: 0, sx: { borderRadius: 4 } }}
-      TransitionComponent={GrowTransition}
-      fullWidth
-      onClose={onClose}
-    >
+    <>
       <DialogContent sx={{ position: "relative", padding: 0 }}>
         <Box position="absolute" zIndex={1} sx={{ top: 8, right: 8 }}>
-          <IconButton size="small" onClick={onClose}>
+          <IconButton size="small" onClick={handleClose}>
             <CloseIcon />
           </IconButton>
         </Box>
@@ -36,8 +38,13 @@ const TrailerDialog: TTrailerDialog = ({ trailer, onClose }) => {
           )
         ) : null}
       </DialogContent>
-    </Dialog>
+    </>
   );
 };
+
+TrailerDialog.defaultDialogProps = () => ({
+  maxWidth: "lg",
+  fullWidth: true,
+});
 
 export default TrailerDialog;

@@ -1,4 +1,5 @@
-import { type Breakpoint } from "@mui/material";
+import type { Breakpoint } from "@mui/material";
+import type { TAnimeSeason, TAnimeStatus } from "@/types/Anime";
 
 export const LAYOUT = {
   hero: {
@@ -33,5 +34,24 @@ export const ANIME = {
   coverImage: {
     notFound: "/img/common/cover-404.jpg",
     defaultColor: "#646470",
+    aspectRatio: 115 / 163,
+  },
+  popover: {
+    flyoutWidth: 8 * 36,
+  },
+  values: {
+    status: {
+      CANCELLED: "Cancelled",
+      FINISHED: "Finished",
+      HIATUS: "Hiatus",
+      NOT_YET_RELEASED: "Not yet released",
+      RELEASING: "Releasing",
+    } as Record<Exclude<TAnimeStatus, null>, string>,
+    season: {
+      FALL: "Fall",
+      SPRING: "Spring",
+      SUMMER: "Summer",
+      WINTER: "Winter",
+    } as Record<Exclude<TAnimeSeason, null>, string>,
   },
 };

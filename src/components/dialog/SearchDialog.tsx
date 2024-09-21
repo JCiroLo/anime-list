@@ -54,7 +54,6 @@ const SearchDialog = () => {
                   origin="popular-this-season"
                   flyoutWidth={8 * 36}
                   props={{ flyout: { zIndex: 20 + index } }}
-                  onWatchTrailer={() => {}}
                 />
               ))}
             </Grid>

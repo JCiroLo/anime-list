@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import DOMPurify from "dompurify";
 
 import { ANIME } from "@/constants";
 import type {
@@ -12,6 +13,7 @@ import type {
   TAnimeTrailer,
   TAnimeType,
   TAnime,
+  TAnimeCharacter,
 } from "../types/Anime";
 
 class Anime implements TAnime {
@@ -37,6 +39,7 @@ class Anime implements TAnime {
   averageScore?: number;
   popularity?: number;
   studios?: TAnimeStudio[];
+  characters?: TAnimeCharacter[];
 
   constructor(data: TAnime) {
     this.id = data.id;
@@ -61,6 +64,7 @@ class Anime implements TAnime {
     this.averageScore = data.averageScore;
     this.popularity = data.popularity;
     this.studios = data.studios;
+    this.characters = data.characters;
   }
 
   static fromJSON(anime: any): TAnime {
@@ -96,7 +100,7 @@ class Anime implements TAnime {
       },
       season: anime.season,
       seasonYear: anime.seasonYear,
-      description: anime.description,
+      description: DOMPurify.sanitize(anime.description, { USE_PROFILES: { html: true } }),
       type: anime.type,
       format: anime.format,
       status: anime.status,
@@ -108,14 +112,17 @@ class Anime implements TAnime {
       isAdult: anime.isAdult,
       averageScore: anime.averageScore,
       popularity: anime.popularity,
-      studios:
-        anime.studios?.edges?.map(({ node }: any) => {
-          return {
-            id: node?.id,
-            name: node?.name,
-            type: node?.type,
-          };
-        }) || [],
+      studios: anime.studios?.edges?.map(({ node }: any) => ({
+        id: node?.id,
+        name: node?.name,
+        type: node?.type,
+      })),
+      characters: anime.characterPreview?.edges?.map(({ role, node }: any) => ({
+        role,
+        id: node?.id,
+        image: node?.image,
+        name: node?.name,
+      })),
     });
   }
 

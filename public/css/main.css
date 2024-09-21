@@ -1,8 +1,12 @@
 @font-face {
-  font-family: "Dimitri";
+  font-family: "Redwood";
   font-style: "normal";
-  font-weight: 700;
-  src: url("/fonts/dimitri.ttf") format("truetype");
+  src: url("/fonts/redwood.otf") format("opentype");
+}
+
+:root {
+  --swiper-pagination-color: #fff;
+  --swiper-pagination-bullet-inactive-color: #c9c9c9;
 }
 
 body {

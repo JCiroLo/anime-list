@@ -14,11 +14,13 @@ export const generateTheme = (mode: TThemeMode) =>
         fontWeight: 700,
       },
       h1: {
-        fontFamily: "'Dimitri', sans-serif",
-        fontSize: "2em",
+        fontSize: "2.5em",
+        fontWeight: 700,
         lineHeight: 1.2,
       },
       h2: {
+        fontSize: "1.5em",
+        fontWeight: 700,
         lineHeight: 1.2,
       },
       h3: {
@@ -34,10 +36,16 @@ export const generateTheme = (mode: TThemeMode) =>
         lineHeight: 1.2,
       },
       body1: {
+        fontWeight: 300,
         lineHeight: 1.25,
       },
       body2: {
+        fontSize: "0.75em",
+        fontWeight: 300,
         lineHeight: 1.25,
+      },
+      caption: {
+        fontWeight: 300,
       },
     },
     zIndex: {

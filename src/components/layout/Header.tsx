@@ -1,5 +1,5 @@
 import { FC, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link as RouterLink, useSearchParams } from "react-router-dom";
 import {
   alpha,
   Avatar,
@@ -7,6 +7,7 @@ import {
   ButtonBase,
   Grow,
   IconButton,
+  Link,
   Stack,
   TextField,
   Tooltip,
@@ -17,6 +18,7 @@ import {
 
 import { Overlay } from "@/components";
 import { CloseIcon, SearchIcon } from "@/icons";
+import { Route } from "@/utils";
 
 type THeader = FC;
 
@@ -88,9 +90,11 @@ const Header: THeader = () => {
       <Overlay.Gradient zIndex={-1} color={alpha(theme.palette.background.default, 0.9)} />
       <Stack flexDirection="row" alignItems="center">
         {/* <Image src="/img/common/logo-transparent.png" alt="Logo" height={theme.sizes.header.height - 2} /> */}
-        <Typography variant="h1" color="primary.main">
-          Hikarime
-        </Typography>
+        <Link component={RouterLink} to={Route.to()} underline="none">
+          <Typography fontSize="2em" color="primary.main" fontFamily="redwood">
+            Hikarime
+          </Typography>
+        </Link>
       </Stack>
       <Stack direction="row" spacing={1} flexGrow={1} alignItems="center" justifyContent="flex-end">
         <Stack position="relative">

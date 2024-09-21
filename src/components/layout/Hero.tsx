@@ -3,16 +3,14 @@ import { Box } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 
-import { HeroPanel } from "@/components";
-import type { TAnimeTrailer, TAnime } from "@/types/Anime";
+import { AnimeBanner } from "@/components";
+import type { TAnime } from "@/types/Anime";
 
 type HeroProps = FC<{
   slides: TAnime[];
-  currentTrailer: TAnimeTrailer | null;
-  onWatchTrailer: (trailer: TAnimeTrailer, origin: string) => void;
 }>;
 
-const Hero: HeroProps = ({ slides, onWatchTrailer }) => {
+const Hero: HeroProps = ({ slides }) => {
   return (
     <Box position="relative">
       <Swiper
@@ -26,7 +24,7 @@ const Hero: HeroProps = ({ slides, onWatchTrailer }) => {
       >
         {slides.map((anime) => (
           <SwiperSlide key={anime.id}>
-            <HeroPanel anime={anime} onWatchTrailer={onWatchTrailer} />
+            <AnimeBanner anime={anime} />
           </SwiperSlide>
         ))}
       </Swiper>

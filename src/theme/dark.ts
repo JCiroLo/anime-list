@@ -19,7 +19,7 @@ const darkMode: TDarkTheme = {
     default: "#1b181d",
   },
   text: {
-    primary: "#EDF2F4",
+    primary: "#f0edf4",
   },
   success: {
     main: "#63FF60",
