@@ -20,8 +20,8 @@ const SubText: TValueText = ({ value }) => {
   const textProps: TypographyProps = { variant: "body2", color: "text.secondary" };
 
   return isArray ? (
-    value.map((value) => (
-      <Text key={value} {...textProps}>
+    value.map((value, index) => (
+      <Text key={index} {...textProps}>
         {value}
       </Text>
     ))

@@ -9,6 +9,7 @@ import type { TAnime } from "@/types/Anime";
 
 type TAnimeCard = FC<{
   anime: TAnime;
+  origin?: string;
   props?: {
     container?: BoxProps;
     flyout?: StackProps;
