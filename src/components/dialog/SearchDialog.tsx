@@ -52,7 +52,6 @@ const SearchDialog = () => {
                   key={anime.id}
                   anime={anime}
                   origin="popular-this-season"
-                  flyoutWidth={8 * 36}
                   props={{ flyout: { zIndex: 20 + index } }}
                 />
               ))}

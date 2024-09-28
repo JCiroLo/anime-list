@@ -12,9 +12,10 @@ import type { TAnime } from "@/types/Anime";
 type HeroPanelProps = FC<{
   anime: TAnime;
   hideContent?: boolean;
+  viewTransitionName?: string;
 }>;
 
-const HeroPanel: HeroPanelProps = ({ anime, hideContent }) => {
+const HeroPanel: HeroPanelProps = ({ anime, viewTransitionName, hideContent }) => {
   const theme = useTheme();
   const dialog = useDialog();
 
@@ -31,6 +32,7 @@ const HeroPanel: HeroPanelProps = ({ anime, hideContent }) => {
         alt={anime.title.userPreferred}
         width="100%"
         height={theme.sizes.hero.height}
+        viewTransitionName={viewTransitionName}
       />
       {!hideContent && (
         <Box position="absolute" zIndex={10} width="100%" height="100%">

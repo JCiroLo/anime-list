@@ -32,6 +32,7 @@ const DialogProvider: TDialogProvider = ({ children }) => {
 
   const close = () => {
     setModalContent(null);
+    setProps({ dialog: null });
   };
 
   return (
