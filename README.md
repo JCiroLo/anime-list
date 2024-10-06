@@ -13,6 +13,8 @@
 
 ## Todo
 
+- Add forms validation (using hooks)
+- Fix type definitions, do ```type TTypeProps = { ... }``` instead of ```type TType = FC<{ ... }>```, this will help to retrieve the correct props when neeeded
 - Add more information to the README
 - Support light mode
 - Create logo for the website

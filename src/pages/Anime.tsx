@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { Button, Chip, Stack, useTheme } from "@mui/material";
+import { Button, Chip, Stack } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 
@@ -30,7 +30,6 @@ const LAYOUT = {
 
 const Anime: FC = () => {
   const { id } = useParams();
-  const theme = useTheme();
   const dialog = useDialog();
 
   const [anime, setAnime] = useState<TAnime>(null!);
@@ -51,16 +50,11 @@ const Anime: FC = () => {
   if (!anime) return null;
 
   return (
-    <>
-      <AnimeBanner anime={anime} hideContent />
-      <PageWrapper topGutter={-8} keepHeaderSpacing={false}>
+    <PageWrapper
+      hero={<AnimeBanner anime={anime} hideContent />}
+      content={
         <Stack direction={{ xs: "column", md: "row" }} alignItems="flex-start" spacing={LAYOUT.columns.gap}>
-          <Stack
-            spacing={LAYOUT.content.actions.gap}
-            position="sticky"
-            top={theme.sizes.header.realHeight}
-            width={{ xs: "100%", md: "20%" }}
-          >
+          <Stack spacing={LAYOUT.content.actions.gap} position="sticky" top={16} width={{ xs: "100%", md: "20%" }}>
             <Image
               src={anime.coverImage}
               alt="Anime cover image"
@@ -125,14 +119,15 @@ const Anime: FC = () => {
             anime={anime}
             sx={{
               position: "sticky",
-              top: theme.sizes.header.realHeight,
+              top: 16,
               width: { xs: "100%", md: "20%" },
               paddingX: 1,
             }}
           />
         </Stack>
-      </PageWrapper>
-    </>
+      }
+      separation={-8}
+    />
   );
 };
 

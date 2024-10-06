@@ -1,10 +1,6 @@
 import { PaletteOptions } from "@mui/material";
 
-type TLightTheme = PaletteOptions & {
-  custom: {
-    overlay: string;
-  };
-};
+type TLightTheme = PaletteOptions;
 
 const lightMode: TLightTheme = {
   primary: {
@@ -15,6 +11,7 @@ const lightMode: TLightTheme = {
   },
   background: {
     default: "#F8F8F8",
+    dialog: "#FFFFFF",
   },
   success: {
     main: "#63FF60",

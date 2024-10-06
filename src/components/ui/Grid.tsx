@@ -1,19 +1,16 @@
 import { FC, ReactNode } from "react";
 import { Box, type Breakpoint, type BoxProps } from "@mui/material";
 
-type TGridProps = {
+type TGridProps = BoxProps & {
   children: ReactNode;
   cols: Partial<Record<Breakpoint, number>> | number;
   gap?: number;
   colGap?: number;
   rowGap?: number;
-  props?: {
-    container: BoxProps;
-  };
-}
+};
 type TGrid = FC<TGridProps>;
 
-const Grid: TGrid = ({ children, cols, colGap, rowGap, gap = 1, props }) => {
+const Grid: TGrid = ({ children, cols, colGap, rowGap, gap = 1, ...props }) => {
   const cGap = colGap || gap;
   const rGap = rowGap || gap;
 
@@ -25,7 +22,7 @@ const Grid: TGrid = ({ children, cols, colGap, rowGap, gap = 1, props }) => {
   }
 
   return (
-    <Box {...props?.container} display="grid" gridTemplateColumns={getTemplateColumns(cols)} columnGap={cGap} rowGap={rGap}>
+    <Box {...props} display="grid" gridTemplateColumns={getTemplateColumns(cols)} columnGap={cGap} rowGap={rGap}>
       {children}
     </Box>
   );

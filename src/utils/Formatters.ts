@@ -1,16 +1,25 @@
 import dayjs from "dayjs";
 import objectSupport from "dayjs/plugin/objectSupport";
 
-import type { TAnimeDate, TAnimeSeason, TAnimeStatus } from "@/types/Anime";
 import { ANIME } from "@/constants";
+
+import type { TAnimeDate, TAnimeSeason, TAnimeStatus } from "@/types/Anime";
 
 dayjs.extend(objectSupport);
 
 const Formatters = {
   anime: {
-    date(date?: TAnimeDate, template = "MMM DD, YYYY") {
+    date(date?: TAnimeDate | Date | number, template = "MMM DD, YYYY") {
       if (!date) {
         return null;
+      }
+
+      if (typeof date === "number") {
+        return dayjs(date).format(template);
+      }
+
+      if (date instanceof Date) {
+        return dayjs(date).format(template);
       }
 
       return dayjs({ year: date.year, month: date.month, day: date.day }).format(template);
@@ -35,6 +44,11 @@ const Formatters = {
       }
 
       return ANIME.values.season[season];
+    },
+  },
+  string: {
+    slugify(string: string) {
+      return string.replace(/\s+/g, "-").toLowerCase();
     },
   },
 };

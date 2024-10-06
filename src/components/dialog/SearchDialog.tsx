@@ -37,32 +37,29 @@ const SearchDialog = () => {
 
   return (
     <Dialog open={Boolean(search)} PaperProps={{ elevation: 0 }} sx={{ zIndex: "search" }} fullScreen disableEnforceFocus disableAutoFocus>
-      <PageWrapper topGutter={4}>
-        <Stack spacing={error || animes.length === 0 ? 2 : 4}>
-          <Text variant="h3" fontSize="2em" fontWeight={700}>
-            Results for "{search}"
-          </Text>
+      <PageWrapper
+        content={
+          <Stack spacing={error || animes.length === 0 ? 2 : 4}>
+            <Text variant="h3" fontSize="2em" fontWeight={700}>
+              Results for "{search}"
+            </Text>
 
-          {error && <Text>Oops, something went wrong. Please try again later.</Text>}
+            {error && <Text>Oops, something went wrong. Please try again later.</Text>}
 
-          {animes.length > 0 ? (
-            <Grid cols={LAYOUT.grid.columns}>
-              {animes.map((anime, index) => (
-                <AnimeCard
-                  key={anime.id}
-                  anime={anime}
-                  origin="popular-this-season"
-                  props={{ flyout: { zIndex: 20 + index } }}
-                />
-              ))}
-            </Grid>
-          ) : (
-            <Stack spacing={2}>
-              <Text color="text.secondary">Sorry, we have not found any matches (╥﹏╥)</Text>
-            </Stack>
-          )}
-        </Stack>
-      </PageWrapper>
+            {animes.length > 0 ? (
+              <Grid cols={LAYOUT.grid.columns}>
+                {animes.map((anime, index) => (
+                  <AnimeCard key={anime.id} anime={anime} origin="popular-this-season" props={{ flyout: { zIndex: 20 + index } }} />
+                ))}
+              </Grid>
+            ) : (
+              <Stack spacing={2}>
+                <Text color="text.secondary">Sorry, we have not found any matches (╥﹏╥)</Text>
+              </Stack>
+            )}
+          </Stack>
+        }
+      />
     </Dialog>
   );
 };

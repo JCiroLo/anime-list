@@ -39,6 +39,7 @@ const DialogProvider: TDialogProvider = ({ children }) => {
     <DialogContext.Provider value={{ open, close }}>
       {children}
       <Dialog
+        // Assignable props
         PaperProps={{ elevation: 0, sx: { borderRadius: 4 } }}
         TransitionComponent={GrowTransition}
         {...props.dialog}

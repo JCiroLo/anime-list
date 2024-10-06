@@ -1,7 +1,13 @@
+export { default as CameraOffIcon } from './CameraOffIcon';
 export { default as CloseIcon } from './CloseIcon';
+export { default as CometIcon } from './CometIcon';
 export { default as EyeIcon } from './EyeIcon';
+export { default as GhostIcon } from './GhostIcon';
+export { default as HeartSearchIcon } from './HeartSearchIcon';
 export { default as InfoCircleIcon } from './InfoCircleIcon';
+export { default as ListSearchIcon } from './ListSearchIcon';
 export { default as MovieIcon } from './MovieIcon';
+export { default as PhotoIcon } from './PhotoIcon';
 export { default as PlusIcon } from './PlusIcon';
 export { default as SearchIcon } from './SearchIcon';
 export { default as UserIcon } from './UserIcon';

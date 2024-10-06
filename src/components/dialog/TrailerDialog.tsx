@@ -23,22 +23,20 @@ const TrailerDialog: TTrailerDialog = ({ trailer }) => {
   };
 
   return (
-    <>
-      <DialogContent sx={{ position: "relative", padding: 0 }}>
-        <Box position="absolute" zIndex={1} sx={{ top: 8, right: 8 }}>
-          <IconButton size="small" onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
-        {trailer ? (
-          trailer?.site === "youtube" ? (
-            <YoutubeEmbed videoId={trailer.id} />
-          ) : (
-            <Image src={trailer.thumbnail} alt="Trailer thumbnail" width="100%" aspect={16 / 9} />
-          )
-        ) : null}
-      </DialogContent>
-    </>
+    <DialogContent sx={{ position: "relative", padding: 0 }}>
+      <Box position="absolute" zIndex={1} sx={{ top: 8, right: 8 }}>
+        <IconButton size="small" onClick={handleClose}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
+      {trailer ? (
+        trailer?.site === "youtube" ? (
+          <YoutubeEmbed videoId={trailer.id} />
+        ) : (
+          <Image src={trailer.thumbnail} alt="Trailer thumbnail" width="100%" aspect={16 / 9} />
+        )
+      ) : null}
+    </DialogContent>
   );
 };
 

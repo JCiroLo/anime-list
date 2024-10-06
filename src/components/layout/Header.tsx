@@ -1,20 +1,6 @@
 import { FC, useRef, useState } from "react";
 import { Link as RouterLink, useSearchParams } from "react-router-dom";
-import {
-  alpha,
-  Avatar,
-  Box,
-  ButtonBase,
-  Grow,
-  IconButton,
-  Link,
-  Stack,
-  TextField,
-  Tooltip,
-  Typography,
-  useScrollTrigger,
-  useTheme,
-} from "@mui/material";
+import { alpha, Avatar, Box, ButtonBase, Grow, IconButton, Link, Stack, TextField, Tooltip, Typography, useTheme } from "@mui/material";
 
 import { Overlay } from "@/components";
 import { CloseIcon, SearchIcon } from "@/icons";
@@ -25,10 +11,6 @@ type THeader = FC;
 const Header: THeader = () => {
   const theme = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
-  const isScrolling = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: theme.sizes.hero.realHeight - theme.sizes.header.realHeight * 2,
-  });
 
   const querySearch = searchParams.get("search");
 
@@ -69,7 +51,7 @@ const Header: THeader = () => {
       flexDirection="row"
       alignItems="center"
       width="100%"
-      height={isScrolling ? theme.sizes.header.activeRealHeight : theme.sizes.header.realHeight}
+      height={theme.sizes.header.activeRealHeight}
       px={3}
       py={1}
       sx={{
@@ -82,9 +64,7 @@ const Header: THeader = () => {
         bgcolor={alpha(theme.palette.background.default, 0.25)}
         sx={{
           inset: 0,
-          opacity: isScrolling ? 1 : 0,
           backdropFilter: "blur(16px) saturate(2)",
-          transition: theme.transitions.create(["opacity"]),
         }}
       />
       <Overlay.Gradient zIndex={-1} color={alpha(theme.palette.background.default, 0.9)} />
@@ -101,6 +81,7 @@ const Header: THeader = () => {
           <TextField
             inputRef={searchFieldRef}
             value={querySearch || ""}
+            variant="filled"
             size="small"
             placeholder="Cowboy Bebop"
             sx={{
@@ -110,13 +91,13 @@ const Header: THeader = () => {
               pointerEvents: isSearching ? "auto" : "none",
               transition: theme.transitions.create(["opacity"]),
               "& .MuiInputBase-root": {
-                borderRadius: 32,
                 "& input": {
                   width: isSearching ? "32ch" : 12,
                   transition: theme.transitions.create(["width"]),
                 },
               },
             }}
+            hiddenLabel
             onChange={handleSearchChange}
             onBlur={handleSearchBlur}
           />
