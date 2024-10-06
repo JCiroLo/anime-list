@@ -13,4 +13,4 @@ export type TListAnime = {
   watchedAt: number;
 };
 
-export type TListSlug = "my-favorites" | "my-watchlist" | "my-watched-list" | (string & {});
+export type TListSlug = "favorites" | "watchlist" | "watched-list" | (string & {});

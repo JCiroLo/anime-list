@@ -16,7 +16,29 @@ type TLists = {
 const useLists = create(
   persist<TLists>(
     (set, get) => ({
-      lists: {},
+      lists: {
+        "watched-list": {
+          animes: [],
+          name: "Watched",
+          slug: "watched-list",
+          description: "My watched anime",
+          isCustom: false,
+        },
+        watchlist: {
+          animes: [],
+          name: "Watchlist",
+          slug: "watchlist",
+          description: "My anime watchlist",
+          isCustom: false,
+        },
+        favorites: {
+          animes: [],
+          name: "Favorites",
+          slug: "favorites",
+          description: "My favorite anime",
+          isCustom: false,
+        },
+      },
 
       // List actions
       addList(list: TList) {

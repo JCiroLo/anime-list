@@ -54,7 +54,7 @@ const AnimePopover: TAnimePopover = ({ anime }) => {
         </Stack>
         <Stack direction="row" spacing={1}>
           <Tooltip title="Mark as watched" arrow>
-            <IconButton onClick={() => addAnimeToList("my-watched-list", anime)}>
+            <IconButton onClick={() => addAnimeToList("watched-list", anime)}>
               <EyeIcon />
             </IconButton>
           </Tooltip>
