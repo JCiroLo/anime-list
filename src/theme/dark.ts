@@ -1,10 +1,6 @@
 import { PaletteOptions } from "@mui/material";
 
-type TDarkTheme = PaletteOptions & {
-  custom: {
-    overlay: string;
-  };
-};
+type TDarkTheme = PaletteOptions;
 
 const darkMode: TDarkTheme = {
   mode: "dark",
@@ -17,6 +13,7 @@ const darkMode: TDarkTheme = {
   background: {
     paper: "#29292ee0",
     default: "#1b181d",
+    dialog: "#0b0b0ffc",
   },
   text: {
     primary: "#f0edf4",

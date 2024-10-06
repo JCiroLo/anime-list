@@ -36,9 +36,10 @@ const Home: FC = () => {
   return (
     <>
       <Loader show={response.loading} />
-      <>
-        <Hero slides={animes.trending} />
-        <PageWrapper topGutter={-4} keepHeaderSpacing={false}>
+
+      <PageWrapper
+        hero={<Hero slides={animes.trending} />}
+        content={
           <Stack spacing={4}>
             <Stack spacing={2}>
               <Text variant="h3" fontSize="1.25em" fontWeight={700}>
@@ -81,8 +82,9 @@ const Home: FC = () => {
               </Grid>
             </Stack>
           </Stack>
-        </PageWrapper>
-      </>
+        }
+        separation={-2}
+      />
     </>
   );
 };

@@ -4,11 +4,11 @@ import { Button, IconButton, Stack, Tooltip } from "@mui/material";
 
 import { Grid, Image, Tag, Text, TrailerDialog } from "@/components";
 import { EyeIcon, PlusIcon } from "@/icons";
-import { useDialog } from "@/hooks";
+import { useLists } from "@/stores";
+import { useDialog, useViewTransition } from "@/hooks";
 import { Route } from "@/utils";
 
 import type { TAnime } from "@/types/Anime";
-import { flushSync } from "react-dom";
 
 type TAnimePopover = FC<{
   anime: TAnime;
@@ -17,13 +17,16 @@ type TAnimePopover = FC<{
 const AnimePopover: TAnimePopover = ({ anime }) => {
   const dialog = useDialog();
   const navigate = useNavigate();
+  const viewTransition = useViewTransition();
+
+  const { addAnimeToList } = useLists();
 
   const handleWatchTrailer = () => {
     dialog.open(<TrailerDialog trailer={anime.trailer} />, { dialog: TrailerDialog.defaultDialogProps() });
   };
 
   const handleViewDetails = () => {
-    document.startViewTransition(() => flushSync(() => navigate(Route.to("anime", anime.id))));
+    viewTransition(() => navigate(Route.to("anime", anime.id)));
   };
 
   return (
@@ -51,7 +54,7 @@ const AnimePopover: TAnimePopover = ({ anime }) => {
         </Stack>
         <Stack direction="row" spacing={1}>
           <Tooltip title="Mark as watched" arrow>
-            <IconButton>
+            <IconButton onClick={() => addAnimeToList("my-watched-list", anime)}>
               <EyeIcon />
             </IconButton>
           </Tooltip>

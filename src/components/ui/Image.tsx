@@ -5,8 +5,8 @@ import { ANIME } from "@/constants";
 import type { TAnimeImage } from "@/types/Anime";
 
 type TImageProps = {
-  src: string | TAnimeImage;
   alt: string;
+  src?: string | TAnimeImage;
   aspect?: number;
   width?: number | string;
   height?: number | string;
@@ -20,7 +20,7 @@ export type TImageRef = HTMLElement;
 
 const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
   const {
-    src,
+    src = ANIME.coverImage.notFound,
     alt,
     aspect,
     width = "auto",

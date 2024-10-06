@@ -1,22 +1,20 @@
 import { FC, ReactNode } from "react";
-import { Container, useTheme } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 
 type TPageWrapper = FC<{
-  children: ReactNode;
-  topGutter?: number;
-  keepHeaderSpacing?: boolean;
+  content: ReactNode;
+  hero?: ReactNode;
+  separation?: number;
 }>;
 
-const PageWrapper: TPageWrapper = ({ children, topGutter, keepHeaderSpacing = true }) => {
-  const theme = useTheme();
-
+const PageWrapper: TPageWrapper = ({ content, hero, separation }) => {
   return (
-    <Container
-      component="main"
-      sx={{ position: "relative", zIndex: 10, mt: topGutter, pt: keepHeaderSpacing ? theme.sizes.header.height : 0, pb: 24 }}
-    >
-      {children}
-    </Container>
+    <Stack component="main" paddingBottom={16}>
+      <Box overflow="hidden" borderRadius={2}>
+        {hero}
+      </Box>
+      <Container sx={{ position: "relative", zIndex: 10, my: separation }}>{content}</Container>
+    </Stack>
   );
 };
 

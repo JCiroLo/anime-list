@@ -36,6 +36,9 @@ export const ANIME = {
     defaultColor: "#646470",
     aspectRatio: 115 / 163,
   },
+  bannerImage: {
+    aspectRatio: 903 / 320,
+  },
   popover: {
     flyoutWidth: 8 * 36,
   },

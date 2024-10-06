@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { About, Anime, Home } from "@/pages";
+import { About, Anime, Home, List } from "@/pages";
 import { AppWrapper } from "@/components";
 
 const router = createBrowserRouter([
@@ -19,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "anime/:id",
         element: <Anime />,
+      },
+      {
+        path: "list/:slug",
+        element: <List />,
       },
     ],
   },

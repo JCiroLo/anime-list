@@ -40,7 +40,6 @@ export const generateTheme = (mode: TThemeMode) =>
         lineHeight: 1.25,
       },
       body2: {
-        fontSize: "0.75em",
         fontWeight: 300,
         lineHeight: 1.25,
       },
@@ -60,6 +59,12 @@ export const generateTheme = (mode: TThemeMode) =>
         realHeight: 72,
         activeHeight: 7,
         activeRealHeight: 56,
+      },
+      sidebar: {
+        width: 40,
+        realWidth: 320,
+        collapsedWidth: 9,
+        collapsedRealWidth: 72,
       },
       hero: {
         height: 40,
@@ -88,6 +93,47 @@ export const generateTheme = (mode: TThemeMode) =>
           };
         },
       },
+      MuiStack: {
+        defaultProps: {
+          useFlexGap: true,
+        },
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          root: {
+            fontWeight: 500,
+          },
+        },
+      },
+      MuiTextField: {
+        variants: [
+          {
+            props: {
+              variant: "filled",
+            },
+            style: {
+              "& .MuiInputBase-root": {
+                borderRadius: 8,
+                backdropFilter: "blur(8px) saturate(1.5)",
+                "&::after, &::before": {
+                  content: "none",
+                },
+              },
+            },
+          },
+        ],
+      },
+      MuiButton: {
+        defaultProps: {
+          variant: "contained",
+          disableElevation: true,
+        },
+      },
+      MuiLink: {
+        defaultProps: {
+          underline: "hover",
+        },
+      },
       MuiDialog: {
         defaultProps: {
           PaperProps: {
@@ -105,45 +151,54 @@ export const generateTheme = (mode: TThemeMode) =>
           },
         },
       },
-      MuiStack: {
-        defaultProps: {
-          useFlexGap: true,
-        },
-      },
-      MuiTextField: {
-        variants: [
-          {
-            props: {
-              variant: "filled",
-            },
-            style: {
-              "& .MuiInputBase-root": {
-                borderRadius: 32,
-                backdropFilter: "blur(8px) saturate(1.5)",
-                "&::after, &::before": {
-                  content: "none",
-                },
-              },
-            },
-          },
-        ],
-      },
-      MuiButton: {
-        defaultProps: {
-          variant: "contained",
-          disableElevation: true,
-        },
-      },
-      MuiListItemIcon: {
+      MuiDialogActions: {
         defaultProps: {
           sx: {
-            minWidth: 32,
+            padding: 2,
           },
         },
       },
       MuiTooltip: {
         defaultProps: {
           arrow: true,
+        },
+      },
+      MuiListItemButton: {
+        defaultProps: {
+          sx: {
+            padding: 1,
+            borderRadius: 1,
+          },
+        },
+      },
+      MuiListItemText: {
+        defaultProps: {
+          primaryTypographyProps: {
+            variant: "body1",
+            fontWeight: 500,
+          },
+          secondaryTypographyProps: {
+            variant: "body2",
+            color: "text.secondary",
+          },
+          sx: {
+            margin: 0,
+          },
+        },
+      },
+      MuiListItemIcon: {
+        defaultProps: {
+          sx: {
+            minWidth: 32,
+            marginRight: 1,
+          },
+        },
+      },
+      MuiTableCell: {
+        defaultProps: {
+          sx: {
+            borderBottom: "none",
+          },
         },
       },
     },

@@ -12,6 +12,12 @@ declare module "@mui/material/styles" {
         activeHeight: number;
         activeRealHeight: number;
       };
+      sidebar: {
+        width: number;
+        realWidth: number;
+        collapsedWidth: number;
+        collapsedRealWidth: number;
+      };
       hero: {
         height: number;
         realHeight: number;
@@ -25,6 +31,12 @@ declare module "@mui/material/styles" {
         realHeight: number;
         activeHeight: number;
         activeRealHeight: number;
+      };
+      sidebar: {
+        width: number;
+        realWidth: number;
+        collapsedWidth: number;
+        collapsedRealWidth: number;
       };
       hero: {
         height: number;
@@ -41,6 +53,9 @@ declare module "@mui/material/styles" {
     custom?: {
       overlay: string;
     };
+  }
+  interface TypeBackground {
+    dialog: string;
   }
   interface ZIndex {
     search: number;
