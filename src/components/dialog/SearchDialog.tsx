@@ -59,6 +59,7 @@ const SearchDialog = () => {
             )}
           </Stack>
         }
+        headerGutter
       />
     </Dialog>
   );

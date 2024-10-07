@@ -34,7 +34,14 @@ const Sidebar: TSidebar = ({ collapsed, onToggle }) => {
   };
 
   return (
-    <Stack component="aside" padding={1} sx={{ overflowX: "hidden" }}>
+    <Stack
+      component="aside"
+      flexGrow={1}
+      padding={1}
+      borderRadius={2}
+      bgcolor="background.paper"
+      sx={{ overflowX: "hidden", overflowY: "auto" }}
+    >
       <Stack direction={collapsed ? "column" : "row"} alignItems="center" justifyContent="space-between" spacing={1}>
         {collapsed ? (
           <Tooltip title="Show your lists" placement="right">

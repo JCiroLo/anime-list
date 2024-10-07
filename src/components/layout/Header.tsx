@@ -1,14 +1,15 @@
 import { FC, useRef, useState } from "react";
-import { Link as RouterLink, useSearchParams } from "react-router-dom";
-import { alpha, Avatar, Box, ButtonBase, Grow, IconButton, Link, Stack, TextField, Tooltip, Typography, useTheme } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
+import { alpha, Avatar, Box, ButtonBase, Grow, IconButton, Stack, TextField, Tooltip, useTheme } from "@mui/material";
 
 import { Overlay } from "@/components";
 import { CloseIcon, SearchIcon } from "@/icons";
-import { Route } from "@/utils";
 
-type THeader = FC;
+type THeader = FC<{
+  isSidebarCollapsed: boolean;
+}>;
 
-const Header: THeader = () => {
+const Header: THeader = ({ isSidebarCollapsed }) => {
   const theme = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -45,20 +46,21 @@ const Header: THeader = () => {
     <Stack
       component="header"
       position="fixed"
-      top={0}
       zIndex="appBar"
+      top={8}
+      right={16}
       spacing={2}
       flexDirection="row"
       alignItems="center"
-      width="100%"
-      height={theme.sizes.header.activeRealHeight}
-      px={3}
+      width={`calc(100vw - 32px - ${isSidebarCollapsed ? theme.sizes.sidebar.collapsedRealWidth : theme.sizes.sidebar.realWidth}px)`}
+      height={theme.sizes.header.realHeight}
+      px={1}
       py={1}
       sx={{
-        transition: theme.transitions.create(["height"]),
+        transition: theme.transitions.create(["width", "height"]),
       }}
     >
-      <Box
+      {/* <Box
         position="absolute"
         zIndex={-1}
         bgcolor={alpha(theme.palette.background.default, 0.25)}
@@ -66,16 +68,8 @@ const Header: THeader = () => {
           inset: 0,
           backdropFilter: "blur(16px) saturate(2)",
         }}
-      />
-      <Overlay.Gradient zIndex={-1} color={alpha(theme.palette.background.default, 0.9)} />
-      <Stack flexDirection="row" alignItems="center">
-        {/* <Image src="/img/common/logo-transparent.png" alt="Logo" height={theme.sizes.header.height - 2} /> */}
-        <Link component={RouterLink} to={Route.to()} underline="none">
-          <Typography fontSize="2em" color="primary.main" fontFamily="redwood">
-            Hikarime
-          </Typography>
-        </Link>
-      </Stack>
+      /> */}
+      {/* <Overlay.Gradient zIndex={-1} color={alpha(theme.palette.background.default, 0.9)} /> */}
       <Stack direction="row" spacing={1} flexGrow={1} alignItems="center" justifyContent="flex-end">
         <Stack position="relative">
           <TextField

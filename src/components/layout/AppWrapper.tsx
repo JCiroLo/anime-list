@@ -1,9 +1,10 @@
 import { FC, useState } from "react";
-import { Outlet } from "react-router-dom";
-import { Stack, useTheme } from "@mui/material";
+import { Link as RouterLink, Outlet } from "react-router-dom";
+import { Link, Stack, useTheme } from "@mui/material";
 
-import { Header, SearchDialog, Sidebar } from "@/components";
+import { Header, SearchDialog, Sidebar, Text } from "@/components";
 import { DialogProvider } from "@/providers";
+import { Route } from "@/utils";
 
 type TAppWrapper = FC;
 
@@ -13,7 +14,7 @@ const AppWrapper: TAppWrapper = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const panel = {
-    height: `calc(100vh - ${theme.sizes.header.activeRealHeight}px - 8px)`,
+    height: `calc(100vh - 16px)`,
     borderRadius: 2,
     background: "background.paper",
   };
@@ -24,26 +25,37 @@ const AppWrapper: TAppWrapper = () => {
 
   return (
     <DialogProvider>
-      <Header />
-      <Stack direction="row" spacing={1} paddingLeft={1} marginTop={theme.sizes.header.activeHeight}>
+      <Stack direction="row" spacing={1} paddingLeft={1}>
         <Stack
           flexShrink={0}
           flexGrow={0}
           width={isSidebarCollapsed ? theme.sizes.sidebar.collapsedRealWidth : theme.sizes.sidebar.realWidth}
-          height={panel.height}
-          overflow="auto"
-          borderRadius={panel.borderRadius}
-          bgcolor="background.paper"
+          height={`calc(100vh - 8px)`}
           sx={{
             transition: theme.transitions.create("width"),
           }}
         >
+          <Stack justifyContent="center" alignItems="center" height={theme.sizes.header.realHeight + 16}>
+            <Link
+              component={RouterLink}
+              to={Route.to()}
+              fontSize="1.5em"
+              fontFamily="redwood"
+              textAlign="center"
+              underline="hover"
+              color="primary.main"
+            >
+              Hikarime
+            </Link>
+          </Stack>
           <Sidebar collapsed={isSidebarCollapsed} onToggle={handleSidebarToggle} />
         </Stack>
         <Stack
+          position="relative"
           flexGrow={1}
-          height={`calc(100vh - 8px - ${theme.sizes.header.activeRealHeight}px)`}
+          height={panel.height}
           paddingRight={1}
+          marginTop={1}
           overflow="auto"
           borderRadius={panel.borderRadius}
           sx={{
@@ -65,6 +77,7 @@ const AppWrapper: TAppWrapper = () => {
             transition: theme.transitions.create("width"),
           }}
         >
+          <Header isSidebarCollapsed={isSidebarCollapsed} />
           <Outlet />
         </Stack>
       </Stack>

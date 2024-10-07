@@ -9,8 +9,6 @@ declare module "@mui/material/styles" {
       header: {
         height: number;
         realHeight: number;
-        activeHeight: number;
-        activeRealHeight: number;
       };
       sidebar: {
         width: number;
@@ -29,8 +27,6 @@ declare module "@mui/material/styles" {
       header: {
         height: number;
         realHeight: number;
-        activeHeight: number;
-        activeRealHeight: number;
       };
       sidebar: {
         width: number;

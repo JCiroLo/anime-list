@@ -5,11 +5,12 @@ type TPageWrapper = FC<{
   content: ReactNode;
   hero?: ReactNode;
   separation?: number;
+  headerGutter?: boolean;
 }>;
 
-const PageWrapper: TPageWrapper = ({ content, hero, separation }) => {
+const PageWrapper: TPageWrapper = ({ content, hero, separation, headerGutter = false }) => {
   return (
-    <Stack component="main" paddingBottom={16}>
+    <Stack component="main" paddingTop={(t) => (headerGutter ? t.sizes.header.height : 0)} paddingBottom={16}>
       <Box overflow="hidden" borderRadius={2}>
         {hero}
       </Box>
