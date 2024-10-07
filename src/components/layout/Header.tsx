@@ -1,8 +1,7 @@
 import { FC, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { alpha, Avatar, Box, ButtonBase, Grow, IconButton, Stack, TextField, Tooltip, useTheme } from "@mui/material";
+import { Avatar, Box, ButtonBase, Grow, IconButton, Stack, TextField, Tooltip, useTheme } from "@mui/material";
 
-import { Overlay } from "@/components";
 import { CloseIcon, SearchIcon } from "@/icons";
 
 type THeader = FC<{

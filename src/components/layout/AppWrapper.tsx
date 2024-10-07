@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { Link as RouterLink, Outlet } from "react-router-dom";
 import { Link, Stack, useTheme } from "@mui/material";
 
-import { Header, SearchDialog, Sidebar, Text } from "@/components";
+import { Header, SearchDialog, Sidebar } from "@/components";
 import { DialogProvider } from "@/providers";
 import { Route } from "@/utils";
 
