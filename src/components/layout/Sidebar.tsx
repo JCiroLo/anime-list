@@ -28,46 +28,20 @@ type TSidebar = FC<{
 const Sidebar: TSidebar = ({ collapsed, onToggle }) => {
   const dialog = useDialog();
   const userLists = useLists((state) => state.lists);
-  // useEffect(() => {
-  //   localStorage.setItem(
-  //     "anime-lists",
-  //     JSON.stringify({
-  //       state: {
-  //         lists: {
-  //           "my-favorites": {
-  //             animes: [],
-  //             name: "My favorites",
-  //             slug: "my-favorites",
-  //             description: "My favorite anime",
-  //             isCustom: false,
-  //           },
-  //           "my-watchlist": {
-  //             animes: [],
-  //             name: "My watchlist",
-  //             slug: "my-watchlist",
-  //             description: "My watchlist",
-  //             isCustom: false,
-  //           },
-  //           "my-watched-list": {
-  //             animes: [],
-  //             name: "My watched list",
-  //             slug: "my-watched-list",
-  //             description: "My custom list",
-  //             isCustom: true,
-  //           },
-  //         },
-  //       },
-  //       version: 0,
-  //     })
-  //   );
-  // }, []);
 
   const handleCreateList = () => {
     dialog.open(<ManageListDialog action="create" />, { dialog: ManageListDialog.defaultDialogProps() });
   };
 
   return (
-    <Stack component="aside" padding={1} sx={{ overflowX: "hidden" }}>
+    <Stack
+      component="aside"
+      flexGrow={1}
+      padding={1}
+      borderRadius={2}
+      bgcolor="background.paper"
+      sx={{ overflowX: "hidden", overflowY: "auto" }}
+    >
       <Stack direction={collapsed ? "column" : "row"} alignItems="center" justifyContent="space-between" spacing={1}>
         {collapsed ? (
           <Tooltip title="Show your lists" placement="right">

@@ -11,7 +11,7 @@ const darkMode: TDarkTheme = {
     main: "#646470",
   },
   background: {
-    paper: "#29292ee0",
+    paper: "#292631e0",
     default: "#1b181d",
     dialog: "#0b0b0ffc",
   },

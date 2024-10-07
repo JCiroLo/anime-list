@@ -55,16 +55,14 @@ export const generateTheme = (mode: TThemeMode) =>
     },
     sizes: {
       header: {
-        height: 9,
-        realHeight: 72,
-        activeHeight: 7,
-        activeRealHeight: 56,
+        height: 6,
+        realHeight: 6 * 8,
       },
       sidebar: {
-        width: 40,
-        realWidth: 320,
+        width: 32,
+        realWidth: 32 * 8,
         collapsedWidth: 9,
-        collapsedRealWidth: 72,
+        collapsedRealWidth: 9 * 8,
       },
       hero: {
         height: 40,
