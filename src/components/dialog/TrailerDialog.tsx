@@ -1,9 +1,7 @@
 import { FC } from "react";
-import { Box, DialogContent, IconButton } from "@mui/material";
+import { DialogContent } from "@mui/material";
 
 import { Image, YoutubeEmbed } from "@/components";
-import { CloseIcon } from "@/icons";
-import { useDialog } from "@/hooks";
 
 import type { DialogProps } from "@mui/material";
 import type { TAnimeTrailer } from "@/types/Anime";
@@ -16,19 +14,8 @@ type TTrailerDialog = FC<{
 };
 
 const TrailerDialog: TTrailerDialog = ({ trailer }) => {
-  const dialog = useDialog();
-
-  const handleClose = () => {
-    dialog.close();
-  };
-
   return (
     <DialogContent sx={{ position: "relative", padding: 0 }}>
-      <Box position="absolute" zIndex={1} sx={{ top: 8, right: 8 }}>
-        <IconButton size="small" onClick={handleClose}>
-          <CloseIcon />
-        </IconButton>
-      </Box>
       {trailer ? (
         trailer?.site === "youtube" ? (
           <YoutubeEmbed videoId={trailer.id} />

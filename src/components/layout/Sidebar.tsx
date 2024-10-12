@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from "@mui/material";
 
-import { AnimeListImageGrid, ManageListDialog } from "@/components";
+import { AnimeListImageGrid, ListManagerDialog } from "@/components";
 import { ListSearchIcon, PlusIcon } from "@/icons";
 import { useLists } from "@/stores";
 import { useDialog } from "@/hooks";
@@ -30,7 +30,7 @@ const Sidebar: TSidebar = ({ collapsed, onToggle }) => {
   const userLists = useLists((state) => state.lists);
 
   const handleCreateList = () => {
-    dialog.open(<ManageListDialog action="create" />, { dialog: ManageListDialog.defaultDialogProps() });
+    dialog.open(<ListManagerDialog action="create" />, { dialog: ListManagerDialog.defaultDialogProps() });
   };
 
   return (

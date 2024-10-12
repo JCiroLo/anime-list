@@ -1,17 +1,17 @@
 import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { Button, Chip, Stack } from "@mui/material";
+import { Button, ButtonBase, Chip, Stack } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 
-import { AnimeBanner, AnimeData, Image, PageWrapper, Text, TrailerDialog } from "@/components";
+import { AnimeBanner, AnimeData, CharacterDialog, Image, PageWrapper, Text, TrailerDialog } from "@/components";
 import { MovieIcon, PlusIcon } from "@/icons";
 import { AnimeQueries } from "@/queries";
 import { useDialog } from "@/hooks";
 import { ANIME } from "@/constants";
 
-import type { TAnime } from "@/types/Anime";
+import type { TAnime, TAnimeCharacter } from "@/types/Anime";
 
 const LAYOUT = {
   columns: {
@@ -45,6 +45,10 @@ const Anime: FC = () => {
 
   const handleWatchTrailer = () => {
     dialog.open(<TrailerDialog trailer={anime.trailer} />, { dialog: TrailerDialog.defaultDialogProps() });
+  };
+
+  const handleCharacterClick = (character: TAnimeCharacter) => {
+    dialog.open(<CharacterDialog character={character} />, { dialog: CharacterDialog.defaultDialogProps() });
   };
 
   if (!anime) return null;
@@ -101,14 +105,16 @@ const Anime: FC = () => {
                 >
                   {anime.characters?.map((character) => (
                     <SwiperSlide key={character.id}>
-                      <Image
-                        key={character.id}
-                        src={character.image.large}
-                        alt={character?.name?.userPreferred || "Character"}
-                        width="100%"
-                        aspect={ANIME.coverImage.aspectRatio}
-                        borderRadius={1}
-                      />
+                      <ButtonBase focusRipple onClick={() => handleCharacterClick(character)}>
+                        <Image
+                          key={character.id}
+                          src={character.image.large}
+                          alt={character?.name?.userPreferred || "Character"}
+                          width="100%"
+                          aspect={ANIME.coverImage.aspectRatio}
+                          borderRadius={1}
+                        />
+                      </ButtonBase>
                     </SwiperSlide>
                   ))}
                 </Swiper>

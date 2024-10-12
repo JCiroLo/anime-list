@@ -1,7 +1,8 @@
 import { createContext, useState, ReactNode, FC } from "react";
-import { Dialog } from "@mui/material";
+import { Box, Dialog, IconButton } from "@mui/material";
 
 import { GrowTransition } from "@/components";
+import { CloseIcon } from "@/icons";
 
 import type { DialogProps } from "@mui/material";
 
@@ -40,13 +41,18 @@ const DialogProvider: TDialogProvider = ({ children }) => {
       {children}
       <Dialog
         // Assignable props
-        PaperProps={{ elevation: 0, sx: { borderRadius: 4 } }}
+        PaperProps={{ elevation: 0, sx: { position: "relative", borderRadius: 4 } }}
         TransitionComponent={GrowTransition}
         {...props.dialog}
         // Non assignable props
         open={Boolean(content)}
         onClose={close}
       >
+        <Box position="absolute" zIndex={1} sx={{ top: 8, right: 8 }}>
+          <IconButton size="small" onClick={close}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
         {content}
       </Dialog>
     </DialogContext.Provider>

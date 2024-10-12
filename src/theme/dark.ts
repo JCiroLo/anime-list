@@ -13,7 +13,7 @@ const darkMode: TDarkTheme = {
   background: {
     paper: "#292631e0",
     default: "#1b181d",
-    dialog: "#0b0b0ffc",
+    dialog: "#0d0b1cfa",
   },
   text: {
     primary: "#f0edf4",
@@ -30,7 +30,6 @@ const darkMode: TDarkTheme = {
     main: "#FF6060",
     contrastText: "#FFFFFF",
   },
-  divider: "#B1B1B1",
   custom: {
     overlay: "#00000030",
   },

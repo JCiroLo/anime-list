@@ -91,6 +91,18 @@ export const generateTheme = (mode: TThemeMode) =>
           };
         },
       },
+      MuiAvatar: {
+        variants: [
+          {
+            props: {
+              variant: "rounded",
+            },
+            style: {
+              borderRadius: 8,
+            },
+          },
+        ],
+      },
       MuiStack: {
         defaultProps: {
           useFlexGap: true,

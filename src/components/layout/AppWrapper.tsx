@@ -59,22 +59,23 @@ const AppWrapper: TAppWrapper = () => {
           overflow="auto"
           borderRadius={panel.borderRadius}
           sx={{
+            transition: theme.transitions.create("width"),
             "::-webkit-scrollbar": {
               width: 8,
               height: 8,
             },
             "::-webkit-scrollbar-thumb": {
               borderRadius: 16,
-              background: "#777",
+              background: "#FFFFFF30",
+              transition: theme.transitions.create("background"),
 
               "&:hover": {
-                background: "#aaa",
+                background: "#FFFFFF99",
               },
             },
             "::-webkit-scrollbar-track": {
               background: "transparent",
             },
-            transition: theme.transitions.create("width"),
           }}
         >
           <Header isSidebarCollapsed={isSidebarCollapsed} />
