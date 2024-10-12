@@ -45,6 +45,8 @@ const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
   const computedWidth = useMemo(() => (typeof width === "string" ? width : 8 * width), [width]);
   const computedHeight = useMemo(() => (typeof height === "string" ? height : 8 * height), [height]);
   const computedBorderRadius = useMemo(() => borderRadius * 4, [borderRadius]);
+  const imgWidth = String(width).includes("%") ? "100%" : computedWidth;
+  const imgHeight = String(height).includes("%") ? "100%" : computedHeight;
 
   const handleImageLoad = () => {
     setIsLoaded(true);
@@ -89,8 +91,8 @@ const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
       <img
         src={computedSrc.original}
         alt={alt}
-        width={computedWidth}
-        height={aspect ? undefined : computedHeight}
+        width={imgWidth}
+        height={aspect ? undefined : imgHeight}
         style={{
           borderRadius: computedBorderRadius,
           objectFit: objectFit,

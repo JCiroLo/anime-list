@@ -9,16 +9,16 @@ import type { TList } from "@/types/List";
 import { useLists } from "@/stores";
 
 type TDefaultDialogProps = Omit<DialogProps, "open" | "onClose">;
-type TManageListDialogProps = {
+type TListManagerDialogProps = {
   action: "create" | "edit";
   list?: TList;
   onSave?: () => void;
 };
-type TManageListDialog = FC<TManageListDialogProps> & {
+type TListManagerDialog = FC<TListManagerDialogProps> & {
   defaultDialogProps: () => TDefaultDialogProps;
 };
 
-const ManageListDialog: TManageListDialog = ({ action, list }) => {
+const ListManagerDialog: TListManagerDialog = ({ action, list }) => {
   const dialog = useDialog();
   const { addList } = useLists();
 
@@ -58,7 +58,7 @@ const ManageListDialog: TManageListDialog = ({ action, list }) => {
   );
 };
 
-ManageListDialog.defaultDialogProps = () => ({
+ListManagerDialog.defaultDialogProps = () => ({
   maxWidth: "sm",
   fullWidth: true,
   PaperProps: {
@@ -69,4 +69,4 @@ ManageListDialog.defaultDialogProps = () => ({
   },
 });
 
-export default ManageListDialog;
+export default ListManagerDialog;

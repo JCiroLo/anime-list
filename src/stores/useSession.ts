@@ -7,13 +7,17 @@ type TSession = {
     avatar: string;
   };
   avatars: string[];
+  updateNickname: (nickname: string) => void;
+  updateAvatar: (avatar: string) => void;
+  addAvatar: (avatar: string) => void;
+  removeAvatar: (avatar: string) => void;
 };
 
 const useSession = create(
   persist<TSession>(
     (set) => ({
       user: {
-        nickname: "",
+        nickname: "Hikarimer",
         avatar: "",
       },
       avatars: [],

@@ -1,7 +1,7 @@
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { Button, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
-import { AnimeBanner, Image, PageWrapper, Text } from "@/components";
+import { AnimeBanner, ErrorMessage, Image, PageWrapper, Text } from "@/components";
 import { CometIcon, GhostIcon } from "@/icons";
 import { useLists } from "@/stores";
 import { Formatters, Route } from "@/utils";
@@ -20,31 +20,25 @@ const List = () => {
       hero={hasAnimes ? <AnimeBanner anime={list!.animes.slice(-1)[0].anime} hideContent /> : null}
       content={
         !listExists ? (
-          <Stack alignItems="flex-start" spacing={2} paddingY={4}>
-            <Stack>
-              <GhostIcon sx={{ fontSize: 48 }} />
-              <Text component="p" variant="h1" textWrap="balance">
-                Hey, it looks like your list doesn't exist.
-              </Text>
-              <Text>We could not find the list you were looking for. Please create it first!</Text>
-            </Stack>
+          <ErrorMessage
+            icon={<GhostIcon sx={{ fontSize: 48 }} />}
+            title="Hey, it looks like your list doesn't exist."
+            subtitle="We could not find the list you were looking for. Please create it first!"
+          >
             <Button component={RouterLink} to={Route.to()}>
               Explore animes
             </Button>
-          </Stack>
+          </ErrorMessage>
         ) : !hasAnimes ? (
-          <Stack alignItems="flex-start" spacing={2} paddingY={4}>
-            <Stack>
-              <CometIcon sx={{ fontSize: 48 }} />
-              <Text component="p" variant="h1" textWrap="balance">
-                Hey, it looks like your list is empty.
-              </Text>
-              <Text>Add your first anime!</Text>
-            </Stack>
+          <ErrorMessage
+            icon={<CometIcon sx={{ fontSize: 48 }} />}
+            title="Hey, it looks like your list is empty."
+            subtitle="Add your first anime!"
+          >
             <Button component={RouterLink} to={Route.to()}>
               Explore animes
             </Button>
-          </Stack>
+          </ErrorMessage>
         ) : (
           <Stack spacing={4}>
             <Stack>
