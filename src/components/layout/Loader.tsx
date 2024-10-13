@@ -6,8 +6,8 @@ type TLoader = FC<{ show: boolean }>;
 
 const Loader: TLoader = ({ show }) => {
   return (
-    <Fade in={show} timeout={{ exit: 2000 }}>
-      <Stack position="fixed" zIndex='modal' justifyContent="center" alignItems="center" bgcolor="background.default" sx={{ inset: 0 }}>
+    <Fade in={show} timeout={{ exit: 2000 }} style={{ pointerEvents: show ? "auto" : "none" }}>
+      <Stack position="fixed" zIndex="modal" justifyContent="center" alignItems="center" bgcolor="background.default" sx={{ inset: 0 }}>
         <Grow in={show}>
           <Box>
             <Image src="/img/common/logo-transparent.png" alt="Logo" width={32} />

@@ -7,7 +7,7 @@ import type { TAnime } from "@/types/Anime";
 type TLists = {
   lists: Partial<Record<TListSlug, TList>>;
   addList: (list: TList) => void;
-  updateList: (list: TList) => void;
+  updateList: (newList: TList, oldList: TList) => void;
   removeList: (slug: TListSlug) => void;
   addAnimeToList: (slug: TListSlug, anime: TAnime) => void;
   removeAnimeFromList: (slug: TListSlug, anime: TAnime) => void;
@@ -22,6 +22,8 @@ const useLists = create(
           name: "Watched",
           slug: "watched-list",
           description: "My watched anime",
+          createdAt: new Date().getTime(),
+          updatedAt: new Date().getTime(),
           isCustom: false,
         },
         watchlist: {
@@ -29,6 +31,8 @@ const useLists = create(
           name: "Watchlist",
           slug: "watchlist",
           description: "My anime watchlist",
+          createdAt: new Date().getTime(),
+          updatedAt: new Date().getTime(),
           isCustom: false,
         },
         favorites: {
@@ -36,6 +40,8 @@ const useLists = create(
           name: "Favorites",
           slug: "favorites",
           description: "My favorite anime",
+          createdAt: new Date().getTime(),
+          updatedAt: new Date().getTime(),
           isCustom: false,
         },
       },
@@ -46,14 +52,22 @@ const useLists = create(
 
         if (lists[list.slug]) throw new Error("List already exists");
 
-        return set((state) => ({ ...state, lists: { ...state.lists, [list.slug]: list } }));
+        return set((state) => ({
+          ...state,
+          lists: { ...state.lists, [list.slug]: { ...list, createdAt: new Date().getTime(), updatedAt: new Date().getTime() } },
+        }));
       },
-      updateList(list: TList) {
+      updateList(newList: TList, oldList: TList) {
         const { lists } = get();
 
-        if (!lists[list.slug]) throw new Error("List does not exist");
+        if (!lists[oldList.slug]) throw new Error("List does not exist");
 
-        return set((state) => ({ ...state, lists: { ...state.lists, [list.slug]: list } }));
+        get().removeList(oldList.slug);
+
+        return set((state) => ({
+          ...state,
+          lists: { ...state.lists, [newList.slug]: { ...newList, updatedAt: new Date().getTime() } },
+        }));
       },
       removeList(slug: TListSlug) {
         const { lists } = get();

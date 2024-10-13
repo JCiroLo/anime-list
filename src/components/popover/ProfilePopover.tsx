@@ -1,9 +1,11 @@
 import { FC } from "react";
-import { Divider, IconButton, Menu, MenuItem, Stack, Tooltip } from "@mui/material";
+import { Divider, IconButton, Menu, Stack, Tooltip } from "@mui/material";
+import { useSnackbar } from "notistack";
 
-import { Avatar, AvatarManagerDialog, Text } from "@/components";
+import { Avatar, AvatarManagerDialog, MenuOption, Text } from "@/components";
 import { useLists, useSession } from "@/stores";
 import { useDialog } from "@/hooks";
+import { ExportIcon, SunIcon } from "@/icons";
 
 type ProfilePopoverProps = {
   anchorEl: HTMLElement;
@@ -12,14 +14,30 @@ type ProfilePopoverProps = {
 };
 
 const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl, open, onClose }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const dialog = useDialog();
   const lists = useLists((state) => state.lists);
   const user = useSession((state) => state.user);
+  const { updateNickname } = useSession();
 
   const listsCount = Object.keys(lists).length;
 
   const handleUpdateAvatar = () => {
     dialog.open(<AvatarManagerDialog />, { dialog: AvatarManagerDialog.defaultDialogProps() });
+  };
+
+  const handleUpdateNickname = (value: string) => {
+    if (value.trim().length === 0) {
+      enqueueSnackbar("Nickname cannot be empty", { variant: "error" });
+      return;
+    }
+
+    if (value === user?.nickname) {
+      return;
+    }
+
+    updateNickname(value);
+    enqueueSnackbar("Nickname updated!", { variant: "success" });
   };
 
   return (
@@ -34,7 +52,7 @@ const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl, open, onClose }) =>
           sx: {
             overflow: "visible",
             mt: 1.5,
-            borderRadius: 2,
+            borderRadius: 3,
             "&::before": {
               content: '""',
               display: "block",
@@ -50,6 +68,9 @@ const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl, open, onClose }) =>
           },
         },
       }}
+      MenuListProps={{
+        sx: { width: 200 },
+      }}
       onClose={onClose}
     >
       <Stack direction="row" spacing={1.5} alignItems="center" paddingX={2} paddingY={0.5}>
@@ -59,17 +80,35 @@ const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl, open, onClose }) =>
           </IconButton>
         </Tooltip>
         <Stack>
-          <Text variant="body1" fontWeight={500}>
-            {user.nickname}
-          </Text>
+          <Text.Editable variant="body1" fontWeight={500} maxLength={12} value={user.nickname} onChange={handleUpdateNickname} />
           <Text variant="caption" lineHeight={1} color="text.secondary">
             {listsCount} lists
           </Text>
         </Stack>
       </Stack>
       <Divider sx={{ my: 1 }} />
-      <MenuItem>Light Mode</MenuItem>
-      <MenuItem>Export lists</MenuItem>
+      <MenuOption
+        icon={SunIcon}
+        text="Light mode"
+        props={{
+          button: { disabled: true },
+          text: { secondary: "Coming soon", secondaryTypographyProps: { variant: "caption", lineHeight: 1 } },
+        }}
+        onClick={() => {}}
+      />
+      <MenuOption
+        icon={ExportIcon}
+        text="Export data"
+        props={{
+          button: { disabled: true },
+          text: { secondary: "Coming soon", secondaryTypographyProps: { variant: "caption", lineHeight: 1 } },
+        }}
+        onClick={() => {}}
+      />
+      <Divider sx={{ my: 1 }} />
+      <Text variant="body2" fontSize="0.75rem" textAlign="center" sx={{ opacity: 0.25 }}>
+        {import.meta.env.PACKAGE_VERSION}
+      </Text>
     </Menu>
   );
 };

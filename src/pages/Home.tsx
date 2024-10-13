@@ -38,7 +38,7 @@ const Home: FC = () => {
       <Loader show={response.loading} />
 
       <PageWrapper
-        hero={<Hero slides={animes.trending} />}
+        hero={response.loading ? null : <Hero slides={animes.trending} />}
         content={
           <Stack spacing={4}>
             <Stack spacing={2}>

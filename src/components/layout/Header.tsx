@@ -70,20 +70,7 @@ const Header: THeader = ({ isSidebarCollapsed }) => {
         height={theme.sizes.header.realHeight}
         px={1}
         py={1}
-        sx={{
-          transition: theme.transitions.create(["width", "height"]),
-        }}
       >
-        {/* <Box
-        position="absolute"
-        zIndex={-1}
-        bgcolor={alpha(theme.palette.background.default, 0.25)}
-        sx={{
-          inset: 0,
-          backdropFilter: "blur(16px) saturate(2)",
-        }}
-      /> */}
-        {/* <Overlay.Gradient zIndex={-1} color={alpha(theme.palette.background.default, 0.9)} /> */}
         <Stack direction="row" spacing={1} flexGrow={1} alignItems="center" justifyContent="flex-end">
           <Stack position="relative">
             <TextField

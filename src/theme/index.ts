@@ -88,6 +88,21 @@ export const generateTheme = (mode: TThemeMode) =>
             "*": {
               boxSizing: "border-box",
             },
+            "::-webkit-scrollbar": {
+              width: 6,
+              height: 6,
+            },
+            "::-webkit-scrollbar-thumb": {
+              borderRadius: 16,
+              background: "#FFFFFF30",
+
+              "&:hover": {
+                background: "#FFFFFF99",
+              },
+            },
+            "::-webkit-scrollbar-track": {
+              background: "transparent",
+            },
           };
         },
       },
@@ -173,11 +188,18 @@ export const generateTheme = (mode: TThemeMode) =>
           arrow: true,
         },
       },
+      MuiMenu: {
+        styleOverrides: {
+          paper: {
+            backdropFilter: "blur(4px) saturate(1.5)",
+          },
+        },
+      },
       MuiListItemButton: {
         defaultProps: {
           sx: {
             padding: 1,
-            borderRadius: 1,
+            borderRadius: 3,
           },
         },
       },

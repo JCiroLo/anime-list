@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import {
   Button,
   Collapse,
@@ -26,11 +26,12 @@ type TSidebar = FC<{
 }>;
 
 const Sidebar: TSidebar = ({ collapsed, onToggle }) => {
+  const { pathname } = useLocation();
   const dialog = useDialog();
   const userLists = useLists((state) => state.lists);
 
   const handleCreateList = () => {
-    dialog.open(<ListManagerDialog action="create" />, { dialog: ListManagerDialog.defaultDialogProps() });
+    dialog.open(<ListManagerDialog.Create />, { dialog: ListManagerDialog.defaultDialogProps() });
   };
 
   return (
@@ -73,7 +74,12 @@ const Sidebar: TSidebar = ({ collapsed, onToggle }) => {
           !list ? null : (
             <ListItem key={key} disablePadding>
               <Tooltip title={collapsed ? list.name : null} placement="right">
-                <ListItemButton component={RouterLink} to={Route.to("list", list.slug)} unstable_viewTransition>
+                <ListItemButton
+                  component={RouterLink}
+                  to={Route.to("list", list.slug)}
+                  sx={{ bgcolor: pathname === Route.to("list", list.slug) ? "action.selected" : undefined, padding: 1, borderRadius: 3 }}
+                  unstable_viewTransition
+                >
                   <ListItemIcon>
                     <AnimeListImageGrid animes={list.animes} width={40} height={40} />
                   </ListItemIcon>

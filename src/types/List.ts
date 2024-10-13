@@ -4,6 +4,8 @@ export type TList = {
   name: string;
   slug: TListSlug;
   description?: string;
+  createdAt?: number;
+  updatedAt?: number;
   isCustom?: boolean;
   animes: TListAnime[];
 };

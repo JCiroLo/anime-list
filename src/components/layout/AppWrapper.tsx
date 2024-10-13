@@ -39,7 +39,7 @@ const AppWrapper: TAppWrapper = () => {
             <Link
               component={RouterLink}
               to={Route.to()}
-              fontSize="1.5em"
+              fontSize="2em"
               fontFamily="redwood"
               textAlign="center"
               underline="hover"
@@ -60,22 +60,6 @@ const AppWrapper: TAppWrapper = () => {
           borderRadius={panel.borderRadius}
           sx={{
             transition: theme.transitions.create("width"),
-            "::-webkit-scrollbar": {
-              width: 8,
-              height: 8,
-            },
-            "::-webkit-scrollbar-thumb": {
-              borderRadius: 16,
-              background: "#FFFFFF30",
-              transition: theme.transitions.create("background"),
-
-              "&:hover": {
-                background: "#FFFFFF99",
-              },
-            },
-            "::-webkit-scrollbar-track": {
-              background: "transparent",
-            },
           }}
         >
           <Header isSidebarCollapsed={isSidebarCollapsed} />
