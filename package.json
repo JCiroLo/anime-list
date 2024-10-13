@@ -1,7 +1,7 @@
 {
   "name": "anime-list",
   "private": true,
-  "version": "0.0.0",
+  "version": "beta-0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -29,6 +29,7 @@
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@types/dompurify": "^3.0.5",
+    "@types/node": "^22.7.5",
     "@types/react": "18",
     "@types/react-dom": "18",
     "@vitejs/plugin-react": "^4.3.1",

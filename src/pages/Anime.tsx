@@ -5,13 +5,15 @@ import { Button, ButtonBase, Chip, Stack } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 
-import { AnimeBanner, AnimeData, CharacterDialog, Image, PageWrapper, Text, TrailerDialog } from "@/components";
+import { AnimeBanner, AnimeData, CharacterDialog, Image, ListSelectorDialog, PageWrapper, Text, TrailerDialog } from "@/components";
 import { MovieIcon, PlusIcon } from "@/icons";
 import { AnimeQueries } from "@/queries";
 import { useDialog } from "@/hooks";
+import { useLists } from "@/stores";
 import { ANIME } from "@/constants";
 
 import type { TAnime, TAnimeCharacter } from "@/types/Anime";
+import type { TList } from "@/types/List";
 
 const LAYOUT = {
   columns: {
@@ -31,6 +33,7 @@ const LAYOUT = {
 const Anime: FC = () => {
   const { id } = useParams();
   const dialog = useDialog();
+  const { addAnimeToList } = useLists();
 
   const [anime, setAnime] = useState<TAnime>(null!);
 
@@ -42,6 +45,14 @@ const Anime: FC = () => {
     },
     onCompleted: (data) => setAnime(AnimeQueries.detail.transform(data)),
   });
+
+  const handleSelectList = (list: TList) => {
+    addAnimeToList(list.slug, anime);
+  };
+
+  const handleAddToList = () => {
+    dialog.open(<ListSelectorDialog onSelect={handleSelectList} />, { dialog: ListSelectorDialog.defaultDialogProps() });
+  };
 
   const handleWatchTrailer = () => {
     dialog.open(<TrailerDialog trailer={anime.trailer} />, { dialog: TrailerDialog.defaultDialogProps() });
@@ -67,7 +78,7 @@ const Anime: FC = () => {
               borderRadius={2}
               blur
             />
-            <Button size="small" startIcon={<PlusIcon />} onClick={() => {}}>
+            <Button size="small" startIcon={<PlusIcon />} onClick={handleAddToList}>
               Add to list
             </Button>
             {anime.trailer.id && (

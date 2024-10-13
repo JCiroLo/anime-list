@@ -88,6 +88,21 @@ export const generateTheme = (mode: TThemeMode) =>
             "*": {
               boxSizing: "border-box",
             },
+            "::-webkit-scrollbar": {
+              width: 6,
+              height: 6,
+            },
+            "::-webkit-scrollbar-thumb": {
+              borderRadius: 16,
+              background: "#FFFFFF30",
+
+              "&:hover": {
+                background: "#FFFFFF99",
+              },
+            },
+            "::-webkit-scrollbar-track": {
+              background: "transparent",
+            },
           };
         },
       },
@@ -177,7 +192,7 @@ export const generateTheme = (mode: TThemeMode) =>
         defaultProps: {
           sx: {
             padding: 1,
-            borderRadius: 1,
+            borderRadius: 3,
           },
         },
       },

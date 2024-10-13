@@ -7,7 +7,7 @@ import type { TAnime } from "@/types/Anime";
 type TLists = {
   lists: Partial<Record<TListSlug, TList>>;
   addList: (list: TList) => void;
-  updateList: (list: TList) => void;
+  updateList: (newList: TList, oldList: TList) => void;
   removeList: (slug: TListSlug) => void;
   addAnimeToList: (slug: TListSlug, anime: TAnime) => void;
   removeAnimeFromList: (slug: TListSlug, anime: TAnime) => void;
@@ -48,12 +48,14 @@ const useLists = create(
 
         return set((state) => ({ ...state, lists: { ...state.lists, [list.slug]: list } }));
       },
-      updateList(list: TList) {
+      updateList(newList: TList, oldList: TList) {
         const { lists } = get();
 
-        if (!lists[list.slug]) throw new Error("List does not exist");
+        if (!lists[oldList.slug]) throw new Error("List does not exist");
 
-        return set((state) => ({ ...state, lists: { ...state.lists, [list.slug]: list } }));
+        get().removeList(oldList.slug);
+
+        return set((state) => ({ ...state, lists: { ...state.lists, [newList.slug]: newList } }));
       },
       removeList(slug: TListSlug) {
         const { lists } = get();

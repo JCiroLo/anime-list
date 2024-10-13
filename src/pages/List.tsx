@@ -1,19 +1,51 @@
+import { MouseEvent, useRef, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router-dom";
-import { Button, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Button, IconButton, Stack, Tooltip } from "@mui/material";
 
-import { AnimeBanner, ErrorMessage, Image, PageWrapper, Text } from "@/components";
-import { CometIcon, GhostIcon } from "@/icons";
+import { AnimeBanner, AnimeTable, ErrorMessage, ListManagerDialog, ListSettingsPopover, PageWrapper, Text } from "@/components";
+import { CometIcon, EllipsisHorizontal, GhostIcon, SettingsIcon } from "@/icons";
+import { useDialog } from "@/hooks";
 import { useLists } from "@/stores";
-import { Formatters, Route } from "@/utils";
-import { ANIME } from "@/constants";
+import { Route } from "@/utils";
+
+import type { TList } from "@/types/List";
 
 const List = () => {
+  const dialog = useDialog();
   const { slug } = useParams();
-
   const list = useLists((state) => state.lists[slug || ""]);
+
+  const settingsButtonRef = useRef<HTMLButtonElement>(null!);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const listExists = Boolean(list);
   const hasAnimes = listExists && list?.animes.length !== 0;
+
+  const handleShareList = (list: TList) => {
+    dialog.open(<ListManagerDialog.Create />, { dialog: ListManagerDialog.defaultDialogProps() });
+  };
+
+  const handleCreateList = () => {
+    dialog.open(<ListManagerDialog.Create />, { dialog: ListManagerDialog.defaultDialogProps() });
+  };
+
+  const handleUpdateList = (list: TList) => {
+    dialog.open(<ListManagerDialog.Edit list={list} />, { dialog: ListManagerDialog.defaultDialogProps() });
+  };
+
+  const handleDeleteList = (list: TList) => {
+    dialog.open(<ListManagerDialog.Delete list={list} />, { dialog: ListManagerDialog.defaultDialogProps() });
+  };
+
+  const handleSettingsOpen = (event: MouseEvent<HTMLButtonElement>) => {
+    settingsButtonRef.current = event.currentTarget;
+
+    setIsSettingsOpen(true);
+  };
+
+  const handleSettingsClose = () => {
+    setIsSettingsOpen(false);
+  };
 
   return (
     <PageWrapper
@@ -22,118 +54,70 @@ const List = () => {
         !listExists ? (
           <ErrorMessage
             icon={<GhostIcon sx={{ fontSize: 48 }} />}
-            title="Hey, it looks like your list doesn't exist."
+            title="It looks like your list doesn't exist."
             subtitle="We could not find the list you were looking for. Please create it first!"
           >
-            <Button component={RouterLink} to={Route.to()}>
-              Explore animes
-            </Button>
+            <Stack direction="row" spacing={1}>
+              <Button onClick={handleCreateList}>Create list</Button>
+              <Button component={RouterLink} to={Route.to()} variant="outlined">
+                Explore animes
+              </Button>
+            </Stack>
           </ErrorMessage>
         ) : !hasAnimes ? (
-          <ErrorMessage
-            icon={<CometIcon sx={{ fontSize: 48 }} />}
-            title="Hey, it looks like your list is empty."
-            subtitle="Add your first anime!"
-          >
-            <Button component={RouterLink} to={Route.to()}>
-              Explore animes
-            </Button>
-          </ErrorMessage>
+          <>
+            <ErrorMessage
+              icon={<CometIcon sx={{ fontSize: 48 }} />}
+              title="Hey, it looks like your list is empty."
+              subtitle="Add your first anime!"
+            >
+              <Stack direction="row" spacing={1}>
+                <Button component={RouterLink} to={Route.to()}>
+                  Explore animes
+                </Button>
+                <Button variant="outlined" onClick={handleSettingsOpen}>
+                  List settings
+                </Button>
+              </Stack>
+            </ErrorMessage>
+            <ListSettingsPopover
+              anchorEl={settingsButtonRef.current}
+              open={isSettingsOpen}
+              origin="center"
+              onClose={handleSettingsClose}
+              onShare={() => handleShareList(list!)}
+              onEdit={() => handleUpdateList(list!)}
+              onDelete={() => handleDeleteList(list!)}
+            />
+          </>
         ) : (
           <Stack spacing={4}>
             <Stack>
-              <Text variant="h1">{list!.name}</Text>
+              <Stack direction="row" alignItems="center" justifyContent="space-between">
+                <Text variant="h1">{list!.name}</Text>
+                <Tooltip title="List settings">
+                  <IconButton onClick={handleSettingsOpen}>
+                    <SettingsIcon />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
               {list!.description && <Text>{list!.description}</Text>}
             </Stack>
-            <TableContainer>
-              <Table sx={{ minWidth: 650 }} aria-label="anime list table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="left" sx={{ padding: 1 }}>
-                      Title
-                    </TableCell>
-                    <TableCell align="left" sx={{ padding: 1 }}>
-                      Watched date
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {list!.animes.map(({ anime, watchedAt }, index) => (
-                    <TableRow
-                      key={anime.id}
-                      hover
-                      sx={{
-                        "& td, & th": {
-                          border: 0,
-                        },
-                        "&:hover .list-item__index": {
-                          opacity: 1,
-                        },
-                      }}
-                    >
-                      <TableCell
-                        align="left"
-                        sx={{
-                          display: "flex",
-                          gap: 2,
-                          alignItems: "center",
-                          paddingY: 0,
-                          paddingX: 1,
-                          "&:first-of-type": {
-                            padding: 0,
-                          },
-                        }}
-                      >
-                        <Stack position="relative" paddingY={0.5}>
-                          <Image
-                            src={anime.coverImage}
-                            alt={anime.title.userPreferred}
-                            width={7}
-                            aspect={ANIME.coverImage.aspectRatio}
-                            borderRadius={1}
-                          />
-                          <Text
-                            className="list-item__index"
-                            position="absolute"
-                            fontSize="2em"
-                            fontWeight={500}
-                            sx={{
-                              inset: 0,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              opacity: 0,
-                              bgcolor: "background.paper",
-                            }}
-                          >
-                            {index + 1}
-                          </Text>
-                        </Stack>
-                        <Stack>
-                          <Link component={RouterLink} to={Route.to("anime", anime.id)} variant="body1" fontWeight={500}>
-                            {anime.title.userPreferred}
-                          </Link>
-                          {anime.title.english && (
-                            <Text variant="body2" color="text.secondary">
-                              {anime.title.english}
-                            </Text>
-                          )}
-                        </Stack>
-                      </TableCell>
-                      <TableCell align="left" sx={{ paddingY: 0, paddingX: 1 }}>
-                        <Text variant="body2" fontWeight={400} color="text.secondary">
-                          {Formatters.anime.date(watchedAt)}
-                        </Text>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <AnimeTable animes={list!.animes} />
+            <ListSettingsPopover
+              anchorEl={settingsButtonRef.current}
+              open={isSettingsOpen}
+              origin="right"
+              onClose={handleSettingsClose}
+              onShare={() => handleShareList(list!)}
+              onEdit={() => handleUpdateList(list!)}
+              onDelete={() => handleDeleteList(list!)}
+            />
           </Stack>
         )
       }
       separation={hasAnimes ? -12 : 0}
+      headerGutter={!hasAnimes}
     />
   );
 };
