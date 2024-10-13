@@ -1,15 +1,20 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { Button, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { Button, DialogActions, DialogContent, DialogTitle, Stack } from "@mui/material";
 
 import { ListForm, Text } from "@/components";
 import { useDialog } from "@/hooks";
+import { Formatters, Route } from "@/utils";
 import { useLists } from "@/stores";
 
 import type { DialogProps } from "@mui/material";
 import type { TList } from "@/types/List";
+import type { TTextProps } from "@/components/ui/Text";
 
+type TDetailsListDialogProps = {
+  list: TList;
+};
 type TCreateListDialogProps = object;
 type TEditListDialogProps = {
   list: TList;
@@ -18,6 +23,7 @@ type TDeleteListDialogProps = {
   list: TList;
 };
 type TListManagerDialog = FC & {
+  Details: FC<TDetailsListDialogProps>;
   Create: FC<TCreateListDialogProps>;
   Edit: FC<TEditListDialogProps>;
   Delete: FC<TDeleteListDialogProps>;
@@ -28,7 +34,42 @@ const ListManagerDialog: TListManagerDialog = () => {
   throw new Error("Not implemented");
 };
 
-const CreateListDialog: FC<TCreateListDialogProps> = () => {
+const DetailsListDialog: FC<TDetailsListDialogProps> = ({ list }) => {
+  const titleProps: TTextProps = { fontWeight: 500, width: 8 * 16 };
+  const contentProps: TTextProps = { color: "text.secondary", width: "100%" };
+
+  return (
+    <>
+      <DialogTitle>List details</DialogTitle>
+      <DialogContent>
+        <Stack display="grid" gridTemplateColumns="auto 1fr" spacing={1}>
+          <Text {...titleProps}>Title</Text>
+          <Text {...contentProps}>{list.name}</Text>
+
+          <Text {...titleProps}>Description</Text>
+          <Text {...contentProps}>{list.description}</Text>
+
+          <Text {...titleProps}>Url</Text>
+          <Text {...contentProps}>{Route.build(["list", list.slug])}</Text>
+
+          <Text {...titleProps}>Saved animes</Text>
+          <Text {...contentProps}>{list.animes.length}</Text>
+
+          <Text {...titleProps}>Created at</Text>
+          <Text {...contentProps}>{Formatters.anime.date(list.createdAt, "MMMM DD, YYYY")}</Text>
+
+          <Text {...titleProps}>Last updated</Text>
+          <Text {...contentProps}>{Formatters.anime.date(list.updatedAt, "MMMM DD, YYYY")}</Text>
+
+          <Text {...titleProps}>Created by user</Text>
+          <Text {...contentProps}>{list.isCustom ? "Yes" : "No"}</Text>
+        </Stack>
+      </DialogContent>
+    </>
+  );
+};
+
+const CreateListDialog: FC = () => {
   const { enqueueSnackbar } = useSnackbar();
   const dialog = useDialog();
   const { addList } = useLists();
@@ -51,7 +92,7 @@ const CreateListDialog: FC<TCreateListDialogProps> = () => {
 
   return (
     <>
-      <DialogTitle>Create List</DialogTitle>
+      <DialogTitle>Create list</DialogTitle>
       <DialogContent>
         <ListForm id="list-form" onSubmit={handleFormSubmit} />
       </DialogContent>
@@ -90,7 +131,7 @@ const EditListDialog: FC<TEditListDialogProps> = ({ list }) => {
 
   return (
     <>
-      <DialogTitle>Edit List</DialogTitle>
+      <DialogTitle>Edit list</DialogTitle>
       <DialogContent>
         <ListForm id="list-form" list={list} onSubmit={handleFormSubmit} />
       </DialogContent>
@@ -131,7 +172,7 @@ const DeleteListDialog: FC<TDeleteListDialogProps> = ({ list }) => {
 
   return (
     <>
-      <DialogTitle>Delete List</DialogTitle>
+      <DialogTitle>Delete list</DialogTitle>
       <DialogContent>
         <Text>Are you sure you want to delete this list? This action cannot be undone and all data will be lost.</Text>
       </DialogContent>
@@ -145,6 +186,7 @@ const DeleteListDialog: FC<TDeleteListDialogProps> = ({ list }) => {
   );
 };
 
+ListManagerDialog.Details = DetailsListDialog;
 ListManagerDialog.Create = CreateListDialog;
 ListManagerDialog.Edit = EditListDialog;
 ListManagerDialog.Delete = DeleteListDialog;

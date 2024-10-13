@@ -3,7 +3,7 @@ import { Link as RouterLink, useParams } from "react-router-dom";
 import { Button, IconButton, Stack, Tooltip } from "@mui/material";
 
 import { AnimeBanner, AnimeTable, ErrorMessage, ListManagerDialog, ListSettingsPopover, PageWrapper, Text } from "@/components";
-import { CometIcon, EllipsisHorizontal, GhostIcon, SettingsIcon } from "@/icons";
+import { CometIcon, GhostIcon, SettingsIcon } from "@/icons";
 import { useDialog } from "@/hooks";
 import { useLists } from "@/stores";
 import { Route } from "@/utils";
@@ -21,8 +21,8 @@ const List = () => {
   const listExists = Boolean(list);
   const hasAnimes = listExists && list?.animes.length !== 0;
 
-  const handleShareList = (list: TList) => {
-    dialog.open(<ListManagerDialog.Create />, { dialog: ListManagerDialog.defaultDialogProps() });
+  const handleSeeListDetails = (list: TList) => {
+    dialog.open(<ListManagerDialog.Details list={list} />, { dialog: ListManagerDialog.defaultDialogProps() });
   };
 
   const handleCreateList = () => {
@@ -85,7 +85,7 @@ const List = () => {
               open={isSettingsOpen}
               origin="center"
               onClose={handleSettingsClose}
-              onShare={() => handleShareList(list!)}
+              onDetails={() => handleSeeListDetails(list!)}
               onEdit={() => handleUpdateList(list!)}
               onDelete={() => handleDeleteList(list!)}
             />
@@ -109,7 +109,7 @@ const List = () => {
               open={isSettingsOpen}
               origin="right"
               onClose={handleSettingsClose}
-              onShare={() => handleShareList(list!)}
+              onDetails={() => handleSeeListDetails(list!)}
               onEdit={() => handleUpdateList(list!)}
               onDelete={() => handleDeleteList(list!)}
             />

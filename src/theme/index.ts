@@ -188,6 +188,13 @@ export const generateTheme = (mode: TThemeMode) =>
           arrow: true,
         },
       },
+      MuiMenu: {
+        styleOverrides: {
+          paper: {
+            backdropFilter: "blur(4px) saturate(1.5)",
+          },
+        },
+      },
       MuiListItemButton: {
         defaultProps: {
           sx: {

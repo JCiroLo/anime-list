@@ -25,6 +25,7 @@ export { default as ListSettingsPopover } from './popover/ListSettingsPopover';
 export { default as ProfilePopover } from './popover/ProfilePopover';
 export { default as GrowTransition } from './transition/GrowTransition';
 export { default as Grid } from './ui/Grid';
+export { default as IconButtonSwitch } from './ui/IconButtonSwitch';
 export { default as Image } from './ui/Image';
 export { default as MenuOption } from './ui/MenuOption';
 export { default as Overlay } from './ui/Overlay';

@@ -1,4 +1,6 @@
 export { default as CameraOffIcon } from './CameraOffIcon';
+export { default as ClipboardCheckIcon } from './ClipboardCheckIcon';
+export { default as ClipboardIcon } from './ClipboardIcon';
 export { default as CloseIcon } from './CloseIcon';
 export { default as CometIcon } from './CometIcon';
 export { default as EditIcon } from './EditIcon';

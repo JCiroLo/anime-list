@@ -6,6 +6,11 @@ const Route = {
 
     return `/${url}`;
   },
+  build: (path: TPath[]) => {
+    const url = path.join("/");
+
+    return `${window.location.origin}/${url}`;
+  },
 };
 
 export default Route;

@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Divider, Menu } from "@mui/material";
 
 import { MenuOption, Text } from "@/components";
-import { EditIcon, ShareIcon, TrashIcon } from "@/icons";
+import { EditIcon, InfoCircleIcon, TrashIcon } from "@/icons";
 
 import type { CSSProperties } from "react";
 import type { PopoverOrigin } from "@mui/material";
@@ -12,12 +12,12 @@ type ListSettingsPopoverProps = {
   open: boolean;
   origin: PopoverOrigin["horizontal"];
   onClose: () => void;
-  onShare: () => void;
+  onDetails: () => void;
   onEdit: () => void;
   onDelete: () => void;
 };
 
-const ListSettingsPopover: FC<ListSettingsPopoverProps> = ({ anchorEl, open, origin, onClose, onShare, onEdit, onDelete }) => {
+const ListSettingsPopover: FC<ListSettingsPopoverProps> = ({ anchorEl, open, origin, onClose, onDetails, onEdit, onDelete }) => {
   const arrowSx: Record<PopoverOrigin["horizontal"], CSSProperties> = {
     left: {
       left: 14,
@@ -62,7 +62,7 @@ const ListSettingsPopover: FC<ListSettingsPopoverProps> = ({ anchorEl, open, ori
       }}
       onClose={onClose}
     >
-      <MenuOption icon={ShareIcon} text="Share list" onClick={onShare} />
+      <MenuOption icon={InfoCircleIcon} text="See details" onClick={onDetails} />
       <Divider sx={{ my: 1 }} />
       <MenuOption icon={EditIcon} text="Update list" onClick={onEdit} />
       <MenuOption
