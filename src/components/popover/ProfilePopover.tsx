@@ -4,17 +4,16 @@ import { useSnackbar } from "notistack";
 
 import { Avatar, AvatarManagerDialog, MenuOption, Text } from "@/components";
 import { useLists, useSession } from "@/stores";
-import { useDialog } from "@/hooks";
+import { useDialog, usePopover } from "@/hooks";
 import { ExportIcon, SunIcon } from "@/icons";
 
 type ProfilePopoverProps = {
   anchorEl: HTMLElement;
-  open: boolean;
-  onClose: () => void;
 };
 
-const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl, open, onClose }) => {
+const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl }) => {
   const { enqueueSnackbar } = useSnackbar();
+  const popover = usePopover();
   const dialog = useDialog();
   const lists = useLists((state) => state.lists);
   const user = useSession((state) => state.user);
@@ -40,10 +39,13 @@ const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl, open, onClose }) =>
     enqueueSnackbar("Nickname updated!", { variant: "success" });
   };
 
+  const handleClose = () => {
+    popover.close();
+  };
+
   return (
     <Menu
       anchorEl={anchorEl}
-      open={open}
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       slotProps={{
@@ -71,7 +73,8 @@ const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl, open, onClose }) =>
       MenuListProps={{
         sx: { width: 200 },
       }}
-      onClose={onClose}
+      open
+      onClose={handleClose}
     >
       <Stack direction="row" spacing={1.5} alignItems="center" paddingX={2} paddingY={0.5}>
         <Tooltip title="Update avatar" placement="left">

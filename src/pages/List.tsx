@@ -1,50 +1,31 @@
-import { MouseEvent, useRef, useState } from "react";
+import { MouseEvent } from "react";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { Button, IconButton, Stack, Tooltip } from "@mui/material";
 
 import { AnimeBanner, AnimeTable, ErrorMessage, ListManagerDialog, ListSettingsPopover, PageWrapper, Text } from "@/components";
 import { CometIcon, GhostIcon, SettingsIcon } from "@/icons";
-import { useDialog } from "@/hooks";
+import { useDialog, usePopover } from "@/hooks";
 import { useLists } from "@/stores";
 import { Route } from "@/utils";
 
+import type { PopoverOrigin } from "@mui/material";
 import type { TList } from "@/types/List";
 
 const List = () => {
+  const popover = usePopover();
   const dialog = useDialog();
   const { slug } = useParams();
   const list = useLists((state) => state.lists[slug || ""]);
 
-  const settingsButtonRef = useRef<HTMLButtonElement>(null!);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
   const listExists = Boolean(list);
   const hasAnimes = listExists && list?.animes.length !== 0;
 
-  const handleSeeListDetails = (list: TList) => {
-    dialog.open(<ListManagerDialog.Details list={list} />, { dialog: ListManagerDialog.defaultDialogProps() });
+  const handleSettingsOpen = (event: MouseEvent<HTMLButtonElement>, list: TList, origin: PopoverOrigin["horizontal"]) => {
+    popover.open(<ListSettingsPopover anchorEl={event.currentTarget} list={list} />);
   };
 
   const handleCreateList = () => {
     dialog.open(<ListManagerDialog.Create />, { dialog: ListManagerDialog.defaultDialogProps() });
-  };
-
-  const handleUpdateList = (list: TList) => {
-    dialog.open(<ListManagerDialog.Edit list={list} />, { dialog: ListManagerDialog.defaultDialogProps() });
-  };
-
-  const handleDeleteList = (list: TList) => {
-    dialog.open(<ListManagerDialog.Delete list={list} />, { dialog: ListManagerDialog.defaultDialogProps() });
-  };
-
-  const handleSettingsOpen = (event: MouseEvent<HTMLButtonElement>) => {
-    settingsButtonRef.current = event.currentTarget;
-
-    setIsSettingsOpen(true);
-  };
-
-  const handleSettingsClose = () => {
-    setIsSettingsOpen(false);
   };
 
   return (
@@ -75,20 +56,11 @@ const List = () => {
                 <Button component={RouterLink} to={Route.to()}>
                   Explore animes
                 </Button>
-                <Button variant="outlined" onClick={handleSettingsOpen}>
+                <Button variant="outlined" onClick={(event) => handleSettingsOpen(event, list!, "center")}>
                   List settings
                 </Button>
               </Stack>
             </ErrorMessage>
-            <ListSettingsPopover
-              anchorEl={settingsButtonRef.current}
-              open={isSettingsOpen}
-              origin="center"
-              onClose={handleSettingsClose}
-              onDetails={() => handleSeeListDetails(list!)}
-              onEdit={() => handleUpdateList(list!)}
-              onDelete={() => handleDeleteList(list!)}
-            />
           </>
         ) : (
           <Stack spacing={4}>
@@ -96,7 +68,7 @@ const List = () => {
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Text variant="h1">{list!.name}</Text>
                 <Tooltip title="List settings">
-                  <IconButton onClick={handleSettingsOpen}>
+                  <IconButton onClick={(event) => handleSettingsOpen(event, list!, "right")}>
                     <SettingsIcon />
                   </IconButton>
                 </Tooltip>
@@ -104,15 +76,6 @@ const List = () => {
               {list!.description && <Text>{list!.description}</Text>}
             </Stack>
             <AnimeTable animes={list!.animes} />
-            <ListSettingsPopover
-              anchorEl={settingsButtonRef.current}
-              open={isSettingsOpen}
-              origin="right"
-              onClose={handleSettingsClose}
-              onDetails={() => handleSeeListDetails(list!)}
-              onEdit={() => handleUpdateList(list!)}
-              onDelete={() => handleDeleteList(list!)}
-            />
           </Stack>
         )
       }

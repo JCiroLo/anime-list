@@ -14,11 +14,14 @@ import {
   Tooltip,
 } from "@mui/material";
 
-import { AnimeListImageGrid, ListManagerDialog } from "@/components";
+import { AnimeListImageGrid, ListManagerDialog, ListSettingsPopover } from "@/components";
 import { ListSearchIcon, PlusIcon } from "@/icons";
 import { useLists } from "@/stores";
-import { useDialog } from "@/hooks";
+import { useDialog, usePopover } from "@/hooks";
 import { Route } from "@/utils";
+
+import type { MouseEvent } from "react";
+import type { TList } from "@/types/List";
 
 type TSidebar = FC<{
   collapsed: boolean;
@@ -28,10 +31,25 @@ type TSidebar = FC<{
 const Sidebar: TSidebar = ({ collapsed, onToggle }) => {
   const { pathname } = useLocation();
   const dialog = useDialog();
+  const popover = usePopover();
   const userLists = useLists((state) => state.lists);
 
   const handleCreateList = () => {
     dialog.open(<ListManagerDialog.Create />, { dialog: ListManagerDialog.defaultDialogProps() });
+  };
+
+  const handleListRightClick = (event: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, list: TList) => {
+    event.preventDefault();
+
+    popover.open(
+      <ListSettingsPopover
+        anchorEl={event.currentTarget}
+        list={list}
+        gutter={0}
+        anchorOrigin={{ vertical: "top", horizontal: "left" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+      />
+    );
   };
 
   return (
@@ -79,6 +97,7 @@ const Sidebar: TSidebar = ({ collapsed, onToggle }) => {
                   to={Route.to("list", list.slug)}
                   sx={{ bgcolor: pathname === Route.to("list", list.slug) ? "action.selected" : undefined, padding: 1, borderRadius: 3 }}
                   unstable_viewTransition
+                  onContextMenu={(event) => handleListRightClick(event, list)}
                 >
                   <ListItemIcon>
                     <AnimeListImageGrid animes={list.animes} width={40} height={40} />

@@ -5,6 +5,9 @@ import { Box, ButtonBase, Grow, IconButton, Stack, TextField, Tooltip, useTheme 
 import { Avatar, ProfilePopover } from "@/components";
 import { CloseIcon, SearchIcon } from "@/icons";
 import { useSession } from "@/stores";
+import { usePopover } from "@/hooks";
+
+import type { MouseEvent } from "react";
 
 type THeader = FC<{
   isSidebarCollapsed: boolean;
@@ -12,12 +15,10 @@ type THeader = FC<{
 
 const Header: THeader = ({ isSidebarCollapsed }) => {
   const theme = useTheme();
+  const popover = usePopover();
   const [searchParams, setSearchParams] = useSearchParams();
   const avatar = useSession((state) => state.user.avatar);
 
-  const profileButtonRef = useRef<HTMLButtonElement>(null!);
-
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const searchFieldRef = useRef<HTMLInputElement>(null);
 
@@ -47,12 +48,8 @@ const Header: THeader = ({ isSidebarCollapsed }) => {
     setSearchParams({ search: query });
   };
 
-  const handleProfileOpen = () => {
-    setIsProfileMenuOpen(true);
-  };
-
-  const handleProfileClose = () => {
-    setIsProfileMenuOpen(false);
+  const handleProfileOpen = (event: MouseEvent<HTMLButtonElement>) => {
+    popover.open(<ProfilePopover anchorEl={event.currentTarget} />);
   };
 
   return (
@@ -118,13 +115,12 @@ const Header: THeader = ({ isSidebarCollapsed }) => {
             </Stack>
           </Stack>
           <Tooltip title="Profile">
-            <ButtonBase ref={profileButtonRef} sx={{ borderRadius: 2 }} onClick={handleProfileOpen}>
+            <ButtonBase sx={{ borderRadius: 2 }} onClick={handleProfileOpen}>
               <Avatar size={32} src={avatar} />
             </ButtonBase>
           </Tooltip>
         </Stack>
       </Stack>
-      <ProfilePopover anchorEl={profileButtonRef.current} open={isProfileMenuOpen} onClose={handleProfileClose} />
     </>
   );
 };
