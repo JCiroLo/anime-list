@@ -29,5 +29,6 @@ export { default as IconButtonSwitch } from './ui/IconButtonSwitch';
 export { default as Image } from './ui/Image';
 export { default as MenuOption } from './ui/MenuOption';
 export { default as Overlay } from './ui/Overlay';
+export { default as Popover } from './ui/Popover';
 export { default as Tag } from './ui/Tag';
 export { default as Text } from './ui/Text';

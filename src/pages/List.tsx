@@ -8,8 +8,37 @@ import { useDialog, usePopover } from "@/hooks";
 import { useLists } from "@/stores";
 import { Route } from "@/utils";
 
-import type { PopoverOrigin } from "@mui/material";
 import type { TList } from "@/types/List";
+import type { TArrowPosition, TPopoverOrigin } from "@/components/ui/Popover";
+
+const popoverPositions: Record<string, { origin: TPopoverOrigin; arrow: TArrowPosition }> = {
+  button: {
+    origin: {
+      anchor: {
+        vertical: "bottom",
+        horizontal: "center",
+      },
+      transform: {
+        vertical: "top",
+        horizontal: "center",
+      },
+    },
+    arrow: "top-center",
+  },
+  iconButton: {
+    origin: {
+      anchor: {
+        vertical: "bottom",
+        horizontal: "right",
+      },
+      transform: {
+        vertical: "top",
+        horizontal: "right",
+      },
+    },
+    arrow: "top-right",
+  },
+};
 
 const List = () => {
   const popover = usePopover();
@@ -20,8 +49,10 @@ const List = () => {
   const listExists = Boolean(list);
   const hasAnimes = listExists && list?.animes.length !== 0;
 
-  const handleSettingsOpen = (event: MouseEvent<HTMLButtonElement>, list: TList, origin: PopoverOrigin["horizontal"]) => {
-    popover.open(<ListSettingsPopover anchorEl={event.currentTarget} list={list} />);
+  const handleSettingsOpen = (event: MouseEvent<HTMLButtonElement>, list: TList, position: keyof typeof popoverPositions) => {
+    const { origin, arrow } = popoverPositions[position];
+
+    popover.open(<ListSettingsPopover anchorEl={event.currentTarget} list={list} origin={origin} arrow={arrow} />);
   };
 
   const handleCreateList = () => {
@@ -56,7 +87,7 @@ const List = () => {
                 <Button component={RouterLink} to={Route.to()}>
                   Explore animes
                 </Button>
-                <Button variant="outlined" onClick={(event) => handleSettingsOpen(event, list!, "center")}>
+                <Button variant="outlined" onClick={(event) => handleSettingsOpen(event, list!, "button")}>
                   List settings
                 </Button>
               </Stack>
@@ -68,7 +99,7 @@ const List = () => {
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Text variant="h1">{list!.name}</Text>
                 <Tooltip title="List settings">
-                  <IconButton onClick={(event) => handleSettingsOpen(event, list!, "right")}>
+                  <IconButton onClick={(event) => handleSettingsOpen(event, list!, "iconButton")}>
                     <SettingsIcon />
                   </IconButton>
                 </Tooltip>
