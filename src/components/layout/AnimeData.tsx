@@ -3,19 +3,20 @@ import { Stack, SxProps } from "@mui/material";
 
 import { Text } from "@/components";
 import { Formatters } from "@/utils";
+import { ANIME } from "@/constants";
 
 import type { TypographyProps } from "@mui/material";
 import type { TAnime } from "@/types/Anime";
 
-type TValueText = FC<{
+type TSubTextProps = {
   value: string | number | (string | undefined)[];
-}>;
-type TAnimeData = FC<{
+};
+type TAnimeDataProps = {
   anime: TAnime;
   sx?: SxProps;
-}>;
+};
 
-const SubText: TValueText = ({ value }) => {
+const SubText: FC<TSubTextProps> = ({ value }) => {
   const isArray = Array.isArray(value);
   const textProps: TypographyProps = { variant: "body2", color: "text.secondary" };
 
@@ -30,7 +31,7 @@ const SubText: TValueText = ({ value }) => {
   );
 };
 
-const AnimeData: TAnimeData = ({ anime, sx }) => {
+const AnimeData: FC<TAnimeDataProps> = ({ anime, sx }) => {
   const items = [
     {
       label: "Episodes",
@@ -38,23 +39,23 @@ const AnimeData: TAnimeData = ({ anime, sx }) => {
     },
     {
       label: "Episode duration",
-      value: Formatters.anime.duration(anime.duration),
+      value: Formatters.time.duration(anime.duration),
     },
     {
       label: "Status",
-      value: Formatters.anime.status(anime.status),
+      value: anime.status ? ANIME.values.status[anime.status] : null,
     },
     {
       label: "Start date",
-      value: Formatters.anime.date(anime.startDate),
+      value: Formatters.time.date(anime.startDate),
     },
     {
       label: "End date",
-      value: Formatters.anime.date(anime.endDate),
+      value: Formatters.time.date(anime.endDate),
     },
     {
       label: "Season",
-      value: `${Formatters.anime.season(anime.season)} ${anime.seasonYear}`,
+      value: `${anime.season ? ANIME.values.season[anime.season] : "Not Available"} ${anime.seasonYear}`,
     },
     {
       label: "Studios",

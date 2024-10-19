@@ -11,11 +11,11 @@ import { Route } from "@/utils";
 import type { TAnime } from "@/types/Anime";
 import type { TListSlug } from "@/types/List";
 
-type TAnimePopover = FC<{
+type TAnimePopoverProps = {
   anime: TAnime;
-}>;
+};
 
-const AnimePopover: TAnimePopover = ({ anime }) => {
+const AnimePopover: FC<TAnimePopoverProps> = ({ anime }) => {
   const dialog = useDialog();
   const navigate = useNavigate();
   const viewTransition = useViewTransition();

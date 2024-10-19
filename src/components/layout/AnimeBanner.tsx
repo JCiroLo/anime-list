@@ -9,13 +9,13 @@ import { Route } from "@/utils";
 
 import type { TAnime } from "@/types/Anime";
 
-type HeroPanelProps = FC<{
+type HeroPanelProps = {
   anime: TAnime;
   hideContent?: boolean;
   viewTransitionName?: string;
-}>;
+};
 
-const HeroPanel: HeroPanelProps = ({ anime, viewTransitionName, hideContent }) => {
+const HeroPanel: FC<HeroPanelProps> = ({ anime, viewTransitionName, hideContent }) => {
   const theme = useTheme();
   const dialog = useDialog();
 

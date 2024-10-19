@@ -1,5 +1,7 @@
-import { FC, ReactNode } from "react";
-import { Box, type Breakpoint, type BoxProps } from "@mui/material";
+import { Box } from "@mui/material";
+
+import type { FC, ReactNode } from "react";
+import type { BoxProps, Breakpoint } from "@mui/material";
 
 type TGridProps = BoxProps & {
   children: ReactNode;
@@ -8,9 +10,8 @@ type TGridProps = BoxProps & {
   colGap?: number;
   rowGap?: number;
 };
-type TGrid = FC<TGridProps>;
 
-const Grid: TGrid = ({ children, cols, colGap, rowGap, gap = 1, ...props }) => {
+const Grid: FC<TGridProps> = ({ children, cols, colGap, rowGap, gap = 1, ...props }) => {
   const cGap = colGap || gap;
   const rGap = rowGap || gap;
 

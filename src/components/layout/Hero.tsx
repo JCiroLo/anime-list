@@ -4,13 +4,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 
 import { AnimeBanner } from "@/components";
+
 import type { TAnime } from "@/types/Anime";
 
-type HeroProps = FC<{
+type HeroProps = {
   slides: TAnime[];
-}>;
+};
 
-const Hero: HeroProps = ({ slides }) => {
+const Hero: FC<HeroProps> = ({ slides }) => {
   return (
     <Box position="relative">
       <Swiper

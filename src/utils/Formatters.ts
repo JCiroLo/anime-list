@@ -1,14 +1,12 @@
 import dayjs from "dayjs";
 import objectSupport from "dayjs/plugin/objectSupport";
 
-import { ANIME } from "@/constants";
-
-import type { TAnimeDate, TAnimeSeason, TAnimeStatus } from "@/types/Anime";
+import type { TAnimeDate } from "@/types/Anime";
 
 dayjs.extend(objectSupport);
 
 const Formatters = {
-  anime: {
+  time: {
     date(date?: TAnimeDate | Date | number, template = "MMM DD, YYYY") {
       if (!date) {
         return null;
@@ -30,20 +28,6 @@ const Formatters = {
       }
 
       return `${duration} mins`;
-    },
-    status(status?: TAnimeStatus) {
-      if (!status) {
-        return null;
-      }
-
-      return ANIME.values.status[status];
-    },
-    season(season?: TAnimeSeason) {
-      if (!season) {
-        return "Not Available";
-      }
-
-      return ANIME.values.season[season];
     },
   },
   string: {

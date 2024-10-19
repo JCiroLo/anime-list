@@ -6,9 +6,7 @@ import { Header, SearchDialog, Sidebar } from "@/components";
 import { Route } from "@/utils";
 import { DialogProvider, PopoverProvider } from "@/providers";
 
-type TAppWrapper = FC;
-
-const AppWrapper: TAppWrapper = () => {
+const AppWrapper: FC = () => {
   const theme = useTheme();
 
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);

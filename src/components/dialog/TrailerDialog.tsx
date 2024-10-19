@@ -3,13 +3,13 @@ import { DialogContent } from "@mui/material";
 
 import { Image, YoutubeEmbed } from "@/components";
 
-import type { DialogProps } from "@mui/material";
 import type { TAnimeTrailer } from "@/types/Anime";
+import type { TDefaultDialogProps } from "@/utils/DialogUtils";
 
-type TDefaultDialogProps = Omit<DialogProps, "open" | "onClose">;
-type TTrailerDialog = FC<{
+type TTrailerDialogProps = {
   trailer: TAnimeTrailer | null;
-}> & {
+};
+type TTrailerDialog = FC<TTrailerDialogProps> & {
   defaultDialogProps: () => TDefaultDialogProps;
 };
 

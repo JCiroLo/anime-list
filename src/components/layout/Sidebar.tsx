@@ -23,12 +23,12 @@ import { Route } from "@/utils";
 import type { MouseEvent } from "react";
 import type { TList } from "@/types/List";
 
-type TSidebar = FC<{
+type TSidebarProps = {
   collapsed: boolean;
   onToggle: () => void;
-}>;
+};
 
-const Sidebar: TSidebar = ({ collapsed, onToggle }) => {
+const Sidebar: FC<TSidebarProps> = ({ collapsed, onToggle }) => {
   const { pathname } = useLocation();
   const dialog = useDialog();
   const popover = usePopover();

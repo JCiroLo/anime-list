@@ -55,6 +55,7 @@ export const ANIME = {
       SPRING: "Spring",
       SUMMER: "Summer",
       WINTER: "Winter",
+
     } as Record<Exclude<TAnimeSeason, null>, string>,
   },
 };

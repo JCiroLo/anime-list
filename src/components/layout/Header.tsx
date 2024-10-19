@@ -9,11 +9,11 @@ import { usePopover } from "@/hooks";
 
 import type { MouseEvent } from "react";
 
-type THeader = FC<{
+type THeaderProps = {
   isSidebarCollapsed: boolean;
-}>;
+};
 
-const Header: THeader = ({ isSidebarCollapsed }) => {
+const Header: FC<THeaderProps> = ({ isSidebarCollapsed }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const popover = usePopover();

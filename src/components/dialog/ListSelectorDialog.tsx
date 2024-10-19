@@ -6,11 +6,10 @@ import { CheckIcon, MoodConfuzedIcon } from "@/icons";
 import { useDialog } from "@/hooks";
 import { useLists } from "@/stores";
 
-import type { DialogProps } from "@mui/material";
 import type { TAnime } from "@/types/Anime";
 import type { TList, TListSlug } from "@/types/List";
+import type { TDefaultDialogProps } from "@/utils/DialogUtils";
 
-type TDefaultDialogProps = Omit<DialogProps, "open" | "onClose">;
 type TListSelectorProps = {
   anime?: TAnime;
   onSelect: (slug: TListSlug) => void;

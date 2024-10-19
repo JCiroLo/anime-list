@@ -4,12 +4,11 @@ import { useSnackbar } from "notistack";
 
 import { Image } from "@/components";
 import { useDialog } from "@/hooks";
-
-import type { DialogProps } from "@mui/material";
-import type { TAnimeCharacter } from "@/types/Anime";
 import { useSession } from "@/stores";
 
-type TDefaultDialogProps = Omit<DialogProps, "open" | "onClose">;
+import type { TAnimeCharacter } from "@/types/Anime";
+import type { TDefaultDialogProps } from "@/utils/DialogUtils";
+
 type TCharacterDialogProps = {
   character: TAnimeCharacter;
 };

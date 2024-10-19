@@ -1,16 +1,15 @@
 import { FC } from "react";
 import { Box, DialogContent, DialogTitle, IconButton, Stack } from "@mui/material";
+import { useSnackbar } from "notistack";
 
 import { Avatar, ErrorMessage, Text } from "@/components";
 import { MoodConfuzedIcon, TrashIcon } from "@/icons";
 import { useDialog } from "@/hooks";
 import { useSession } from "@/stores";
 
-import type { DialogProps } from "@mui/material";
 import type { TList } from "@/types/List";
-import { useSnackbar } from "notistack";
+import type { TDefaultDialogProps } from "@/utils/DialogUtils";
 
-type TDefaultDialogProps = Omit<DialogProps, "open" | "onClose">;
 type TAvatarManagerProps = {
   list?: TList;
   onSave?: () => void;

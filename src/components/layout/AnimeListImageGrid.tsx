@@ -5,13 +5,13 @@ import { PhotoIcon } from "@/icons";
 
 import type { TListAnime } from "@/types/List";
 
-type TAnimeListImageGrid = FC<{
+type TAnimeListImageGridProps = {
   animes: TListAnime[];
   width: number;
   height: number;
-}>;
+};
 
-const AnimeListImageGrid: TAnimeListImageGrid = ({ animes, width, height }) => {
+const AnimeListImageGrid: FC<TAnimeListImageGridProps> = ({ animes, width, height }) => {
   const listAnimes = animes.map(({ anime }) => anime);
   const sortedAnimes = listAnimes.slice(-4).reverse();
 

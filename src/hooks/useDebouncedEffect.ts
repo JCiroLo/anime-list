@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 
-type Callback = () => void;
-type Dependencies = unknown[];
-type Delay = number;
+type TUseDebouncedEffect = (callback: () => void, dependencies: unknown[], delay?: number) => void;
 
-function useDebouncedEffect(callback: Callback, dependencies: Dependencies, delay: Delay = 300) {
+const useDebouncedEffect: TUseDebouncedEffect = (callback, dependencies, delay = 300) => {
   useEffect(() => {
     const handler = setTimeout(() => {
       callback();
@@ -14,6 +12,6 @@ function useDebouncedEffect(callback: Callback, dependencies: Dependencies, dela
       clearTimeout(handler);
     };
   }, [...dependencies, delay]);
-}
+};
 
 export default useDebouncedEffect;

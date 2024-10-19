@@ -1,6 +1,6 @@
-import { FC, ReactNode } from "react";
 import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 
+import type { FC, ReactNode } from "react";
 import type { ListItemTextProps, MenuItemProps, SvgIconProps } from "@mui/material";
 
 type TMenuOptionProps = {

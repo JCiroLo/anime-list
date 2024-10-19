@@ -3,12 +3,12 @@ import { useTheme } from "@mui/material";
 
 import type { Duration, Easing } from "@mui/material";
 
-type TUseTransitionsOption = {
+type TUseTransitionsOptions = {
   duration?: keyof Duration;
   ease?: keyof Easing;
   delay?: number;
 };
-type TUseTransitions = (options: Record<string, TUseTransitionsOption>) => string;
+type TUseTransitions = (options: Record<string, TUseTransitionsOptions>) => string;
 
 const useTransitions: TUseTransitions = (options) => {
   const theme = useTheme();
