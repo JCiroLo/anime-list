@@ -33,20 +33,18 @@ const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
   } = props;
 
   const [isLoaded, setIsLoaded] = useState(!preload);
-  const computedSrc = useMemo(
-    () => ({
-      isLazy: typeof src !== "string",
-      original: typeof src === "string" ? src : src.large,
-      preview: typeof src === "string" ? src : src?.medium || src?.large,
-      color: typeof src === "string" ? ANIME.coverImage.defaultColor : src?.color,
-    }),
-    [src]
-  );
-  const computedWidth = useMemo(() => (typeof width === "string" ? width : 8 * width), [width]);
-  const computedHeight = useMemo(() => (typeof height === "string" ? height : 8 * height), [height]);
-  const computedBorderRadius = useMemo(() => borderRadius * 4, [borderRadius]);
+
+  const computedWidth = typeof width === "string" ? width : 8 * width;
+  const computedHeight = typeof height === "string" ? height : 8 * height;
+  const computedBorderRadius = borderRadius * 4;
   const imgWidth = String(width).includes("%") ? "100%" : computedWidth;
   const imgHeight = String(height).includes("%") ? "100%" : computedHeight;
+  const computedSrc = {
+    isLazy: typeof src !== "string",
+    original: typeof src === "string" ? src : src.large,
+    preview: typeof src === "string" ? src : src?.medium || src?.large,
+    color: typeof src === "string" ? ANIME.coverImage.defaultColor : src?.color,
+  };
 
   const handleImageLoad = () => {
     setIsLoaded(true);
