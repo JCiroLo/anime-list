@@ -31,7 +31,7 @@ type TListManagerDialog = FC & {
 };
 
 const ListManagerDialog: TListManagerDialog = () => {
-  throw new Error("Not implemented");
+  throw new Error("Should not be rendered");
 };
 
 const DetailsListDialog: FC<TDetailsListDialogProps> = ({ list }) => {
@@ -81,17 +81,17 @@ const CreateListDialog: FC = () => {
 
   const handleFormSubmit = (data: TList) => {
     if (lists[data.slug]) {
-      enqueueSnackbar("List already exists, please choose a different slug", { variant: "error" });
+      enqueueSnackbar("List already exists, please choose a different slug", { severity: "error" });
       return;
     }
 
     try {
       addList(data);
-      enqueueSnackbar("List has been created successfully", { variant: "success" });
+      enqueueSnackbar("List has been created successfully", { severity: "success" });
 
       dialog.close();
     } catch (error) {
-      enqueueSnackbar("List creation failed, please try again", { variant: "error" });
+      enqueueSnackbar("List creation failed, please try again", { severity: "error" });
       console.error(error);
     }
   };
@@ -126,11 +126,11 @@ const EditListDialog: FC<TEditListDialogProps> = ({ list }) => {
   const handleFormSubmit = (data: TList) => {
     try {
       updateList(data, list);
-      enqueueSnackbar("List has been updated successfully", { variant: "success" });
+      enqueueSnackbar("List has been updated successfully", { severity: "success" });
 
       dialog.close();
     } catch (error) {
-      enqueueSnackbar("List update failed, please try again", { variant: "error" });
+      enqueueSnackbar("List update failed, please try again", { severity: "error" });
       console.error(error);
     }
   };
@@ -167,11 +167,11 @@ const DeleteListDialog: FC<TDeleteListDialogProps> = ({ list }) => {
     try {
       removeList(list.slug);
       navigate("/", { replace: true });
-      enqueueSnackbar("List has been deleted successfully", { variant: "success" });
+      enqueueSnackbar("List has been deleted successfully", { severity: "success" });
 
       dialog.close();
     } catch (error) {
-      enqueueSnackbar("List deletion failed, please try again", { variant: "error" });
+      enqueueSnackbar("List deletion failed, please try again", { severity: "error" });
       console.error(error);
     }
   };

@@ -28,5 +28,6 @@ export { default as Grid } from './ui/Grid';
 export { default as Image } from './ui/Image';
 export { default as MenuOption } from './ui/MenuOption';
 export { default as Overlay } from './ui/Overlay';
+export { default as Snackbar } from './ui/Snackbar';
 export { default as Tag } from './ui/Tag';
 export { default as Text } from './ui/Text';

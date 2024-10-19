@@ -27,7 +27,7 @@ const CharacterDialog: TCharacterDialog = ({ character }) => {
   const handleSaveAvatar = () => {
     addAvatar(character.image.large);
 
-    enqueueSnackbar("Character saved to avatar list!", { variant: "success" });
+    enqueueSnackbar("Character saved to avatar list!", { severity: "success" });
 
     dialog.close();
   };

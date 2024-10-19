@@ -14,22 +14,14 @@
 
 ## Todo
 
-- Fix type definitions, do ```type TTypeProps = { ... }``` instead of ```type TType = FC<{ ... }>```, this will help to retrieve the correct props when neeeded
 - Add more information to the README
 - Support light mode
 - Create logo for the website
-- Add customization for the user profile (using providers and local storage)
 - Create diccionary to support multiple languages (using custom hooks and global json)
-- Create "Watch trailer" component
-- Create "Search suggestions" component
-- Create "My anime lists" page
-- Create "Anime Detail" page
-- Update custom hooks to use arrow functions instead of function expressions (this will help to define types easier)
 - Use MUI popover for AnimeCard flyout instead of custom popover (this will improve performance and will reduce the complexity of the code)
 - Remove useless useMemo hooks from components
 - Add lazy loading to images
 - Add support to infinite scroll using a generic InfiniteScroll component 
 - Add better loaders to the website
-- Update snackbars style to use MUI
 - Can delete Avatars on long press (use custom hook)
 - Create Popover and Dialog containers
