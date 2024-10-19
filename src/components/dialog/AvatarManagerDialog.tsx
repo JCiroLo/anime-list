@@ -127,7 +127,7 @@ AvatarManager.defaultDialogProps = () => ({
   PaperProps: {
     sx: (t) => ({
       bgcolor: t.palette.background.dialog,
-      borderRadius: 2,
+      borderRadius: 4,
     }),
   },
 });

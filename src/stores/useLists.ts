@@ -9,6 +9,7 @@ type TLists = {
   addList: (list: TList) => void;
   updateList: (newList: TList, oldList: TList) => void;
   removeList: (slug: TListSlug) => void;
+  isAnimeInList: (slug: TListSlug, anime: TAnime) => boolean;
   addAnimeToList: (slug: TListSlug, anime: TAnime) => void;
   removeAnimeFromList: (slug: TListSlug, anime: TAnime) => void;
 };
@@ -80,6 +81,13 @@ const useLists = create(
       },
 
       // List anime actions
+      isAnimeInList(slug: TListSlug, anime: TAnime) {
+        const { lists } = get();
+
+        if (!lists[slug]) throw new Error("List does not exist");
+
+        return Boolean(lists[slug].animes.find((a) => a.anime.id === anime.id));
+      },
       addAnimeToList(slug: TListSlug, anime: TAnime) {
         const { lists } = get();
 
@@ -97,9 +105,10 @@ const useLists = create(
         }));
       },
       removeAnimeFromList(slug: TListSlug, anime: TAnime) {
-        const { lists } = get();
+        const { lists, isAnimeInList } = get();
 
         if (!lists[slug]) throw new Error("List does not exist");
+        if (!isAnimeInList(slug, anime)) throw new Error("Anime not in list");
 
         return set((state) => ({
           ...state,

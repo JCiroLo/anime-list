@@ -155,9 +155,10 @@ const ListSettingsPopover: FC<ListSettingsPopoverProps> = ({
     >
       <MenuOption icon={InfoCircleIcon} text="See details" onClick={handleSeeListDetails} />
       {[
-        <Divider sx={{ my: 1 }} />,
-        <MenuOption icon={EditIcon} text="Update list" onClick={handleUpdateList} />,
+        <Divider key="divider" sx={{ my: 1 }} />,
+        <MenuOption key="update" icon={EditIcon} text="Update list" onClick={handleUpdateList} />,
         <MenuOption
+          key="delete"
           icon={TrashIcon}
           text="Delete list"
           props={{ icon: { color: "error" }, text: { primaryTypographyProps: { color: "error", fontWeight: 500 } } }}

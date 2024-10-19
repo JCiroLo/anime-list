@@ -1,4 +1,4 @@
-import { PaletteOptions } from "@mui/material";
+import { createTheme, PaletteOptions } from "@mui/material";
 
 type TDarkTheme = PaletteOptions;
 
@@ -10,6 +10,12 @@ const darkMode: TDarkTheme = {
   secondary: {
     main: "#646470",
   },
+  accent: createTheme().palette.augmentColor({
+    color: {
+      main: "#a154db",
+    },
+    name: "accent",
+  }),
   background: {
     paper: "#292631e0",
     default: "#1b181d",
@@ -18,6 +24,7 @@ const darkMode: TDarkTheme = {
   text: {
     primary: "#f0edf4",
   },
+
   success: {
     main: "#63FF60",
     contrastText: "#000000",
