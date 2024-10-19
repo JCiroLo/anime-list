@@ -72,6 +72,7 @@ const DetailsListDialog: FC<TDetailsListDialogProps> = ({ list }) => {
 const CreateListDialog: FC = () => {
   const { enqueueSnackbar } = useSnackbar();
   const dialog = useDialog();
+  const lists = useLists((state) => state.lists);
   const { addList } = useLists();
 
   const handleDialogClose = () => {
@@ -79,6 +80,11 @@ const CreateListDialog: FC = () => {
   };
 
   const handleFormSubmit = (data: TList) => {
+    if (lists[data.slug]) {
+      enqueueSnackbar("List already exists, please choose a different slug", { variant: "error" });
+      return;
+    }
+
     try {
       addList(data);
       enqueueSnackbar("List has been created successfully", { variant: "success" });

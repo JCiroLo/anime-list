@@ -1,8 +1,11 @@
-import React, { FC, useState } from "react";
+import { useState } from "react";
 import { Stack, TextField } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
 
-import { Formatters, Schemas } from "@/utils";
+import { Formatters, Schemas, Validators } from "@/utils";
 
+import type { ChangeEvent, FC, FocusEvent } from "react";
+import type { SubmitHandler } from "react-hook-form";
 import type { TList } from "@/types/List";
 
 type TListFormProps = {
@@ -10,12 +13,16 @@ type TListFormProps = {
   list?: TList;
   onSubmit: (data: TList) => void;
 };
+type TChangeEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
+type TBlurEvent = FocusEvent<HTMLInputElement | HTMLTextAreaElement>;
 
 const ListForm: FC<TListFormProps> = ({ id, list, onSubmit }) => {
-  const [currentList, setCurrentList] = useState<TList>(list || Schemas.list);
+  const formData = useForm<TList>({ defaultValues: list || Schemas.list, mode: "onBlur" });
+  const { control, setValue, handleSubmit } = formData;
+
   const [hasSlugBeenUpdated, setHasSlugBeenUpdated] = useState(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFieldChange = (event: TChangeEvent, onChange: (event: TChangeEvent) => void) => {
     const { name, value } = event.target;
 
     if (!hasSlugBeenUpdated) {
@@ -24,51 +31,83 @@ const ListForm: FC<TListFormProps> = ({ id, list, onSubmit }) => {
       }
 
       if (name === "name") {
-        setCurrentList((prev) => ({
-          ...prev,
-          [name]: value,
-          slug: Formatters.string.slugify(value),
-        }));
+        setValue("slug", Formatters.string.slugify(value));
       }
     }
 
-    setCurrentList((prev) => ({ ...prev, [name]: value }));
+    onChange(event);
   };
 
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+  const handleFieldBlur = (event: TBlurEvent, onBlur: (event: TBlurEvent) => void) => {
     const { value, name } = event.target;
 
     if (name === "slug") {
-      setCurrentList((prev) => ({
-        ...prev,
-        [name]: Formatters.string.slugify(value),
-      }));
+      setValue("slug", Formatters.string.slugify(value));
     }
+
+    onBlur(event);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const { name, slug } = currentList;
+  const handleFormSubmit: SubmitHandler<TList> = (data) => {
+    const { name, slug } = data;
 
     if (!name || !slug) return;
 
     // Double check that slug has been formatted correctly
-    onSubmit({ ...currentList, slug: Formatters.string.slugify(currentList.name) });
+    onSubmit({ ...data, slug: Formatters.string.slugify(data.name) });
   };
 
   return (
-    <Stack component="form" id={id} spacing={2} paddingTop={1} onSubmit={handleSubmit}>
-      <TextField variant="filled" label="Name" name="name" value={currentList.name} required onChange={handleChange} />
-      <TextField variant="filled" label="Slug" name="slug" value={currentList.slug} required onBlur={handleBlur} onChange={handleChange} />
-      <TextField
-        variant="filled"
-        label="Optional description"
+    <Stack component="form" id={id} spacing={2} paddingTop={1} onSubmit={handleSubmit(handleFormSubmit)}>
+      <Controller
+        name="name"
+        control={control}
+        rules={{ ...Validators.list.name }}
+        render={({ field, fieldState }) => (
+          <TextField
+            {...field}
+            variant="filled"
+            label="Name"
+            error={Boolean(fieldState.error)}
+            helperText={fieldState.error?.message}
+            required
+            onChange={(event) => handleFieldChange(event, field.onChange)}
+          />
+        )}
+      />
+      <Controller
+        name="slug"
+        control={control}
+        rules={{ ...Validators.list.slug }}
+        render={({ field, fieldState }) => (
+          <TextField
+            {...field}
+            variant="filled"
+            label="Slug"
+            error={Boolean(fieldState.error)}
+            helperText={fieldState.error?.message || "This will be used to identify your list, it must be unique"}
+            required
+            onBlur={(event) => handleFieldBlur(event, field.onBlur)}
+            onChange={(event) => handleFieldChange(event, field.onChange)}
+          />
+        )}
+      />
+      <Controller
         name="description"
-        value={currentList.description}
-        rows={6}
-        multiline
-        onChange={handleChange}
+        control={control}
+        rules={{ ...Validators.list.description }}
+        render={({ field, fieldState }) => (
+          <TextField
+            {...field}
+            variant="filled"
+            label="Optional description"
+            rows={6}
+            error={Boolean(fieldState.error)}
+            helperText={fieldState.error?.message}
+            multiline
+            onChange={(event) => handleFieldChange(event, field.onChange)}
+          />
+        )}
       />
     </Stack>
   );
