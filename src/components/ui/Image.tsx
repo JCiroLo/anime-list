@@ -1,4 +1,4 @@
-import { forwardRef, useMemo, useState } from "react";
+import { forwardRef, useState } from "react";
 import { alpha, Box } from "@mui/material";
 import { ANIME } from "@/constants";
 

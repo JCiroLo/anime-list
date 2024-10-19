@@ -1,4 +1,4 @@
-import React from "react";
+import { useMemo } from "react";
 import { useTheme } from "@mui/material";
 
 import type { Duration, Easing } from "@mui/material";
@@ -13,7 +13,7 @@ type TUseTransitions = (options: Record<string, TUseTransitionsOptions>) => stri
 const useTransitions: TUseTransitions = (options) => {
   const theme = useTheme();
 
-  const transition = React.useMemo(
+  const transition = useMemo(
     () =>
       Object.entries(options)
         .map(([key, value]) => {
