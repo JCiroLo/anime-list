@@ -45,9 +45,9 @@ const Sidebar: TSidebar = ({ collapsed, onToggle }) => {
       <ListSettingsPopover
         anchorEl={event.currentTarget}
         list={list}
-        gutter={0}
-        anchorOrigin={{ vertical: "top", horizontal: "left" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        gutter={3}
+        origin={{ anchor: { vertical: "top", horizontal: "right" }, transform: { vertical: "top", horizontal: "left" } }}
+        arrow="left-top"
       />
     );
   };
