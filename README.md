@@ -59,26 +59,30 @@ We are using [AniList API GraphQL](https://anilist.gitbook.io/anilist-apiv2-docs
 
 ## Todo list
 
-- [ ] **Support Light Mode**  
-  Implement a light theme option for the website, allowing users to switch between dark and light modes.
+### Important features
+
+- [ ] **Add Infinite Scroll Support**  
+  Create a generic `InfiniteScroll` component to handle infinite scrolling for paginated data, optimizing for large lists.
 
 - [ ] **Design Logo**  
   Create a unique and recognizable logo for branding the website.
+
+- [ ] **Implement Lazy Loading for Images**  
+  Add lazy loading functionality for images to enhance loading times and improve user experience, especially on slower connections.
+
+- [ ] **Fix mobile experience**
+  The website is not currently responsive on mobile devices.
+
+### Nice to have features
+
+- [ ] **Support Light Mode**  
+  Implement a light theme option for the website, allowing users to switch between dark and light modes.
 
 - [ ] **Implement Multilingual Support**  
   Build a dictionary to support multiple languages using custom hooks and global JSON files for translations.
 
 - [ ] **Refactor AnimeCard Flyout**  
   Replace the custom popover in the `AnimeCard` component with the built-in MUI Popover to improve performance and reduce code complexity.
-
-- [ ] **Remove Unnecessary useMemo Hooks**  
-  Review components and eliminate unnecessary `useMemo` hooks to streamline performance.
-
-- [ ] **Implement Lazy Loading for Images**  
-  Add lazy loading functionality for images to enhance loading times and improve user experience, especially on slower connections.
-
-- [ ] **Add Infinite Scroll Support**  
-  Create a generic `InfiniteScroll` component to handle infinite scrolling for paginated data, optimizing for large lists.
 
 - [ ] **Enhance Loading Indicators**  
   Design and implement better loading spinners or skeletons to improve the visual experience during data fetching.
