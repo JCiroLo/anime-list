@@ -1,15 +1,13 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { InputBase, Typography } from "@mui/material";
 
-import type { ChangeEvent, CSSProperties, KeyboardEvent } from "react";
+import type { FC, ChangeEvent, CSSProperties, KeyboardEvent } from "react";
 import type { InputBaseProps, TypographyProps } from "@mui/material";
 
-type TRich = FC<
-  TTextProps & {
-    html: string;
-  }
->;
-type TEditable = Omit<TTextProps, "onChange"> & {
+type TRichProps = TTextProps & {
+  html: string;
+};
+type TEditableProps = Omit<TTextProps, "onChange"> & {
   value: string;
   maxLength?: number;
   slotProps?: {
@@ -23,8 +21,8 @@ export type TTextProps = TypographyProps & {
   inline?: boolean;
 };
 type TText = FC<TTextProps> & {
-  Rich: TRich;
-  Editable: FC<TEditable>;
+  Rich: FC<TRichProps>;
+  Editable: FC<TEditableProps>;
 };
 
 const Text: TText = ({ children, maxLines, textWrap, inline, ...rest }) => {
@@ -45,11 +43,11 @@ const Text: TText = ({ children, maxLines, textWrap, inline, ...rest }) => {
   );
 };
 
-const Rich: TRich = ({ html, ...rest }) => {
+const Rich: FC<TRichProps> = ({ html, ...rest }) => {
   return <Text {...rest} dangerouslySetInnerHTML={{ __html: html }} />;
 };
 
-const Editable: FC<TEditable> = ({ value, maxLength, slotProps, onChange, ...rest }) => {
+const Editable: FC<TEditableProps> = ({ value, maxLength, slotProps, onChange, ...rest }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentValue, setCurrentValue] = useState(value);
   const [isEditing, setIsEditing] = useState(false);

@@ -1,14 +1,14 @@
 import { FC, ReactNode } from "react";
 import { Box, Container, Stack } from "@mui/material";
 
-type TPageWrapper = FC<{
+type TPageWrapperProps = {
   content: ReactNode;
   hero?: ReactNode;
   separation?: number;
   headerGutter?: boolean;
-}>;
+};
 
-const PageWrapper: TPageWrapper = ({ content, hero, separation, headerGutter = false }) => {
+const PageWrapper: FC<TPageWrapperProps> = ({ content, hero, separation, headerGutter = false }) => {
   return (
     <Stack component="main" paddingTop={(t) => (headerGutter ? t.sizes.header.height : 0)} paddingBottom={16}>
       <Box overflow="hidden" borderRadius={2}>

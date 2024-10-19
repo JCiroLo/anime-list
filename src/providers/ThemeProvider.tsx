@@ -1,7 +1,8 @@
 import { CssBaseline, ThemeProvider as Theme } from "@mui/material";
 
 import { generateTheme } from "@/theme";
-import { FC } from "react";
+
+import type { FC } from "react";
 
 declare module "@mui/material/styles" {
   interface Theme {

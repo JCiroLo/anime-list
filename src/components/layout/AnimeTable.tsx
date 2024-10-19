@@ -91,7 +91,7 @@ const AnimeTable: FC<TAnimeTableProps> = ({ animes }) => {
               </TableCell>
               <TableCell align="left" sx={{ paddingY: 0, paddingX: 1 }}>
                 <Text variant="body2" fontWeight={400} color="text.secondary">
-                  {Formatters.anime.date(watchedAt)}
+                  {Formatters.time.date(watchedAt)}
                 </Text>
               </TableCell>
             </TableRow>

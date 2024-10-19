@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { flushSync } from "react-dom";
 
-function useViewTransition() {
+const useViewTransition = () => {
   const doTransition = useCallback((callback: () => void) => {
     if (!document.startViewTransition) {
       callback();
@@ -16,6 +16,6 @@ function useViewTransition() {
   }, []);
 
   return doTransition;
-}
+};
 
 export default useViewTransition;

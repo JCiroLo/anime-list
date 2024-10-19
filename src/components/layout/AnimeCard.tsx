@@ -7,16 +7,16 @@ import { ANIME, LAYOUT } from "@/constants";
 import type { Breakpoint, StackProps, BoxProps } from "@mui/material";
 import type { TAnime } from "@/types/Anime";
 
-type TAnimeCard = FC<{
+type TAnimeCardProps = {
   anime: TAnime;
   origin?: string;
   props?: {
     container?: BoxProps;
     flyout?: StackProps;
   };
-}>;
+};
 
-const AnimeCard: TAnimeCard = ({ anime, props }) => {
+const AnimeCard: FC<TAnimeCardProps> = ({ anime, props }) => {
   const [isHovering, setIsHovering] = useState(false);
 
   return (

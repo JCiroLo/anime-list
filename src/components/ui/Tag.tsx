@@ -1,11 +1,12 @@
-import { FC } from "react";
 import { alpha, Chip } from "@mui/material";
 
-type TTag = FC<{
-  label: string;
-}>;
+import type { FC } from "react";
 
-const Tag: TTag = ({ label }) => {
+type TTagProps = {
+  label: string;
+};
+
+const Tag: FC<TTagProps> = ({ label }) => {
   return (
     <Chip
       size="small"

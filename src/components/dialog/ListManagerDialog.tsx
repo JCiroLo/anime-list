@@ -8,9 +8,9 @@ import { useDialog } from "@/hooks";
 import { Formatters, Route } from "@/utils";
 import { useLists } from "@/stores";
 
-import type { DialogProps } from "@mui/material";
 import type { TList } from "@/types/List";
 import type { TTextProps } from "@/components/ui/Text";
+import type { TDefaultDialogProps } from "@/utils/DialogUtils";
 
 type TDetailsListDialogProps = {
   list: TList;
@@ -27,7 +27,7 @@ type TListManagerDialog = FC & {
   Create: FC<TCreateListDialogProps>;
   Edit: FC<TEditListDialogProps>;
   Delete: FC<TDeleteListDialogProps>;
-  defaultDialogProps: () => Omit<DialogProps, "open" | "onClose">;
+  defaultDialogProps: () => TDefaultDialogProps;
 };
 
 const ListManagerDialog: TListManagerDialog = () => {
@@ -56,10 +56,10 @@ const DetailsListDialog: FC<TDetailsListDialogProps> = ({ list }) => {
           <Text {...contentProps}>{list.animes.length}</Text>
 
           <Text {...titleProps}>Created at</Text>
-          <Text {...contentProps}>{Formatters.anime.date(list.createdAt, "MMMM DD, YYYY")}</Text>
+          <Text {...contentProps}>{Formatters.time.date(list.createdAt, "MMMM DD, YYYY")}</Text>
 
           <Text {...titleProps}>Last updated</Text>
-          <Text {...contentProps}>{Formatters.anime.date(list.updatedAt, "MMMM DD, YYYY")}</Text>
+          <Text {...contentProps}>{Formatters.time.date(list.updatedAt, "MMMM DD, YYYY")}</Text>
 
           <Text {...titleProps}>Created by user</Text>
           <Text {...contentProps}>{list.isCustom ? "Yes" : "No"}</Text>

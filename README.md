@@ -6,6 +6,7 @@
 - [Lato font] https://fonts.google.com/specimen/Lato
 - [Tabler icon set] https://tabler.io/icons
 - [Material UI] https://mui.com/material-ui/getting-started
+- [React Hook Form] https://www.react-hook-form.com
 
 ## Environment variables
 
@@ -13,7 +14,6 @@
 
 ## Todo
 
-- Add forms validation (using hooks)
 - Fix type definitions, do ```type TTypeProps = { ... }``` instead of ```type TType = FC<{ ... }>```, this will help to retrieve the correct props when neeeded
 - Add more information to the README
 - Support light mode
@@ -32,3 +32,4 @@
 - Add better loaders to the website
 - Update snackbars style to use MUI
 - Can delete Avatars on long press (use custom hook)
+- Create Popover and Dialog containers

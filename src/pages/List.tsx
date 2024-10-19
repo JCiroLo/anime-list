@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import { FC, MouseEvent } from "react";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { Button, IconButton, Stack, Tooltip } from "@mui/material";
 
@@ -9,7 +9,7 @@ import { useLists } from "@/stores";
 import { Route } from "@/utils";
 
 import type { TList } from "@/types/List";
-import type { TArrowPosition, TPopoverOrigin } from "@/components/ui/Popover";
+import type { TArrowPosition, TPopoverOrigin } from "@/utils/PopoverUtils";
 
 const popoverPositions: Record<string, { origin: TPopoverOrigin; arrow: TArrowPosition }> = {
   button: {
@@ -40,7 +40,7 @@ const popoverPositions: Record<string, { origin: TPopoverOrigin; arrow: TArrowPo
   },
 };
 
-const List = () => {
+const List: FC = () => {
   const popover = usePopover();
   const dialog = useDialog();
   const { slug } = useParams();
