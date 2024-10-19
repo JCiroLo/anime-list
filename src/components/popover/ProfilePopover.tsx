@@ -27,7 +27,7 @@ const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl }) => {
 
   const handleUpdateNickname = (value: string) => {
     if (value.trim().length === 0) {
-      enqueueSnackbar("Nickname cannot be empty", { variant: "error" });
+      enqueueSnackbar("Nickname cannot be empty", { severity: "error" });
       return;
     }
 
@@ -36,7 +36,7 @@ const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl }) => {
     }
 
     updateNickname(value);
-    enqueueSnackbar("Nickname updated!", { variant: "success" });
+    enqueueSnackbar("Nickname updated!", { severity: "success" });
   };
 
   const handleClose = () => {

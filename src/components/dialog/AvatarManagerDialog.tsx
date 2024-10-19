@@ -27,9 +27,9 @@ const AvatarManager: TAvatarManager = () => {
   const handleChooseAvatar = (avatar: string) => {
     if (avatar) {
       updateAvatar(avatar);
-      enqueueSnackbar("Avatar updated!", { variant: "success" });
+      enqueueSnackbar("Avatar updated!", { severity: "success" });
     } else {
-      enqueueSnackbar("Avatar not updated!", { variant: "error" });
+      enqueueSnackbar("Avatar not updated!", { severity: "error" });
     }
 
     dialog.close();
@@ -38,9 +38,9 @@ const AvatarManager: TAvatarManager = () => {
   const handleRemoveAvatar = (avatar: string) => {
     if (avatar) {
       removeAvatar(avatar);
-      enqueueSnackbar("Avatar removed!", { variant: "success" });
+      enqueueSnackbar("Avatar removed!", { severity: "success" });
     } else {
-      enqueueSnackbar("Avatar not removed!", { variant: "error" });
+      enqueueSnackbar("Avatar not removed!", { severity: "error" });
     }
   };
 
