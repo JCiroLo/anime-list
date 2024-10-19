@@ -1,7 +1,7 @@
 {
   "name": "anime-list",
   "private": true,
-  "version": "beta-0.1",
+  "version": "beta-0.2",
   "type": "module",
   "scripts": {
     "dev": "vite",

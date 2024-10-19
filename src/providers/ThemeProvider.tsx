@@ -41,11 +41,13 @@ declare module "@mui/material/styles" {
     };
   }
   interface Palette {
+    accent: Palette["primary"];
     custom: {
       overlay: string;
     };
   }
   interface PaletteOptions {
+    accent: PaletteOptions["primary"];
     custom?: {
       overlay: string;
     };
@@ -55,6 +57,24 @@ declare module "@mui/material/styles" {
   }
   interface ZIndex {
     search: number;
+  }
+}
+
+declare module "@mui/material/Button" {
+  interface ButtonPropsColorOverrides {
+    accent: true;
+  }
+}
+
+declare module "@mui/material/IconButton" {
+  interface IconButtonPropsColorOverrides {
+    accent: true;
+  }
+}
+
+declare module "@mui/material/SvgIcon" {
+  interface SvgIconPropsColorOverrides {
+    accent: true;
   }
 }
 

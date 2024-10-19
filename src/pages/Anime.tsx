@@ -13,7 +13,7 @@ import { useLists } from "@/stores";
 import { ANIME } from "@/constants";
 
 import type { TAnime, TAnimeCharacter } from "@/types/Anime";
-import type { TList } from "@/types/List";
+import type { TListSlug } from "@/types/List";
 
 const LAYOUT = {
   columns: {
@@ -46,12 +46,12 @@ const Anime: FC = () => {
     onCompleted: (data) => setAnime(AnimeQueries.detail.transform(data)),
   });
 
-  const handleSelectList = (list: TList) => {
-    addAnimeToList(list.slug, anime);
+  const handleSelectList = (slug: TListSlug) => {
+    addAnimeToList(slug, anime);
   };
 
   const handleAddToList = () => {
-    dialog.open(<ListSelectorDialog onSelect={handleSelectList} />, { dialog: ListSelectorDialog.defaultDialogProps() });
+    dialog.open(<ListSelectorDialog anime={anime} onSelect={handleSelectList} />, { dialog: ListSelectorDialog.defaultDialogProps() });
   };
 
   const handleWatchTrailer = () => {

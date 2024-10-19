@@ -1,9 +1,9 @@
 import { FC, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Box, ButtonBase, Grow, IconButton, Stack, TextField, Tooltip, useTheme } from "@mui/material";
 
 import { Avatar, ProfilePopover } from "@/components";
-import { CloseIcon, SearchIcon } from "@/icons";
+import { ArrowLeftIcon, CloseIcon, SearchIcon } from "@/icons";
 import { useSession } from "@/stores";
 import { usePopover } from "@/hooks";
 
@@ -15,6 +15,7 @@ type THeader = FC<{
 
 const Header: THeader = ({ isSidebarCollapsed }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const popover = usePopover();
   const [searchParams, setSearchParams] = useSearchParams();
   const avatar = useSession((state) => state.user.avatar);
@@ -23,6 +24,7 @@ const Header: THeader = ({ isSidebarCollapsed }) => {
   const searchFieldRef = useRef<HTMLInputElement>(null);
 
   const querySearch = searchParams.get("search");
+  const isPathEmpty = window.location.pathname === "/";
 
   const handleSearchToggle = () => {
     if (searchFieldRef.current) {
@@ -52,6 +54,10 @@ const Header: THeader = ({ isSidebarCollapsed }) => {
     popover.open(<ProfilePopover anchorEl={event.currentTarget} />);
   };
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <Stack
@@ -68,6 +74,11 @@ const Header: THeader = ({ isSidebarCollapsed }) => {
         px={1}
         py={1}
       >
+        {!isPathEmpty && (
+          <IconButton onClick={handleGoBack}>
+            <ArrowLeftIcon />
+          </IconButton>
+        )}
         <Stack direction="row" spacing={1} flexGrow={1} alignItems="center" justifyContent="flex-end">
           <Stack position="relative">
             <TextField

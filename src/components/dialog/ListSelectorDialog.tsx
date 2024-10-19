@@ -1,30 +1,33 @@
 import { FC } from "react";
 import { DialogContent, DialogTitle, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack } from "@mui/material";
 
-import { AnimeListImageGrid, ErrorMessage } from "@/components";
-import { MoodConfuzedIcon } from "@/icons";
+import { AnimeListImageGrid, ErrorMessage, Text } from "@/components";
+import { CheckIcon, MoodConfuzedIcon } from "@/icons";
 import { useDialog } from "@/hooks";
 import { useLists } from "@/stores";
 
 import type { DialogProps } from "@mui/material";
-import type { TList } from "@/types/List";
+import type { TAnime } from "@/types/Anime";
+import type { TList, TListSlug } from "@/types/List";
 
 type TDefaultDialogProps = Omit<DialogProps, "open" | "onClose">;
 type TListSelectorProps = {
-  onSelect: (list: TList) => void;
+  anime?: TAnime;
+  onSelect: (slug: TListSlug) => void;
 };
 type TListSelector = FC<TListSelectorProps> & {
   defaultDialogProps: () => TDefaultDialogProps;
 };
 
-const ListSelector: TListSelector = ({ onSelect }) => {
+const ListSelector: TListSelector = ({ anime, onSelect }) => {
   const dialog = useDialog();
   const lists = useLists((state) => state.lists);
+  const { isAnimeInList } = useLists();
 
   const userLists = Object.entries(lists);
 
   const handleSelectList = (list: TList) => {
-    onSelect(list);
+    onSelect(list.slug);
     dialog.close();
   };
 
@@ -35,18 +38,34 @@ const ListSelector: TListSelector = ({ onSelect }) => {
         <Stack>
           {userLists.length ? (
             <Stack direction="row" spacing={1} flexWrap="wrap">
-              {userLists.map(([key, list]) =>
-                !list ? null : (
+              {userLists.map(([key, list]) => {
+                if (!list) return;
+
+                const isAnimeInTheList = anime && isAnimeInList(list.slug, anime);
+
+                return (
                   <ListItem key={key} disablePadding>
-                    <ListItemButton onClick={() => handleSelectList(list)}>
+                    <ListItemButton
+                      sx={{
+                        bgcolor: isAnimeInTheList ? "action.selected" : undefined,
+                        padding: 1,
+                        borderRadius: 3,
+                      }}
+                      onClick={() => handleSelectList(list)}
+                    >
                       <ListItemIcon>
                         <AnimeListImageGrid animes={list.animes} width={40} height={40} />
                       </ListItemIcon>
                       <ListItemText primary={list.name} secondary={`${list.animes.length} animes`} sx={{ margin: 0, textWrap: "nowrap" }} />
+                      {isAnimeInTheList && (
+                        <Text lineHeight={0}>
+                          <CheckIcon color="success" fontSize="small" />
+                        </Text>
+                      )}
                     </ListItemButton>
                   </ListItem>
-                )
-              )}
+                );
+              })}
             </Stack>
           ) : (
             <ErrorMessage
@@ -74,7 +93,7 @@ ListSelector.defaultDialogProps = () => ({
   PaperProps: {
     sx: (t) => ({
       bgcolor: t.palette.background.dialog,
-      borderRadius: 2,
+      borderRadius: 4,
     }),
   },
 });

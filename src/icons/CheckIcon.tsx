@@ -1,6 +1,6 @@
 import { createSvgIcon } from "@mui/material";
 
-const EllipsisHorizontal = createSvgIcon(
+const CheckIcon = createSvgIcon(
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -13,11 +13,9 @@ const EllipsisHorizontal = createSvgIcon(
     strokeLinejoin="round"
   >
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-    <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-    <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M5 12l5 5l10 -10" />
   </svg>,
-  "EllipsisHorizontal"
+  "Check"
 );
 
-export default EllipsisHorizontal;
+export default CheckIcon;

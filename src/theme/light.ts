@@ -1,4 +1,4 @@
-import { PaletteOptions } from "@mui/material";
+import { createTheme, PaletteOptions } from "@mui/material";
 
 type TLightTheme = PaletteOptions;
 
@@ -9,6 +9,12 @@ const lightMode: TLightTheme = {
   secondary: {
     main: "#646470",
   },
+  accent: createTheme().palette.augmentColor({
+    color: {
+      main: "#a154db",
+    },
+    name: "accent",
+  }),
   background: {
     default: "#F8F8F8",
     dialog: "#FFFFFF",
