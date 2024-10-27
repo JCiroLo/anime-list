@@ -35,12 +35,11 @@ const SearchDialog = () => {
   });
 
   useDebouncedEffect(async () => {
-    console.log("Mounting");
     setAnimes([]);
-    
+
     if (search) {
       window.scrollTo({ top: 0, behavior: "smooth" });
-      
+
       setIsLoading(true);
 
       await refetch({ resetPagination: true });
@@ -61,7 +60,7 @@ const SearchDialog = () => {
     >
       <PageWrapper
         content={
-          <Stack spacing={error || animes.length === 0 ? 2 : 4}>
+          <Stack spacing={error || animes.length === 0 ? 2 : 4} marginTop={4}>
             <Text variant="h3" fontSize="2em" fontWeight={700}>
               Results for "{search}"
             </Text>
@@ -101,7 +100,6 @@ const SearchDialog = () => {
                     </Button>
                   </ErrorMessage>
                 )}
-                <h1>hey</h1>
                 {hasNextPage && <CircularProgress ref={scrollObserver.ref} sx={{ alignSelf: "center" }} />}
               </>
             )}

@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { alpha, Box, Fade, Stack } from "@mui/material";
+import { alpha, Box, Stack } from "@mui/material";
 
 import { AnimePopover, Image } from "@/components";
 import { ANIME, LAYOUT } from "@/constants";
@@ -25,9 +25,15 @@ const AnimeCard: FC<TAnimeCardProps> = ({ anime, props }) => {
       display="flex"
       sx={(t) => ({
         borderRadius: 1,
+        outlineColor: alpha(t.palette.primary.main, 0.75),
         "&:hover": {
           outline: 2,
-          outlineColor: alpha(t.palette.primary.main, 0.75),
+          "& > .anime-card__flyout": {
+            visibility: "visible",
+            opacity: 1,
+            scale: 1,
+            transition: t.transitions.create(["visibility", "opacity", "scale"], { delay: 400 }),
+          },
         },
         ...Object.entries(LAYOUT.grid.columns.exclude("xs", "xl")).reduce(
           (breakpoints, [key, value]) => ({
@@ -50,29 +56,32 @@ const AnimeCard: FC<TAnimeCardProps> = ({ anime, props }) => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <Image src={anime.coverImage} alt={anime.title.userPreferred} width="100%" borderRadius={1} aspect={115 / 163} preload />
+      <Image src={anime.coverImage} alt={anime.title.userPreferred} width="100%" borderRadius={1} aspect={115 / 163} preload lazy />
 
-      <Fade in={isHovering} style={{ transitionDelay: "400ms" }} unmountOnExit>
-        <Stack
-          className="anime-card__flyout"
-          position="absolute"
-          zIndex={20}
-          display={{ xs: "none", sm: "flex" }}
-          left="50%"
-          top="50%"
-          width={ANIME.popover.flyoutWidth}
-          borderRadius={2}
-          overflow="hidden"
-          bgcolor={(t) => t.palette.background.paper}
-          sx={{
-            backdropFilter: "blur(8px) saturate(1.5)",
-            transform: "translate(-50%, -50%)",
-            transformOrigin: "0 0",
-          }}
-        >
-          <AnimePopover anime={anime} />
-        </Stack>
-      </Fade>
+      <Stack
+        className="anime-card__flyout"
+        position="absolute"
+        zIndex={20}
+        display={{ xs: "none", sm: "flex" }}
+        left="50%"
+        top="50%"
+        width={ANIME.popover.flyoutWidth}
+        borderRadius={2}
+        overflow="hidden"
+        bgcolor={(t) => t.palette.background.paper}
+        sx={{
+          backdropFilter: "blur(8px) saturate(1.5)",
+          viewTransitionName: `anime-card-${anime.id}`,
+          visibility: "hidden",
+          opacity: 0,
+          scale: 0.4,
+          transform: "translate(-50%, -50%)",
+          transformOrigin: "0 0",
+          transition: (t) => t.transitions.create(["visibility", "opacity", "scale"], { delay: 0 }),
+        }}
+      >
+        <AnimePopover anime={anime} mounted={isHovering} />
+      </Stack>
     </Box>
   );
 };

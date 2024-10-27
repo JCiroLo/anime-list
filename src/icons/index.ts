@@ -1,6 +1,7 @@
 export { default as ArrowLeftIcon } from './ArrowLeftIcon';
 export { default as CameraOffIcon } from './CameraOffIcon';
 export { default as CheckIcon } from './CheckIcon';
+export { default as ChevronDownIcon } from './ChevronDownIcon';
 export { default as ClipboardCheckIcon } from './ClipboardCheckIcon';
 export { default as ClipboardIcon } from './ClipboardIcon';
 export { default as CloseIcon } from './CloseIcon';

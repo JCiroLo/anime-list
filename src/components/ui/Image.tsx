@@ -15,6 +15,7 @@ type TImageProps = {
   viewTransitionName?: string;
   blur?: boolean;
   preload?: boolean;
+  lazy?: boolean;
 };
 export type TImageRef = HTMLElement;
 
@@ -30,6 +31,7 @@ const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
     viewTransitionName,
     blur = false,
     preload = false,
+    lazy = false,
   } = props;
 
   const [isLoaded, setIsLoaded] = useState(!preload);
@@ -91,6 +93,7 @@ const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
         alt={alt}
         width={imgWidth}
         height={aspect ? undefined : imgHeight}
+        loading={lazy ? "lazy" : undefined}
         style={{
           borderRadius: computedBorderRadius,
           objectFit: objectFit,
