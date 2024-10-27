@@ -1,6 +1,8 @@
+export { default as ApolloClient } from './ApolloClient';
 export * from './DialogUtils';
 export { default as Formatters } from './Formatters';
 export { default as PopoverUtils } from './PopoverUtils';
+export { default as QueryBuilder } from './QueryBuilder';
 export { default as Route } from './Route';
 export { default as Schemas } from './Schemas';
 export { default as Validators } from './Validators';
