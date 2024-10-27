@@ -95,7 +95,7 @@ We are using [AniList API GraphQL](https://anilist.gitbook.io/anilist-apiv2-docs
 
 ## Bugs
 
-- [ ] **Fix Infinite Scroll Bug - Search component**  
+- [ ] **Infinite Scroll - Search Component**  
   The infinite scroll component is not properly handling the fetching of the data.
 
   **Errors:**
@@ -105,3 +105,10 @@ We are using [AniList API GraphQL](https://anilist.gitbook.io/anilist-apiv2-docs
   **How to replicate:**
   - Search for an anime.
   - Reload the page.
+
+- [ ] **Image loading - Anime Card Component**
+  The images are not loading optimally.
+
+  **Errors:**
+  - All the cover images are loaded at the same time.
+  - The banner images loads on hover, this is expected but we need to make sure the image is loaded when the card is visible, not when the user hovers and the card is not visible yet.

@@ -1,9 +1,9 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, IconButton, Stack, Tooltip } from "@mui/material";
+import { Box, Button, Collapse, IconButton, Stack, Tooltip } from "@mui/material";
 
 import { Grid, Image, ListSelectorDialog, Tag, Text, TrailerDialog } from "@/components";
-import { EyeFilledIcon, EyeIcon, HeartFilledIcon, HeartIcon, PlusIcon, TVFilledIcon, TVIcon } from "@/icons";
+import { ChevronDownIcon, EyeFilledIcon, EyeIcon, HeartFilledIcon, HeartIcon, PlusIcon, TVFilledIcon, TVIcon } from "@/icons";
 import { useLists } from "@/stores";
 import { useDialog, useViewTransition } from "@/hooks";
 import { Route } from "@/utils";
@@ -13,13 +13,16 @@ import type { TListSlug } from "@/types/List";
 
 type TAnimePopoverProps = {
   anime: TAnime;
+  mounted: boolean;
 };
 
-const AnimePopover: FC<TAnimePopoverProps> = ({ anime }) => {
+const AnimePopover: FC<TAnimePopoverProps> = ({ anime, mounted }) => {
   const dialog = useDialog();
   const navigate = useNavigate();
   const viewTransition = useViewTransition();
   const { isAnimeInList, addAnimeToList, removeAnimeFromList } = useLists();
+
+  const [moreDetails, setMoreDetails] = useState(false);
 
   const isAnimeIn: Record<TListSlug, boolean> = {
     "watched-list": isAnimeInList("watched-list", anime),
@@ -52,16 +55,14 @@ const AnimePopover: FC<TAnimePopoverProps> = ({ anime }) => {
     handleSelectList(slug);
   };
 
-  return (
+  const handleToggleMoreDetails = () => {
+    setMoreDetails((prev) => !prev);
+  };
+
+  return mounted ? (
     <>
       <Stack position="relative">
-        <Image
-          src={anime.bannerImage || anime.coverImage.large}
-          alt={anime.title.userPreferred}
-          aspect={16 / 9}
-          width="100%"
-          viewTransitionName={`anime-banner-${anime.id}`}
-        />
+        <Image src={anime.bannerImage || anime.coverImage.large} alt={anime.title.userPreferred} aspect={16 / 9} width="100%" />
         <Stack position="absolute" direction="row" flexWrap="wrap-reverse" spacing={0.5} bottom={4} left={4}>
           {anime.genres?.map((genre) => (
             <Tag key={genre} label={genre} />
@@ -96,26 +97,48 @@ const AnimePopover: FC<TAnimePopoverProps> = ({ anime }) => {
               <PlusIcon />
             </IconButton>
           </Tooltip>
+          <Box flexGrow={1} />
+          <Tooltip title={moreDetails ? "Hide details" : "Show details"} arrow>
+            <IconButton onClick={handleToggleMoreDetails}>
+              <Box
+                display="flex"
+                sx={{ transform: moreDetails ? "rotate(180deg)" : undefined, transition: (t) => t.transitions.create(["transform"]) }}
+              >
+                <ChevronDownIcon />
+              </Box>
+            </IconButton>
+          </Tooltip>
         </Stack>
-        <Stack spacing={0.5}>
-          <Text fontWeight={700}>Description:</Text>
-          <Text.Rich
-            html={anime.description || "No description available"}
-            variant="body2"
-            fontWeight={300}
-            sx={{ display: "-webkit-box", overflow: "hidden", WebkitBoxOrient: "vertical", WebkitLineClamp: 4 }}
-          />
-        </Stack>
-        <Grid cols={anime.trailer.id ? 2 : 1} gap={1}>
-          {anime.trailer.id && (
-            <Button fullWidth onClick={handleWatchTrailer}>
-              Watch trailer
-            </Button>
-          )}
-          <Button variant="outlined" fullWidth onClick={handleViewDetails}>
-            More info
-          </Button>
-        </Grid>
+        <Collapse in={moreDetails}>
+          <Stack spacing={2}>
+            <Stack spacing={0.5}>
+              <Text fontWeight={700}>Description:</Text>
+              <Text.Rich
+                html={anime.description || "No description available"}
+                variant="body2"
+                fontWeight={300}
+                sx={{ display: "-webkit-box", overflow: "hidden", WebkitBoxOrient: "vertical", WebkitLineClamp: 4 }}
+              />
+            </Stack>
+            <Grid cols={anime.trailer.id ? 2 : 1} gap={1}>
+              {anime.trailer.id && (
+                <Button fullWidth onClick={handleWatchTrailer}>
+                  Watch trailer
+                </Button>
+              )}
+              <Button variant="outlined" fullWidth onClick={handleViewDetails}>
+                More info
+              </Button>
+            </Grid>
+          </Stack>
+        </Collapse>
+      </Stack>
+    </>
+  ) : (
+    <>
+      <Box width="100%" sx={{ aspect: 16 / 9 }} />
+      <Stack spacing={2} p={2}>
+        <Box height={8 * 32} />
       </Stack>
     </>
   );
