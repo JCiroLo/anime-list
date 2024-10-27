@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ApolloProvider as Apollo, InMemoryCache } from "@apollo/client";
+import { ApolloProvider as Apollo } from "@apollo/client";
 import { ApolloClient } from "@/utils";
 
 type TApolloProvider = FC<{
