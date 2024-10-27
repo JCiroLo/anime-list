@@ -7,10 +7,10 @@ import { Pagination } from "swiper/modules";
 
 import { AnimeBanner, AnimeData, CharacterDialog, Image, ListSelectorDialog, PageWrapper, Text, TrailerDialog } from "@/components";
 import { MovieIcon, PlusIcon } from "@/icons";
-import { AnimeQueries } from "@/queries";
 import { useDialog } from "@/hooks";
 import { useLists } from "@/stores";
 import { ANIME } from "@/constants";
+import { QueryBuilder } from "@/utils";
 
 import type { TAnime, TAnimeCharacter } from "@/types/Anime";
 import type { TListSlug } from "@/types/List";
@@ -37,13 +37,16 @@ const Anime: FC = () => {
 
   const [anime, setAnime] = useState<TAnime>(null!);
 
-  useQuery(AnimeQueries.detail.query, {
-    variables: {
-      id,
+  const QUERIES = {
+    detail: QueryBuilder.anime.detail({
+      id: id || "",
       type: "ANIME",
-      isAdult: false,
-    },
-    onCompleted: (data) => setAnime(AnimeQueries.detail.transform(data)),
+    }),
+  };
+
+  useQuery(QUERIES.detail.query, {
+    variables: QUERIES.detail.variables,
+    onCompleted: (data) => setAnime(QUERIES.detail.transform(data)),
   });
 
   const handleSelectList = (slug: TListSlug) => {

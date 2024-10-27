@@ -1,15 +1,24 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Dialog, Stack } from "@mui/material";
-import { useLazyQuery } from "@apollo/client";
+import { Button, CircularProgress, Dialog, Stack } from "@mui/material";
 
-import { AnimeCard, Grid, PageWrapper, Text } from "@/components";
-import { useDebouncedEffect } from "@/hooks";
-import { AnimeQueries } from "@/queries";
+import { AnimeCard, ErrorMessage, Grid, PageWrapper, Text } from "@/components";
+import { MoodSadIcon } from "@/icons";
+import { useDebouncedEffect, useInfiniteQuery } from "@/hooks";
 import { LAYOUT } from "@/constants";
+import { QueryBuilder } from "@/utils";
 
 import type { TAnime } from "@/types/Anime";
-import type { TQuerySearchVariables } from "@/queries/AnimeQueries";
+
+const QUERIES = {
+  search: QueryBuilder.anime.search({
+    page: 1,
+    type: "ANIME",
+    sort: "SEARCH_MATCH",
+    search: "",
+    perPage: 36,
+  }),
+};
 
 const SearchDialog = () => {
   const [searchParams] = useSearchParams();
@@ -17,26 +26,39 @@ const SearchDialog = () => {
   const search = searchParams.get("search");
 
   const [animes, setAnimes] = useState([] as TAnime[]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [onSearch, { error }] = useLazyQuery(AnimeQueries.search.query, {
-    onCompleted: (data) => setAnimes(AnimeQueries.search.transform(data)),
+  const [scrollObserver, { hasNextPage, error, refetch }] = useInfiniteQuery(QUERIES.search.query, {
+    variables: { ...QUERIES.search.variables, search },
+    debug: true,
+    onRefetch: (data) => setAnimes((prev) => [...prev, ...QUERIES.search.transform(data)]),
   });
 
-  useDebouncedEffect(() => {
+  useDebouncedEffect(async () => {
+    console.log("Mounting");
+    setAnimes([]);
+    
     if (search) {
-      onSearch({
-        variables: {
-          page: 1,
-          type: "ANIME",
-          sort: "SEARCH_MATCH",
-          search,
-        } as TQuerySearchVariables,
-      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      
+      setIsLoading(true);
+
+      await refetch({ resetPagination: true });
+
+      setIsLoading(false);
     }
   }, [search]);
 
   return (
-    <Dialog open={Boolean(search)} PaperProps={{ elevation: 0 }} sx={{ zIndex: "search" }} fullScreen disableEnforceFocus disableAutoFocus>
+    <Dialog
+      open={Boolean(search)}
+      PaperProps={{ elevation: 0 }}
+      sx={{ zIndex: "search" }}
+      keepMounted={false}
+      fullScreen
+      disableEnforceFocus
+      disableAutoFocus
+    >
       <PageWrapper
         content={
           <Stack spacing={error || animes.length === 0 ? 2 : 4}>
@@ -44,18 +66,44 @@ const SearchDialog = () => {
               Results for "{search}"
             </Text>
 
-            {error && <Text>Oops, something went wrong. Please try again later.</Text>}
+            {error && (
+              <ErrorMessage
+                icon={<MoodSadIcon sx={{ fontSize: 48 }} />}
+                title="Oops, something went wrong."
+                subtitle="An error occurred while fetching results. Please try again later or contact us if the problem persists."
+              >
+                <Button component="a" href="mailto:contact-hikarime@gmail.com">
+                  Contact us
+                </Button>
+              </ErrorMessage>
+            )}
 
-            {animes.length > 0 ? (
-              <Grid cols={LAYOUT.grid.columns}>
-                {animes.map((anime, index) => (
-                  <AnimeCard key={anime.id} anime={anime} origin="popular-this-season" props={{ flyout: { zIndex: 20 + index } }} />
-                ))}
-              </Grid>
-            ) : (
-              <Stack spacing={2}>
-                <Text color="text.secondary">Sorry, we have not found any matches (╥﹏╥)</Text>
-              </Stack>
+            {!isLoading && (
+              <>
+                {animes.length > 0 ? (
+                  <Grid cols={LAYOUT.grid.columns}>
+                    {animes.map((anime, index) => (
+                      <AnimeCard
+                        key={anime.id + index}
+                        anime={anime}
+                        origin="popular-this-season"
+                        props={{ flyout: { zIndex: 20 + index } }}
+                      />
+                    ))}
+                  </Grid>
+                ) : (
+                  <ErrorMessage
+                    title="Sorry, we have not found any matches (╥﹏╥)"
+                    subtitle="Please try another search or contact us if the problem persists."
+                  >
+                    <Button component="a" href="mailto:contact-hikarime@gmail.com">
+                      Contact us
+                    </Button>
+                  </ErrorMessage>
+                )}
+                <h1>hey</h1>
+                {hasNextPage && <CircularProgress ref={scrollObserver.ref} sx={{ alignSelf: "center" }} />}
+              </>
             )}
           </Stack>
         }

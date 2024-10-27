@@ -93,3 +93,15 @@ We are using [AniList API GraphQL](https://anilist.gitbook.io/anilist-apiv2-docs
 - [ ] **Create Popover and Dialog Containers**  
   Develop reusable containers for popovers and dialogs to standardize the UI and improve code maintainability.
 
+## Bugs
+
+- [ ] **Fix Infinite Scroll Bug - Search component**  
+  The infinite scroll component is not properly handling the fetching of the data.
+
+  **Errors:**
+  - Results are duplicated.
+  - Page 2 is skipped.
+
+  **How to replicate:**
+  - Search for an anime.
+  - Reload the page.

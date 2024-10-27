@@ -12,8 +12,10 @@ type TGridProps = BoxProps & {
 };
 
 const Grid: FC<TGridProps> = ({ children, cols, colGap, rowGap, gap = 1, ...props }) => {
-  const cGap = colGap || gap;
-  const rGap = rowGap || gap;
+  const gaps = {
+    col: colGap || gap,
+    row: rowGap || gap,
+  };
 
   function getTemplateColumns(cols: TGridProps["cols"]) {
     if (typeof cols === "number") {
@@ -23,7 +25,13 @@ const Grid: FC<TGridProps> = ({ children, cols, colGap, rowGap, gap = 1, ...prop
   }
 
   return (
-    <Box {...props} display="grid" gridTemplateColumns={getTemplateColumns(cols)} columnGap={cGap} rowGap={rGap}>
+    <Box
+      {...props}
+      display="grid"
+      gridTemplateColumns={getTemplateColumns(cols || { xs: 3, sm: 4, md: 5, lg: 6, xl: 6 })}
+      columnGap={gaps.col}
+      rowGap={gaps.row}
+    >
       {children}
     </Box>
   );
