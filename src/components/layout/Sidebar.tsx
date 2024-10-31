@@ -15,7 +15,7 @@ import {
   Tooltip,
 } from "@mui/material";
 
-import { AnimeListImageGrid, FadeTransition, GrowTransition, ListManagerDialog, ListSettingsPopover } from "@/components";
+import { AnimeListImageGrid, FadeTransition, ListManagerDialog, ListSettingsPopover } from "@/components";
 import { ListSearchIcon, PlusIcon } from "@/icons";
 import { useLists } from "@/stores";
 import { useDialog, usePopover } from "@/hooks";
