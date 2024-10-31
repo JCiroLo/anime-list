@@ -17,6 +17,7 @@ export { default as HeartIcon } from './HeartIcon';
 export { default as HeartSearchIcon } from './HeartSearchIcon';
 export { default as InfoCircleIcon } from './InfoCircleIcon';
 export { default as ListSearchIcon } from './ListSearchIcon';
+export { default as MenuIcon } from './MenuIcon';
 export { default as MoodConfuzedIcon } from './MoodConfuzedIcon';
 export { default as MoodSadIcon } from './MoodSadIcon';
 export { default as MovieIcon } from './MovieIcon';

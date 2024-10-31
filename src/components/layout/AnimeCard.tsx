@@ -1,11 +1,15 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import { alpha, Box, Stack } from "@mui/material";
 
 import { AnimePopover, Image } from "@/components";
+import { useBreakpoints, useViewTransition } from "@/hooks";
 import { ANIME, LAYOUT } from "@/constants";
+import { Route } from "@/utils";
 
+import type { FC } from "react";
 import type { Breakpoint, StackProps, BoxProps } from "@mui/material";
 import type { TAnime } from "@/types/Anime";
+import { useNavigate } from "react-router-dom";
 
 type TAnimeCardProps = {
   anime: TAnime;
@@ -14,10 +18,35 @@ type TAnimeCardProps = {
     container?: BoxProps;
     flyout?: StackProps;
   };
+  onClick?: (anime: TAnime) => void;
 };
 
 const AnimeCard: FC<TAnimeCardProps> = ({ anime, props }) => {
-  const [isHovering, setIsHovering] = useState(false);
+  const navigate = useNavigate();
+  const viewTransition = useViewTransition();
+  const { isTabletOrBelow } = useBreakpoints();
+
+  const [renderPopover, setRenderPopover] = useState(false);
+
+  const handleMouseEnter = () => {
+    setRenderPopover(true);
+  };
+
+  const handleMouseLeave = () => {
+    setRenderPopover(false);
+  };
+
+  const handleCardClick = () => {
+    if (isTabletOrBelow) {
+      viewTransition(() => navigate(Route.to("anime", anime.id)));
+
+      return;
+    }
+
+    if (!renderPopover) {
+      setRenderPopover(true);
+    }
+  };
 
   return (
     <Box
@@ -53,8 +82,9 @@ const AnimeCard: FC<TAnimeCardProps> = ({ anime, props }) => {
         ),
       })}
       {...props?.container}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleCardClick}
     >
       <Image src={anime.coverImage} alt={anime.title.userPreferred} width="100%" borderRadius={1} aspect={115 / 163} preload lazy />
 
@@ -80,7 +110,7 @@ const AnimeCard: FC<TAnimeCardProps> = ({ anime, props }) => {
           transition: (t) => t.transitions.create(["visibility", "opacity", "scale"], { delay: 0 }),
         }}
       >
-        <AnimePopover anime={anime} mounted={isHovering} />
+        <AnimePopover anime={anime} mounted={renderPopover} />
       </Stack>
     </Box>
   );

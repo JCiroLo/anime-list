@@ -28,6 +28,7 @@ type TText = FC<TTextProps> & {
 const Text: TText = ({ children, maxLines, textWrap, inline, ...rest }) => {
   return (
     <Typography
+      {...rest}
       sx={{
         ...rest.sx,
         textWrap,
@@ -36,7 +37,6 @@ const Text: TText = ({ children, maxLines, textWrap, inline, ...rest }) => {
         WebkitBoxOrient: "vertical",
         WebkitLineClamp: maxLines,
       }}
-      {...rest}
     >
       {children}
     </Typography>

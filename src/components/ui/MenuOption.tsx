@@ -6,7 +6,7 @@ import type { ListItemTextProps, MenuItemProps, SvgIconProps } from "@mui/materi
 type TMenuOptionProps = {
   icon: FC<SvgIconProps>;
   text: string | ReactNode;
-  props?: {
+  slotProps?: {
     button?: MenuItemProps;
     icon?: SvgIconProps;
     text?: ListItemTextProps;
@@ -14,15 +14,15 @@ type TMenuOptionProps = {
   onClick: () => void;
 };
 
-const MenuOption: FC<TMenuOptionProps> = ({ icon, text, props, onClick }) => {
+const MenuOption: FC<TMenuOptionProps> = ({ icon, text, slotProps, onClick }) => {
   const Icon = icon;
 
   return (
-    <MenuItem {...props?.button} onClick={onClick}>
+    <MenuItem {...slotProps?.button} onClick={onClick}>
       <ListItemIcon style={{ minWidth: 24 }}>
-        <Icon {...props?.icon} fontSize="small" />
+        <Icon {...slotProps?.icon} fontSize="small" />
       </ListItemIcon>
-      <ListItemText {...props?.text} primary={text}></ListItemText>
+      <ListItemText {...slotProps?.text} primary={text}></ListItemText>
     </MenuItem>
   );
 };

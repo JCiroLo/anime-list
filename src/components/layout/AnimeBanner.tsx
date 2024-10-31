@@ -41,21 +41,21 @@ const HeroPanel: FC<HeroPanelProps> = ({ anime, viewTransitionName, hideContent 
               display: "flex",
               flexDirection: "column",
               justifyContent: "flex-end",
-              gap: 4,
+              gap: { xs: 2, md: 4 },
               width: "100%",
               height: "100%",
-              p: 2,
-              pb: 8,
+              padding: 2,
+              paddingBottom: 8,
             }}
           >
             <Stack>
-              <Text variant="h2" fontSize="2.5em" fontWeight={700} maxLines={2} sx={{ textWrap: "balance" }}>
+              <Text variant="h2" fontSize={{ xs: "1.75em", md: "2.5em" }} fontWeight={700} maxLines={2} sx={{ textWrap: "balance" }}>
                 {anime.title.userPreferred}
               </Text>
               {anime.title.english && <Text mt={1}>{anime.title.english}</Text>}
             </Stack>
 
-            <Stack direction="row" spacing={1}>
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={1}>
               {anime.trailer.id && (
                 <Button startIcon={<MovieIcon />} onClick={handleWatchTrailer}>
                   Watch trailer

@@ -93,7 +93,7 @@ const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl }) => {
       <MenuOption
         icon={SunIcon}
         text="Light mode"
-        props={{
+        slotProps={{
           button: { disabled: true },
           text: { secondary: "Coming soon", secondaryTypographyProps: { variant: "caption", lineHeight: 1 } },
         }}
@@ -102,7 +102,7 @@ const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl }) => {
       <MenuOption
         icon={ExportIcon}
         text="Export data"
-        props={{
+        slotProps={{
           button: { disabled: true },
           text: { secondary: "Coming soon", secondaryTypographyProps: { variant: "caption", lineHeight: 1 } },
         }}
