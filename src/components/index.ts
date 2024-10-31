@@ -1,3 +1,4 @@
+export { default as BreakpointsDebug } from './debug/BreakpointsDebug';
 export { default as AvatarManagerDialog } from './dialog/AvatarManagerDialog';
 export { default as CharacterDialog } from './dialog/CharacterDialog';
 export { default as ListManagerDialog } from './dialog/ListManagerDialog';
@@ -23,7 +24,9 @@ export { default as YoutubeEmbed } from './layout/YoutubeEmbed';
 export { default as AnimePopover } from './popover/AnimePopover';
 export { default as ListSettingsPopover } from './popover/ListSettingsPopover';
 export { default as ProfilePopover } from './popover/ProfilePopover';
+export { default as FadeTransition } from './transition/FadeTransition';
 export { default as GrowTransition } from './transition/GrowTransition';
+export { default as Debug } from './ui/Debug';
 export { default as Grid } from './ui/Grid';
 export { default as Image } from './ui/Image';
 export { default as MenuOption } from './ui/MenuOption';

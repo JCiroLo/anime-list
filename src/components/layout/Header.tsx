@@ -2,10 +2,10 @@ import { FC, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Box, ButtonBase, Grow, IconButton, Stack, TextField, Tooltip, useTheme } from "@mui/material";
 
-import { Avatar, ProfilePopover } from "@/components";
-import { ArrowLeftIcon, CloseIcon, SearchIcon } from "@/icons";
+import { Avatar, ProfilePopover, Sidebar } from "@/components";
+import { ArrowLeftIcon, CloseIcon, MenuIcon, SearchIcon } from "@/icons";
 import { useSession } from "@/stores";
-import { usePopover } from "@/hooks";
+import { useBreakpoints, useDialog, usePopover, useViewTransition } from "@/hooks";
 
 import type { MouseEvent } from "react";
 
@@ -16,8 +16,11 @@ type THeaderProps = {
 const Header: FC<THeaderProps> = ({ isSidebarCollapsed }) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const dialog = useDialog();
   const popover = usePopover();
+  const viewTransition = useViewTransition();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { isMobile } = useBreakpoints();
   const avatar = useSession((state) => state.user.avatar);
 
   const [isSearching, setIsSearching] = useState(false);
@@ -55,7 +58,13 @@ const Header: FC<THeaderProps> = ({ isSidebarCollapsed }) => {
   };
 
   const handleGoBack = () => {
-    navigate(-1);
+    viewTransition(() => navigate(-1));
+  };
+
+  const handleSidebarToggle = () => {
+    dialog.open(<Sidebar collapsed isDialog onToggle={() => dialog.close()} />, {
+      dialog: Sidebar.defaultDialogProps(),
+    });
   };
 
   return (
@@ -69,17 +78,41 @@ const Header: FC<THeaderProps> = ({ isSidebarCollapsed }) => {
         spacing={2}
         flexDirection="row"
         alignItems="center"
-        width={`calc(100vw - 32px - ${isSidebarCollapsed ? theme.sizes.sidebar.collapsedRealWidth : theme.sizes.sidebar.realWidth}px)`}
+        width={{
+          xs: "calc(100vw - 24px)",
+          md: `calc(100vw - 32px - ${isSidebarCollapsed ? theme.sizes.sidebar.collapsedRealWidth : theme.sizes.sidebar.realWidth}px)`,
+        }}
         height={theme.sizes.header.realHeight}
         px={1}
         py={1}
       >
-        {!isPathEmpty && (
-          <IconButton onClick={handleGoBack}>
-            <ArrowLeftIcon />
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{ opacity: isMobile && isSearching ? 0 : 1, transition: theme.transitions.create(["opacity"]) }}
+        >
+          <IconButton
+            sx={{
+              display: { xs: "inline-flex", md: "none" },
+            }}
+            onClick={handleSidebarToggle}
+          >
+            <MenuIcon />
           </IconButton>
-        )}
-        <Stack direction="row" spacing={1} flexGrow={1} alignItems="center" justifyContent="flex-end">
+          {!isPathEmpty && (
+            <IconButton onClick={handleGoBack}>
+              <ArrowLeftIcon />
+            </IconButton>
+          )}
+        </Stack>
+        <Stack
+          direction="row"
+          spacing={1}
+          flexGrow={1}
+          alignItems="center"
+          justifyContent="flex-end"
+          sx={{ translate: isMobile && isSearching ? "44px" : 0, transition: theme.transitions.create(["translate"]) }}
+        >
           <Stack position="relative">
             <TextField
               inputRef={searchFieldRef}
@@ -95,7 +128,7 @@ const Header: FC<THeaderProps> = ({ isSidebarCollapsed }) => {
                 transition: theme.transitions.create(["opacity"]),
                 "& .MuiInputBase-root": {
                   "& input": {
-                    width: isSearching ? "32ch" : 12,
+                    width: isSearching ? (isMobile ? "calc(100vw - 56px)" : "32ch") : 12,
                     transition: theme.transitions.create(["width"]),
                   },
                 },
@@ -126,7 +159,10 @@ const Header: FC<THeaderProps> = ({ isSidebarCollapsed }) => {
             </Stack>
           </Stack>
           <Tooltip title="Profile">
-            <ButtonBase sx={{ borderRadius: 2 }} onClick={handleProfileOpen}>
+            <ButtonBase
+              sx={{ borderRadius: 2, opacity: isMobile && isSearching ? 0 : 1, transition: theme.transitions.create(["opacity"]) }}
+              onClick={handleProfileOpen}
+            >
               <Avatar size={32} src={avatar} />
             </ButtonBase>
           </Tooltip>
