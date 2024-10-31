@@ -60,6 +60,10 @@ const Sidebar: TSidebar = ({ collapsed, isDialog, onToggle }) => {
     );
   };
 
+  const handleListClick = () => {
+    onToggle();
+  };
+
   return (
     <>
       <Stack
@@ -115,6 +119,7 @@ const Sidebar: TSidebar = ({ collapsed, isDialog, onToggle }) => {
                     sx={{ bgcolor: pathname === Route.to("list", list.slug) ? "action.selected" : undefined, padding: 1, borderRadius: 3 }}
                     unstable_viewTransition
                     onContextMenu={(event) => handleListRightClick(event, list)}
+                    onClick={handleListClick}
                   >
                     <ListItemIcon>
                       <AnimeListImageGrid animes={list.animes} width={40} height={40} />

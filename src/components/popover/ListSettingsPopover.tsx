@@ -83,7 +83,7 @@ const ListSettingsPopover: FC<ListSettingsPopoverProps> = ({
           key="delete"
           icon={TrashIcon}
           text="Delete list"
-          props={{ icon: { color: "error" }, text: { primaryTypographyProps: { color: "error", fontWeight: 500 } } }}
+          slotProps={{ icon: { color: "error" }, text: { primaryTypographyProps: { color: "error", fontWeight: 500 } } }}
           onClick={handleDeleteList}
         />,
       ]

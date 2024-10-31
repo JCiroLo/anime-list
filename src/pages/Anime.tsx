@@ -1,16 +1,27 @@
 import { FC, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link as RouterLink, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { Button, ButtonBase, Chip, Stack } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 
-import { AnimeBanner, AnimeData, CharacterDialog, Image, ListSelectorDialog, Loader, PageWrapper, Text, TrailerDialog } from "@/components";
-import { MovieIcon, PlusIcon } from "@/icons";
+import {
+  AnimeBanner,
+  AnimeData,
+  CharacterDialog,
+  ErrorMessage,
+  Image,
+  ListSelectorDialog,
+  Loader,
+  PageWrapper,
+  Text,
+  TrailerDialog,
+} from "@/components";
+import { GhostIcon, MovieIcon, PlusIcon } from "@/icons";
 import { useBreakpoints, useDialog } from "@/hooks";
 import { useLists } from "@/stores";
 import { ANIME } from "@/constants";
-import { QueryBuilder } from "@/utils";
+import { QueryBuilder, Route } from "@/utils";
 
 import type { TAnime, TAnimeCharacter } from "@/types/Anime";
 import type { TListSlug } from "@/types/List";
@@ -101,72 +112,85 @@ const Anime: FC = () => {
     <>
       <Loader show={response.loading} />
 
-      {anime && (
+      {!response.loading && (
         <PageWrapper
-          hero={<AnimeBanner anime={anime} hideContent />}
+          hero={anime ? <AnimeBanner anime={anime} hideContent /> : null}
           content={
-            <Stack direction={{ xs: "column", md: "row" }} alignItems="flex-start" spacing={LAYOUT.gap}>
-              {!isTabletOrBelow ? AnimeActionsColumn : null}
-              <Stack spacing={LAYOUT.content.gap} width={LAYOUT.sizes[1]}>
-                <Stack spacing={LAYOUT.content.section.gap}>
-                  <Stack direction="row" alignItems="flex-end" justifyContent="space-between">
-                    <Text variant="h1" fontSize={{ xs: "1.5em", md: "2.5em" }}>
-                      {anime.title.userPreferred}
-                    </Text>
-                    {isTabletOrBelow && (
-                      <Image
-                        src={anime.coverImage}
-                        alt="Anime cover image"
-                        width={12}
-                        aspect={ANIME.coverImage.aspectRatio}
-                        borderRadius={1}
-                      />
-                    )}
-                  </Stack>
-                  <Text.Rich html={anime.description || ""} />
-                </Stack>
-                {anime.genres?.length && (
-                  <Stack direction="row" spacing={1} flexWrap="wrap">
-                    {anime.genres.map((genre) => (
-                      <Chip key={genre} size="small" label={genre} sx={{ fontWeight: 400 }} onClick={() => {}} />
-                    ))}
-                  </Stack>
-                )}
-                {anime.characters?.length && (
+            !anime ? (
+              <ErrorMessage
+                icon={<GhostIcon sx={{ fontSize: 48 }} />}
+                title="There's nothing here."
+                subtitle="We could not find the anime you were looking for. Please try again using another search. "
+              >
+                <Button component={RouterLink} to={Route.to()}>
+                  Explore animes
+                </Button>
+              </ErrorMessage>
+            ) : (
+              <Stack direction={{ xs: "column", md: "row" }} alignItems="flex-start" spacing={LAYOUT.gap}>
+                {!isTabletOrBelow ? AnimeActionsColumn : null}
+                <Stack spacing={LAYOUT.content.gap} width={LAYOUT.sizes[1]}>
                   <Stack spacing={LAYOUT.content.section.gap}>
-                    <Text variant="h2">Characters</Text>
-                    <Swiper
-                      speed={500}
-                      slidesPerView={6}
-                      spaceBetween={8}
-                      pagination={{
-                        dynamicBullets: true,
-                      }}
-                      modules={[Pagination]}
-                      style={{ width: "100%", paddingBottom: 24 }}
-                    >
-                      {anime.characters?.map((character) => (
-                        <SwiperSlide key={character.id}>
-                          <ButtonBase focusRipple onClick={() => handleCharacterClick(character)}>
-                            <Image
-                              key={character.id}
-                              src={character.image.large}
-                              alt={character?.name?.userPreferred || "Character"}
-                              width="100%"
-                              aspect={ANIME.coverImage.aspectRatio}
-                              borderRadius={1}
-                            />
-                          </ButtonBase>
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
+                    <Stack direction="row" alignItems="flex-end" justifyContent="space-between">
+                      <Text variant="h1" fontSize={{ xs: "1.5em", md: "2.5em" }}>
+                        {anime.title.userPreferred}
+                      </Text>
+                      {isTabletOrBelow && (
+                        <Image
+                          src={anime.coverImage}
+                          alt="Anime cover image"
+                          width={12}
+                          aspect={ANIME.coverImage.aspectRatio}
+                          borderRadius={1}
+                        />
+                      )}
+                    </Stack>
+                    <Text.Rich html={anime.description || ""} />
                   </Stack>
-                )}
+                  {anime.genres?.length && (
+                    <Stack direction="row" spacing={1} flexWrap="wrap">
+                      {anime.genres.map((genre) => (
+                        <Chip key={genre} size="small" label={genre} sx={{ fontWeight: 400 }} onClick={() => {}} />
+                      ))}
+                    </Stack>
+                  )}
+                  {anime.characters?.length && (
+                    <Stack spacing={LAYOUT.content.section.gap}>
+                      <Text variant="h2">Characters</Text>
+                      <Swiper
+                        speed={500}
+                        slidesPerView={6}
+                        spaceBetween={8}
+                        pagination={{
+                          dynamicBullets: true,
+                        }}
+                        modules={[Pagination]}
+                        style={{ width: "100%", paddingBottom: 24 }}
+                      >
+                        {anime.characters?.map((character) => (
+                          <SwiperSlide key={character.id}>
+                            <ButtonBase focusRipple onClick={() => handleCharacterClick(character)}>
+                              <Image
+                                key={character.id}
+                                src={character.image.large}
+                                alt={character?.name?.userPreferred || "Character"}
+                                width="100%"
+                                aspect={ANIME.coverImage.aspectRatio}
+                                borderRadius={1}
+                              />
+                            </ButtonBase>
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    </Stack>
+                  )}
+                </Stack>
+                {AnimeDataColumn}
               </Stack>
-              {AnimeDataColumn}
-            </Stack>
+            )
           }
-          separation={isTabletOrBelow ? -14 : -8}
+          headerGutter={!anime}
+          separation={!anime ? 0 : isTabletOrBelow ? -14 : -8}
         />
       )}
     </>

@@ -15,13 +15,13 @@ type TAnimeTableProps = {
 const AnimeTable: FC<TAnimeTableProps> = ({ animes }) => {
   return (
     <TableContainer>
-      <Table sx={{ minWidth: 650 }} aria-label="anime list table">
+      <Table aria-label="anime list table">
         <TableHead>
           <TableRow>
             <TableCell align="left" sx={{ padding: 1 }}>
               Title
             </TableCell>
-            <TableCell align="left" sx={{ padding: 1 }}>
+            <TableCell align="left" width={120} sx={{ padding: 1 }}>
               Watched date
             </TableCell>
           </TableRow>
@@ -79,11 +79,13 @@ const AnimeTable: FC<TAnimeTableProps> = ({ animes }) => {
                   </Text>
                 </Stack>
                 <Stack>
-                  <Link component={RouterLink} to={Route.to("anime", anime.id)} variant="body1" fontWeight={500}>
-                    {anime.title.userPreferred}
-                  </Link>
+                  <Text maxLines={2}>
+                    <Link component={RouterLink} to={Route.to("anime", anime.id)} variant="body1" fontWeight={500}>
+                      {anime.title.userPreferred}
+                    </Link>
+                  </Text>
                   {anime.title.english && (
-                    <Text variant="body2" color="text.secondary">
+                    <Text variant="body2" color="text.secondary" maxLines={2}>
                       {anime.title.english}
                     </Text>
                   )}
