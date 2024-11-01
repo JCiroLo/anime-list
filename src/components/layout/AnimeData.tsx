@@ -5,8 +5,8 @@ import { Text } from "@/components";
 import { Formatters } from "@/utils";
 import { ANIME } from "@/constants";
 
-import type { TypographyProps } from "@mui/material";
 import type { TAnime } from "@/types/Anime";
+import type { TTextProps } from "@/components/ui/Text";
 
 type TSubTextProps = {
   value: string | number | (string | undefined)[];
@@ -18,7 +18,7 @@ type TAnimeDataProps = {
 
 const SubText: FC<TSubTextProps> = ({ value }) => {
   const isArray = Array.isArray(value);
-  const textProps: TypographyProps = { variant: "body2", color: "text.secondary" };
+  const textProps: TTextProps = { variant: "body2", color: "text.secondary" };
 
   return isArray ? (
     value.map((value, index) => (
