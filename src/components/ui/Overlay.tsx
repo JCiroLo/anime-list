@@ -1,10 +1,14 @@
 import { Box, useTheme } from "@mui/material";
 
-import type { FC } from "react";
+import type { CSSProperties, FC } from "react";
 import type { BoxProps, Theme } from "@mui/material";
 
+type TGradientColor = {
+  color: CSSProperties["color"];
+  length?: number;
+};
 type TGradientProps = BoxProps & {
-  color: string | ((theme: Theme) => string);
+  colors: ((theme: Theme) => TGradientColor[]) | TGradientColor[];
   zIndex?: number;
   degrees?: number;
 };
@@ -31,10 +35,12 @@ const Overlay: TOverlay = ({ zIndex = 5, ...rest }) => {
   );
 };
 
-const Gradient: FC<TGradientProps> = ({ color, zIndex = 5, degrees = 180, ...rest }) => {
+const Gradient: FC<TGradientProps> = ({ colors, zIndex = 5, degrees = 180, ...rest }) => {
   const theme = useTheme();
 
-  const gradient = `linear-gradient(${degrees}deg, ${typeof color === "function" ? color(theme) : color} 0%, rgba(0, 0, 0, 0) 100%)`;
+  const colorsArray = typeof colors === "function" ? colors(theme) : colors;
+  const computedColors = colorsArray.map(({ color, length }) => [color, length ? `${length}%` : null].filter(Boolean).join(" ")).join(", ");
+  const gradient = `linear-gradient(${degrees}deg, ${computedColors})`;
 
   return (
     <Box

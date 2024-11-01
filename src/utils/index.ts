@@ -1,4 +1,5 @@
 export { default as ApolloClient } from './ApolloClient';
+export { default as BreakpointsUtils } from './BreakpointsUtils';
 export * from './DialogUtils';
 export { default as Env } from './Env';
 export { default as Formatters } from './Formatters';

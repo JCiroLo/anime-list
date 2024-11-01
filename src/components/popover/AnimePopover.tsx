@@ -111,14 +111,16 @@ const AnimePopover: FC<TAnimePopoverProps> = ({ anime, mounted }) => {
         </Stack>
         <Collapse in={moreDetails}>
           <Stack spacing={2}>
-            <Stack spacing={0.5}>
-              <Text fontWeight={700}>Description:</Text>
-              <Text.Rich
-                html={anime.description || "No description available"}
-                variant="body2"
-                fontWeight={300}
-                sx={{ display: "-webkit-box", overflow: "hidden", WebkitBoxOrient: "vertical", WebkitLineClamp: 4 }}
-              />
+            <Stack maxHeight={8 * 32} overflow="auto">
+              <Stack spacing={0.5}>
+                <Text fontWeight={700}>Description:</Text>
+                <Text.Rich
+                  html={anime.description || "No description available"}
+                  variant="body2"
+                  fontWeight={300}
+                  sx={{ display: "-webkit-box", overflow: "hidden", WebkitBoxOrient: "vertical", WebkitLineClamp: 4 }}
+                />
+              </Stack>
             </Stack>
             <Grid cols={anime.trailer.id ? 2 : 1} gap={1}>
               {anime.trailer.id && (

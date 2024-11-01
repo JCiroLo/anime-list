@@ -1,27 +1,30 @@
 import { useState } from "react";
 import { alpha, Box, Stack } from "@mui/material";
 
-import { AnimePopover, Image } from "@/components";
+import { AnimePopover, Image, Overlay, Text } from "@/components";
 import { useBreakpoints, useViewTransition } from "@/hooks";
 import { ANIME, LAYOUT } from "@/constants";
-import { Route } from "@/utils";
+import { BreakpointsUtils, Route } from "@/utils";
 
 import type { FC } from "react";
-import type { Breakpoint, StackProps, BoxProps } from "@mui/material";
+import type { Breakpoint, BoxProps } from "@mui/material";
 import type { TAnime } from "@/types/Anime";
 import { useNavigate } from "react-router-dom";
 
 type TAnimeCardProps = {
   anime: TAnime;
   origin?: string;
+  index?: number;
   props?: {
+    layout?: Record<Breakpoint, number>;
     container?: BoxProps;
-    flyout?: StackProps;
   };
   onClick?: (anime: TAnime) => void;
 };
 
-const AnimeCard: FC<TAnimeCardProps> = ({ anime, props }) => {
+const AnimeCard: FC<TAnimeCardProps> = ({ anime, index, props }) => {
+  const { layout = LAYOUT.grid.columns.six, container } = props || {};
+
   const navigate = useNavigate();
   const viewTransition = useViewTransition();
   const { isTabletOrBelow } = useBreakpoints();
@@ -50,6 +53,7 @@ const AnimeCard: FC<TAnimeCardProps> = ({ anime, props }) => {
 
   return (
     <Box
+      component="article"
       position="relative"
       display="flex"
       sx={(t) => ({
@@ -64,7 +68,7 @@ const AnimeCard: FC<TAnimeCardProps> = ({ anime, props }) => {
             transition: t.transitions.create(["visibility", "opacity", "scale"], { delay: 400 }),
           },
         },
-        ...Object.entries(LAYOUT.grid.columns.exclude("xs", "xl")).reduce(
+        ...Object.entries(BreakpointsUtils.exclude(layout, ["xs", "xl"])).reduce(
           (breakpoints, [key, value]) => ({
             ...breakpoints,
             [t.breakpoints.only(key as Breakpoint)]: {
@@ -81,12 +85,39 @@ const AnimeCard: FC<TAnimeCardProps> = ({ anime, props }) => {
           {}
         ),
       })}
-      {...props?.container}
+      {...container}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleCardClick}
     >
       <Image src={anime.coverImage} alt={anime.title.userPreferred} width="100%" borderRadius={1} aspect={115 / 163} preload lazy />
+
+      {index !== undefined && (
+        <>
+          <Overlay.Gradient
+            colors={(theme) => [
+              { color: theme.palette.background.default, length: 5 },
+              { color: "transparent", length: 30 },
+            ]}
+            zIndex={1}
+            degrees={15}
+          />
+          <Text
+            className="anime-card__index"
+            component="span"
+            fontSize="2.5em"
+            fontWeight={700}
+            lineHeight={1}
+            color="text.secondary"
+            position="absolute"
+            zIndex={2}
+            left={4}
+            bottom={4}
+          >
+            {index}
+          </Text>
+        </>
+      )}
 
       <Stack
         className="anime-card__flyout"

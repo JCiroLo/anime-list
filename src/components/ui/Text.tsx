@@ -17,7 +17,9 @@ type TEditableProps = Omit<TTextProps, "onChange"> & {
 };
 export type TTextProps = TypographyProps & {
   maxLines?: number;
+  overflow?: CSSProperties["overflow"];
   textWrap?: CSSProperties["textWrap"];
+  wordBreak?: CSSProperties["wordBreak"];
   inline?: boolean;
 };
 type TText = FC<TTextProps> & {
@@ -25,15 +27,16 @@ type TText = FC<TTextProps> & {
   Editable: FC<TEditableProps>;
 };
 
-const Text: TText = ({ children, maxLines, textWrap, inline, ...rest }) => {
+const Text: TText = ({ children, maxLines, overflow, textWrap, wordBreak, inline, ...rest }) => {
   return (
     <Typography
       {...rest}
       sx={{
         ...rest.sx,
         textWrap,
+        wordBreak,
         display: inline ? "inline" : "-webkit-box",
-        overflow: "hidden",
+        overflow: overflow || "hidden",
         WebkitBoxOrient: "vertical",
         WebkitLineClamp: maxLines,
       }}

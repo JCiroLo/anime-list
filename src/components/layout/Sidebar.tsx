@@ -13,34 +13,35 @@ import {
   ListItemText,
   Stack,
   Tooltip,
+  useTheme,
 } from "@mui/material";
 
-import { AnimeListImageGrid, FadeTransition, ListManagerDialog, ListSettingsPopover } from "@/components";
+import { AnimeListImageGrid, ListManagerDialog, ListSettingsPopover, Text } from "@/components";
 import { ListSearchIcon, PlusIcon } from "@/icons";
-import { useLists } from "@/stores";
-import { useDialog, usePopover } from "@/hooks";
+import { useLists, useSettings } from "@/stores";
+import { useBreakpoints, useDialog, usePopover } from "@/hooks";
 import { Route } from "@/utils";
 
 import type { MouseEvent } from "react";
 import type { TList } from "@/types/List";
-import type { TDefaultDialogProps } from "@/utils/DialogUtils";
 
 type TSidebarProps = {
-  collapsed: boolean;
   isDialog?: boolean;
-  onToggle: () => void;
+  onToggle?: () => void;
 };
-type TSidebar = FC<TSidebarProps> & {
-  defaultDialogProps: () => TDefaultDialogProps;
-};
+type TSidebar = FC<TSidebarProps>;
 
-const Sidebar: TSidebar = ({ collapsed, isDialog, onToggle }) => {
+const Sidebar: TSidebar = ({ isDialog, onToggle }) => {
   const { pathname } = useLocation();
+  const theme = useTheme();
   const dialog = useDialog();
   const popover = usePopover();
+  const { isTabletOrBelow } = useBreakpoints();
   const userLists = useLists((state) => state.lists);
+  const isSidebarCollapsed = useSettings((state) => state.sidebar.open);
+  const { toggleSidebarOpen } = useSettings();
 
-  const isCollapsed = collapsed && !isDialog;
+  const isCollapsed = isSidebarCollapsed && !isDialog;
 
   const handleCreateList = () => {
     dialog.open(<ListManagerDialog.Create />, { dialog: ListManagerDialog.defaultDialogProps() });
@@ -60,8 +61,9 @@ const Sidebar: TSidebar = ({ collapsed, isDialog, onToggle }) => {
     );
   };
 
-  const handleListClick = () => {
-    onToggle();
+  const handleSidebarToggle = () => {
+    toggleSidebarOpen();
+    onToggle?.();
   };
 
   return (
@@ -83,10 +85,17 @@ const Sidebar: TSidebar = ({ collapsed, isDialog, onToggle }) => {
         >
           {isCollapsed ? (
             <Tooltip title="Show your lists" placement="right">
-              <IconButton size="small" onClick={onToggle}>
+              <IconButton size="small" onClick={handleSidebarToggle}>
                 <ListSearchIcon />
               </IconButton>
             </Tooltip>
+          ) : isDialog ? (
+            <Stack direction="row" spacing={1} alignItems="center" paddingX={0.5} paddingY={1}>
+              <ListSearchIcon sx={{ fontSize: 20 }} />
+              <Text variant="h6" fontSize={theme.typography.button.fontSize} fontWeight={theme.typography.button.fontWeight}>
+                Your lists
+              </Text>
+            </Stack>
           ) : (
             <Fade in={!isCollapsed} style={{ transitionDelay: !isCollapsed ? "100ms" : "0ms" }}>
               <Button
@@ -94,7 +103,7 @@ const Sidebar: TSidebar = ({ collapsed, isDialog, onToggle }) => {
                 startIcon={<ListSearchIcon />}
                 fullWidth
                 sx={{ justifyContent: "flex-start", textWrap: "nowrap" }}
-                onClick={onToggle}
+                onClick={handleSidebarToggle}
               >
                 Your lists
               </Button>
@@ -119,7 +128,7 @@ const Sidebar: TSidebar = ({ collapsed, isDialog, onToggle }) => {
                     sx={{ bgcolor: pathname === Route.to("list", list.slug) ? "action.selected" : undefined, padding: 1, borderRadius: 3 }}
                     unstable_viewTransition
                     onContextMenu={(event) => handleListRightClick(event, list)}
-                    onClick={handleListClick}
+                    onClick={isTabletOrBelow ? handleSidebarToggle : undefined}
                   >
                     <ListItemIcon>
                       <AnimeListImageGrid animes={list.animes} width={40} height={40} />
@@ -144,17 +153,5 @@ const Sidebar: TSidebar = ({ collapsed, isDialog, onToggle }) => {
     </>
   );
 };
-
-Sidebar.defaultDialogProps = () => ({
-  fullScreen: true,
-  TransitionComponent: FadeTransition.Right,
-  PaperProps: {
-    elevation: 0,
-    sx: (t) => ({
-      bgcolor: t.palette.background.paper,
-      borderRadius: 0,
-    }),
-  },
-});
 
 export default Sidebar;

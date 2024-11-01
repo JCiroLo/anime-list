@@ -8,6 +8,7 @@ import type { DialogProps } from "@mui/material";
 
 export type TDialogProps = {
   dialog: Omit<DialogProps, "open" | "onClose"> | null;
+  preventClose?: boolean;
 };
 export type TDialogContext = {
   open: (content: ReactNode, props?: TDialogProps) => void;
@@ -49,13 +50,15 @@ const DialogProvider: TDialogProvider = ({ children }) => {
         {...props.dialog}
         // Non assignable props
         open={Boolean(content)}
-        onClose={close}
+        onClose={props.preventClose ? undefined : close}
       >
-        <Box position="absolute" zIndex={1} sx={{ top: 8, right: 8 }}>
-          <IconButton size="small" onClick={close}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
+        {!props.preventClose && (
+          <Box position="absolute" zIndex={1} sx={{ top: 8, right: 8 }}>
+            <IconButton size="small" onClick={close}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        )}
         {content}
       </Dialog>
     </DialogContext.Provider>

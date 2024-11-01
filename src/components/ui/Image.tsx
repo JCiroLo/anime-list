@@ -2,6 +2,7 @@ import { forwardRef, useState } from "react";
 import { alpha, Box } from "@mui/material";
 import { ANIME } from "@/constants";
 
+import type { CSSProperties } from "react";
 import type { TAnimeImage } from "@/types/Anime";
 
 type TImageProps = {
@@ -13,6 +14,11 @@ type TImageProps = {
   borderRadius?: number;
   objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
   viewTransitionName?: string;
+  animation?: {
+    name: string;
+    property: string;
+    keyframes: Record<string, CSSProperties>;
+  };
   blur?: boolean;
   preload?: boolean;
   lazy?: boolean;
@@ -29,6 +35,7 @@ const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
     borderRadius = 0,
     objectFit = "cover",
     viewTransitionName,
+    animation,
     blur = false,
     preload = false,
     lazy = false,
@@ -74,17 +81,9 @@ const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
           borderRadius: borderRadius,
           opacity: 0.6,
         },
-        // "&::after": {
-        //   content: computedSrc.isLazy && !isLoaded ? "''" : "none",
-        //   position: "absolute",
-        //   zIndex: 1,
-        //   inset: 0,
-        //   opacity: 0.2,
-        //   background: `url(${computedSrc.preview}) center/cover no-repeat`,
-        //   borderRadius: borderRadius,
-        // },
         "& > img": {
           transition: (t) => t.transitions.create(["opacity"]),
+          ...(animation ? { [`@keyframes ${animation.name}`]: animation.keyframes } : {}),
         },
       }}
     >
@@ -100,6 +99,7 @@ const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
           aspectRatio: aspect,
           opacity: isLoaded ? 1 : 0,
           viewTransitionName: viewTransitionName,
+          animation: animation?.property,
         }}
         onLoad={handleImageLoad}
       />

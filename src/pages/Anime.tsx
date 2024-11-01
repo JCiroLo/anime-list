@@ -114,7 +114,7 @@ const Anime: FC = () => {
 
       {!response.loading && (
         <PageWrapper
-          hero={anime ? <AnimeBanner anime={anime} hideContent /> : null}
+          hero={anime ? <AnimeBanner anime={anime} animated hideContent /> : null}
           content={
             !anime ? (
               <ErrorMessage
@@ -131,7 +131,7 @@ const Anime: FC = () => {
                 {!isTabletOrBelow ? AnimeActionsColumn : null}
                 <Stack spacing={LAYOUT.content.gap} width={LAYOUT.sizes[1]}>
                   <Stack spacing={LAYOUT.content.section.gap}>
-                    <Stack direction="row" alignItems="flex-end" justifyContent="space-between">
+                    <Stack direction="row" spacing={1} alignItems="flex-end" justifyContent="space-between">
                       <Text variant="h1" fontSize={{ xs: "1.5em", md: "2.5em" }}>
                         {anime.title.userPreferred}
                       </Text>

@@ -1,4 +1,3 @@
-import type { Breakpoint } from "@mui/material";
 import type { TAnimeSeason, TAnimeStatus } from "@/types/Anime";
 
 export const LAYOUT = {
@@ -7,23 +6,21 @@ export const LAYOUT = {
   },
   grid: {
     columns: {
-      xs: 3,
-      sm: 4,
-      md: 5,
-      lg: 6,
-      xl: 6,
-      exclude(...breakpoints: Breakpoint[]) {
-        const { xs, sm, md, lg, xl } = this;
-
-        return breakpoints.reduce(
-          (values: Partial<Record<Breakpoint, number>>, breakpoint) => {
-            const { [breakpoint]: _, ...rest } = values;
-            return rest;
-          },
-          { xs, sm, md, lg, xl }
-        );
+      six: {
+        xs: 3,
+        sm: 4,
+        md: 5,
+        lg: 6,
+        xl: 6,
       },
-    } as Partial<Record<Breakpoint, number>> & { exclude(...breakpoints: Breakpoint[]): Partial<Record<Breakpoint, number>> },
+      five: {
+        xs: 3,
+        sm: 4,
+        md: 5,
+        lg: 5,
+        xl: 5,
+      },
+    },
   },
 };
 

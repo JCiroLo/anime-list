@@ -13,9 +13,10 @@ type HeroPanelProps = {
   anime: TAnime;
   hideContent?: boolean;
   viewTransitionName?: string;
+  animated?: boolean;
 };
 
-const HeroPanel: FC<HeroPanelProps> = ({ anime, viewTransitionName, hideContent }) => {
+const HeroPanel: FC<HeroPanelProps> = ({ anime, viewTransitionName, hideContent, animated }) => {
   const theme = useTheme();
   const dialog = useDialog();
 
@@ -26,13 +27,37 @@ const HeroPanel: FC<HeroPanelProps> = ({ anime, viewTransitionName, hideContent 
   return (
     <Stack position="relative">
       <Overlay top={0} left={0} />
-      <Overlay.Gradient top={0} left={0} color={theme.palette.background.default} degrees={0} />
+      <Overlay.Gradient top={0} left={0} colors={[{ color: theme.palette.background.default }, { color: "transparent" }]} degrees={0} />
       <Image
         src={anime.bannerImage || anime.coverImage.extraLarge || anime.coverImage.large}
         alt={anime.title.userPreferred}
         width="100%"
         height={theme.sizes.hero.height}
         viewTransitionName={viewTransitionName}
+        animation={
+          animated
+            ? {
+                name: "image-preview",
+                property: "image-preview 30s linear infinite",
+                keyframes: {
+                  "0%": {
+                    objectPosition: "0% 0%",
+                    opacity: 0,
+                  },
+                  "3%": {
+                    opacity: 1,
+                  },
+                  "97%": {
+                    opacity: 1,
+                  },
+                  "100%": {
+                    objectPosition: "100% 0%",
+                    opacity: 0,
+                  },
+                },
+              }
+            : undefined
+        }
       />
       {!hideContent && (
         <Box position="absolute" zIndex={10} width="100%" height="100%">

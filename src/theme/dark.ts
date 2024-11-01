@@ -24,7 +24,6 @@ const darkMode: TDarkTheme = {
   text: {
     primary: "#f0edf4",
   },
-
   success: {
     main: "#63FF60",
     contrastText: "#000000",
