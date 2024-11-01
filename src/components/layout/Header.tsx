@@ -2,26 +2,23 @@ import { FC, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Box, ButtonBase, Grow, IconButton, Stack, TextField, Tooltip, useTheme } from "@mui/material";
 
-import { Avatar, ProfilePopover, Sidebar } from "@/components";
+import { Avatar, ProfilePopover } from "@/components";
 import { ArrowLeftIcon, CloseIcon, MenuIcon, SearchIcon } from "@/icons";
-import { useSession } from "@/stores";
-import { useBreakpoints, useDialog, usePopover, useViewTransition } from "@/hooks";
+import { useSession, useSettings } from "@/stores";
+import { useBreakpoints, usePopover, useViewTransition } from "@/hooks";
 
 import type { MouseEvent } from "react";
 
-type THeaderProps = {
-  isSidebarCollapsed: boolean;
-};
-
-const Header: FC<THeaderProps> = ({ isSidebarCollapsed }) => {
+const Header: FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const dialog = useDialog();
   const popover = usePopover();
   const viewTransition = useViewTransition();
   const [searchParams, setSearchParams] = useSearchParams();
   const { isMobile } = useBreakpoints();
   const avatar = useSession((state) => state.user.avatar);
+  const isSidebarCollapsed = useSettings((state) => state.sidebar.open);
+  const { toggleSidebarOpen } = useSettings();
 
   const [isSearching, setIsSearching] = useState(false);
   const searchFieldRef = useRef<HTMLInputElement>(null);
@@ -62,9 +59,7 @@ const Header: FC<THeaderProps> = ({ isSidebarCollapsed }) => {
   };
 
   const handleSidebarToggle = () => {
-    dialog.open(<Sidebar collapsed isDialog onToggle={() => dialog.close()} />, {
-      dialog: Sidebar.defaultDialogProps(),
-    });
+    toggleSidebarOpen();
   };
 
   return (

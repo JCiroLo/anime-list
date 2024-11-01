@@ -80,14 +80,9 @@ const SearchDialog = () => {
             {!isLoading && (
               <>
                 {animes.length > 0 ? (
-                  <Grid cols={LAYOUT.grid.columns}>
+                  <Grid cols={LAYOUT.grid.columns.six}>
                     {animes.map((anime, index) => (
-                      <AnimeCard
-                        key={anime.id + index}
-                        anime={anime}
-                        origin="popular-this-season"
-                        props={{ flyout: { zIndex: 20 + index } }}
-                      />
+                      <AnimeCard key={anime.id + index} anime={anime} origin="popular-this-season" />
                     ))}
                   </Grid>
                 ) : (

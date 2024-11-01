@@ -46,6 +46,7 @@ const Home: FC = () => {
   const [moreAnimes, setMoreAnimes] = useState<TAnime[]>([]);
 
   const [scrollObserver, { hasNextPage }] = useInfiniteQuery(QUERIES.season.query, {
+    initialPage: 2,
     variables: QUERIES.season.variables,
     onRefetch: (data) => setMoreAnimes((prev) => [...prev, ...QUERIES.season.transform(data)]),
   });
@@ -79,7 +80,7 @@ const Home: FC = () => {
                   <Text variant="h3" fontSize="1.25em" fontWeight={700}>
                     Popular this season
                   </Text>
-                  <Grid cols={LAYOUT.grid.columns}>
+                  <Grid cols={LAYOUT.grid.columns.six}>
                     {animes.season.map((anime) => (
                       <AnimeCard key={anime.id} anime={anime} origin="popular-this-season" />
                     ))}
@@ -89,7 +90,7 @@ const Home: FC = () => {
                   <Text variant="h3" fontSize="1.25em" fontWeight={700}>
                     Upcoming next season
                   </Text>
-                  <Grid cols={LAYOUT.grid.columns}>
+                  <Grid cols={LAYOUT.grid.columns.six}>
                     {animes.nextSeason.map((anime) => (
                       <AnimeCard key={anime.id} anime={anime} origin="upcoming-next-season" />
                     ))}
@@ -99,9 +100,15 @@ const Home: FC = () => {
                   <Text variant="h3" fontSize="1.25em" fontWeight={700}>
                     Top 10 anime
                   </Text>
-                  <Grid cols={LAYOUT.grid.columns}>
-                    {animes.top.map((anime) => (
-                      <AnimeCard key={anime.id} anime={anime} origin="top-10-anime" />
+                  <Grid cols={LAYOUT.grid.columns.five}>
+                    {animes.top.map((anime, index) => (
+                      <AnimeCard
+                        key={anime.id}
+                        anime={anime}
+                        index={index + 1}
+                        props={{ layout: LAYOUT.grid.columns.five }}
+                        origin="top-10-anime"
+                      />
                     ))}
                   </Grid>
                 </Stack>
@@ -109,7 +116,7 @@ const Home: FC = () => {
                   <Text variant="h3" fontSize="1.25em" fontWeight={700}>
                     All time popular
                   </Text>
-                  <Grid cols={LAYOUT.grid.columns}>
+                  <Grid cols={LAYOUT.grid.columns.six}>
                     {animes.popular.map((anime) => (
                       <AnimeCard key={anime.id} anime={anime} origin="all-time-popular" />
                     ))}
@@ -119,7 +126,7 @@ const Home: FC = () => {
                   <Text variant="h3" fontSize="1.25em" fontWeight={700}>
                     More anime
                   </Text>
-                  <Grid cols={LAYOUT.grid.columns}>
+                  <Grid cols={LAYOUT.grid.columns.six}>
                     {moreAnimes.map((anime, index) => (
                       <AnimeCard key={anime.id + index} anime={anime} origin="all-time-popular" />
                     ))}

@@ -14,6 +14,7 @@ type TUseInfiniteQueryRefetchProps = {
 type TUseInfiniteQueryRefetch = (options?: TUseInfiniteQueryRefetchProps) => Promise<void>;
 type TUseInfiniteQueryProps = {
   variables: OperationVariables;
+  initialPage?: number;
   debug?: boolean;
   onRefetch: (data: unknown) => void;
 };
@@ -28,8 +29,8 @@ type TUseInfiniteQueryReturn = [
 ];
 type TUseInfiniteQuery = (query: TQuery, options: TUseInfiniteQueryProps) => TUseInfiniteQueryReturn;
 
-const useInfiniteQuery: TUseInfiniteQuery = (query, { variables, onRefetch }) => {
-  const page = useRef(1);
+const useInfiniteQuery: TUseInfiniteQuery = (query, { variables, initialPage = 1, onRefetch }) => {
+  const page = useRef(initialPage);
   const hasNextPage = useRef(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ApolloError | null>(null);
