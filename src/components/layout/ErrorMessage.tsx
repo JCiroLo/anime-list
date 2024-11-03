@@ -3,6 +3,7 @@ import { Stack } from "@mui/material";
 
 import { Text } from "@/components";
 
+import type { StackProps } from "@mui/material";
 import type { TTextProps } from "@/components/ui/Text";
 
 type TErrorMessageProps = {
@@ -11,6 +12,7 @@ type TErrorMessageProps = {
   title?: string;
   subtitle?: ReactNode | string;
   slotProps?: {
+    root?: StackProps;
     title?: TTextProps;
     subtitle?: TTextProps;
   };
@@ -19,7 +21,7 @@ type TErrorMessageProps = {
 
 const ErrorMessage: FC<TErrorMessageProps> = ({ icon, children, title, subtitle, slotProps, centered }) => {
   return (
-    <Stack alignItems={centered ? "center" : "flex-start"} spacing={2} paddingY={4}>
+    <Stack alignItems={centered ? "center" : "flex-start"} spacing={2} paddingY={4} {...slotProps?.root}>
       <Stack alignItems={centered ? "center" : "flex-start"}>
         {icon}
         {title && (

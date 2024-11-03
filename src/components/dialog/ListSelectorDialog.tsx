@@ -69,7 +69,7 @@ const ListSelector: TListSelector = ({ anime, onSelect }) => {
           ) : (
             <ErrorMessage
               icon={<MoodConfuzedIcon sx={{ fontSize: 48 }} />}
-              title="Hey, it looks like you have no lists."
+              title="It looks like you have no lists."
               subtitle="Try creating one!"
               slotProps={{
                 title: {

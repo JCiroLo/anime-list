@@ -13,10 +13,12 @@ const BreakpointsDebug = () => {
       <Debug.Boolean value={Boolean(breakpoints.isLaptop)} label="Is Laptop" />
       <Debug.Boolean value={Boolean(breakpoints.isDesktop)} label="Is Desktop" />
       <Debug.Boolean value={Boolean(breakpoints.isWide)} label="Is Wide" />
+      <Debug.Boolean value={Boolean(breakpoints.isUltraWide)} label="Is Ultra Wide" />
       <Divider />
       <Debug.Boolean value={Boolean(breakpoints.isTabletOrBelow)} label="Is Tablet Or Below" />
       <Debug.Boolean value={Boolean(breakpoints.isLaptopOrBelow)} label="Is Laptop Or Below" />
       <Debug.Boolean value={Boolean(breakpoints.isDesktopOrBelow)} label="Is Desktop Or Below" />
+      <Debug.Boolean value={Boolean(breakpoints.isWideOrBelow)} label="Is Wide Or Below" />
     </List>
   );
 };

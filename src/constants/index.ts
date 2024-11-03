@@ -12,6 +12,7 @@ export const LAYOUT = {
         md: 5,
         lg: 6,
         xl: 6,
+        xxl: 6,
       },
       five: {
         xs: 3,
@@ -19,6 +20,7 @@ export const LAYOUT = {
         md: 5,
         lg: 5,
         xl: 5,
+        xxl: 5,
       },
     },
   },

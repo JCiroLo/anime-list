@@ -3,7 +3,7 @@ import { Box, DialogContent, DialogTitle, IconButton, Stack } from "@mui/materia
 import { useSnackbar } from "notistack";
 
 import { Avatar, ErrorMessage, Text } from "@/components";
-import { MoodConfuzedIcon, TrashIcon } from "@/icons";
+import { GhostIcon, TrashIcon } from "@/icons";
 import { useDialog } from "@/hooks";
 import { useSession } from "@/stores";
 
@@ -90,22 +90,23 @@ const AvatarManager: TAvatarManager = () => {
             </Stack>
           ) : (
             <ErrorMessage
-              icon={<MoodConfuzedIcon sx={{ fontSize: 48 }} />}
-              title="Hey, it looks like you have no avatars."
+              icon={<GhostIcon sx={{ fontSize: 48 }} />}
+              title="It looks like you have no avatars."
               subtitle={
                 <>
-                  To save avatars you can navigate to the{" "}
+                  You can save avatars going to your faviorite anime, then in the{" "}
                   <Text component="strong" fontWeight="bold" inline>
                     characters{" "}
                   </Text>
-                  section within the anime details, select the character you want and finally click{" "}
-                  <Text component="strong" fontWeight="bold" inline>
-                    Save
-                  </Text>
-                  .
+                  section, select the one you want and save it!
                 </>
               }
               slotProps={{
+                root: {
+                  sx: {
+                    opacity: 0.5,
+                  },
+                },
                 title: {
                   fontSize: "1.5rem",
                   marginBottom: 1,
