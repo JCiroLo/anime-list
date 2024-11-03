@@ -4,7 +4,7 @@ import { Box, Button, Container, Stack, useTheme } from "@mui/material";
 
 import { Image, Overlay, Text, TrailerDialog } from "@/components";
 import { InfoCircleIcon, MovieIcon } from "@/icons";
-import { useDialog } from "@/hooks";
+import { useBreakpoints, useDialog } from "@/hooks";
 import { Route } from "@/utils";
 
 import type { TAnime } from "@/types/Anime";
@@ -19,6 +19,9 @@ type HeroPanelProps = {
 const HeroPanel: FC<HeroPanelProps> = ({ anime, viewTransitionName, hideContent, animated }) => {
   const theme = useTheme();
   const dialog = useDialog();
+  const { isLaptop, isDesktop, isWide, isUltraWide } = useBreakpoints();
+
+  const bannerAnimationDuration = isUltraWide ? 15 : isWide ? 15 : isDesktop ? 20 : isLaptop ? 30 : 40;
 
   const handleWatchTrailer = () => {
     dialog.open(<TrailerDialog trailer={anime.trailer} />, { dialog: TrailerDialog.defaultDialogProps() });
@@ -32,13 +35,13 @@ const HeroPanel: FC<HeroPanelProps> = ({ anime, viewTransitionName, hideContent,
         src={anime.bannerImage || anime.coverImage.extraLarge || anime.coverImage.large}
         alt={anime.title.userPreferred}
         width="100%"
-        height={theme.sizes.hero.height}
+        height={isUltraWide ? theme.sizes.hero.height * 1.25 : theme.sizes.hero.height}
         viewTransitionName={viewTransitionName}
         animation={
           animated
             ? {
                 name: "image-preview",
-                property: "image-preview 30s linear infinite",
+                property: `image-preview ${bannerAnimationDuration}s linear infinite`,
                 keyframes: {
                   "0%": {
                     objectPosition: "0% 0%",

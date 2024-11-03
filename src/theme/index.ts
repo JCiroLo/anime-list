@@ -76,6 +76,7 @@ export const generateTheme = (mode: TThemeMode) =>
         md: 768,
         lg: 992,
         xl: 1200,
+        xxl: 1600,
       },
     },
     // debouncing: {

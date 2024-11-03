@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
+import { IndexedDB } from "@/stores";
+
 import type { TList, TListSlug } from "@/types/List";
 import type { TAnime } from "@/types/Anime";
 
@@ -124,7 +126,7 @@ const useLists = create(
     }),
     {
       name: "anime-lists",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => IndexedDB),
     }
   )
 );

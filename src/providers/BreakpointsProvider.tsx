@@ -9,9 +9,11 @@ type TBreakpointsContext = {
   isLaptop: boolean;
   isDesktop: boolean;
   isWide: boolean;
+  isUltraWide: boolean;
   isTabletOrBelow: boolean;
   isLaptopOrBelow: boolean;
   isDesktopOrBelow: boolean;
+  isWideOrBelow: boolean;
 };
 
 type TBreakpointsProviderProps = {
@@ -24,9 +26,11 @@ export const BreakpointsContext = createContext<TBreakpointsContext>({
   isLaptop: false,
   isDesktop: false,
   isWide: false,
+  isUltraWide: false,
   isTabletOrBelow: false,
   isLaptopOrBelow: false,
   isDesktopOrBelow: false,
+  isWideOrBelow: false,
 });
 
 const BreakpointsProvider: FC<TBreakpointsProviderProps> = ({ children }) => {
@@ -38,10 +42,11 @@ const BreakpointsProvider: FC<TBreakpointsProviderProps> = ({ children }) => {
     isLaptop: false,
     isDesktop: false,
     isWide: false,
-
+    isUltraWide: false,
     isTabletOrBelow: false,
     isLaptopOrBelow: false,
     isDesktopOrBelow: false,
+    isWideOrBelow: false,
   });
 
   const { values } = theme.breakpoints;
@@ -57,9 +62,22 @@ const BreakpointsProvider: FC<TBreakpointsProviderProps> = ({ children }) => {
       const isLaptop = isLaptopOrBelow && !isTablet && !isMobile;
       const isDesktopOrBelow = width < values.xl;
       const isDesktop = isDesktopOrBelow && !isLaptop && !isTablet && !isMobile;
-      const isWide = width >= values.xl;
+      const isWideOrBelow = width < values.xxl;
+      const isWide = isWideOrBelow && !isDesktop && !isLaptop && !isTablet && !isMobile;
+      const isUltraWide = width >= values.xxl;
 
-      setBreakpoints({ isMobile, isTablet, isLaptop, isDesktop, isWide, isTabletOrBelow, isLaptopOrBelow, isDesktopOrBelow });
+      setBreakpoints({
+        isMobile,
+        isTablet,
+        isLaptop,
+        isDesktop,
+        isWide,
+        isUltraWide,
+        isTabletOrBelow,
+        isLaptopOrBelow,
+        isDesktopOrBelow,
+        isWideOrBelow,
+      });
     };
 
     window.addEventListener("resize", debounce(handleResize, 250));
@@ -67,7 +85,7 @@ const BreakpointsProvider: FC<TBreakpointsProviderProps> = ({ children }) => {
     handleResize();
 
     return (): void => window.removeEventListener("resize", handleResize);
-  }, [values.lg, values.md, values.sm, values.xl]);
+  }, [values.lg, values.md, values.sm, values.xl, values.xxl]);
 
   return <BreakpointsContext.Provider value={breakpoints}>{children}</BreakpointsContext.Provider>;
 };

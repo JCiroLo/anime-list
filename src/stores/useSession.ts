@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
+import { IndexedDB } from "@/stores";
+
 type TSession = {
   user: {
     nickname: string;
@@ -28,7 +30,7 @@ const useSession = create(
     }),
     {
       name: "session",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => IndexedDB),
     }
   )
 );

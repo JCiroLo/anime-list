@@ -10,7 +10,7 @@ type SnackbarProps = CustomContentProps & {
 const Snackbar = forwardRef<HTMLDivElement, SnackbarProps>(({ severity, message }, ref) => {
   return (
     <SnackbarContent ref={ref}>
-      <Alert severity={severity} sx={{ width: "100%", outline: 1.5 }}>
+      <Alert severity={severity} variant="filled" sx={{ width: "100%" }}>
         {message}
       </Alert>
     </SnackbarContent>

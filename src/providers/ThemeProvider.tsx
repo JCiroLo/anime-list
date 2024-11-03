@@ -59,6 +59,9 @@ declare module "@mui/material/styles" {
   interface ZIndex {
     search: number;
   }
+  interface BreakpointOverrides {
+    xxl: true;
+  }
 }
 
 declare module "@mui/material/Button" {

@@ -80,7 +80,7 @@ const List: FC = () => {
           <>
             <ErrorMessage
               icon={<CometIcon sx={{ fontSize: 48 }} />}
-              title="Hey, it looks like your list is empty."
+              title="It looks like your list is empty."
               subtitle="Add your first anime!"
             >
               <Stack direction="row" spacing={1}>

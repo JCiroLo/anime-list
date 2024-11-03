@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
+import { IndexedDB } from "@/stores";
+
 type TSettings = {
   sidebar: {
     open: boolean;
@@ -18,7 +20,7 @@ const useSession = create(
     }),
     {
       name: "settings",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => IndexedDB),
     }
   )
 );
