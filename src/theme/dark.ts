@@ -5,14 +5,14 @@ type TDarkTheme = PaletteOptions;
 const darkMode: TDarkTheme = {
   mode: "dark",
   primary: {
-    main: "#fff",
+    main: "#ffffff",
   },
   secondary: {
     main: "#646470",
   },
   accent: createTheme().palette.augmentColor({
     color: {
-      main: "#a154db",
+      main: "#8e60a5",
     },
     name: "accent",
   }),
