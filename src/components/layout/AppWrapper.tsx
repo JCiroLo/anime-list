@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Outlet } from "react-router-dom";
 import { Box, IconButton, Stack, useTheme } from "@mui/material";
 
-import { BreakpointsDebug, Header, Logo, SearchDialog, Sidebar } from "@/components";
+import { BreakpointsDebug, Header, Logo, NetworkStatus, SearchDialog, Sidebar } from "@/components";
 import { DialogProvider, PopoverProvider } from "@/providers";
 import { Env } from "@/utils";
 import { useBreakpoints } from "@/hooks";
@@ -12,6 +12,7 @@ import { CloseIcon } from "@/icons";
 const AppWrapper: FC = () => {
   const theme = useTheme();
   const { isTabletOrBelow } = useBreakpoints();
+
   const isSidebarCollapsed = useSettings((state) => state.sidebar.open);
   const { toggleSidebarOpen } = useSettings();
 
@@ -31,6 +32,7 @@ const AppWrapper: FC = () => {
       <DialogProvider>
         <PopoverProvider>
           <Stack direction="row" spacing={1} paddingLeft={1}>
+            <NetworkStatus />
             <Stack
               position={isTabletOrBelow ? "fixed" : "relative"}
               zIndex={isTabletOrBelow ? "modal" : undefined}

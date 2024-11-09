@@ -55,23 +55,15 @@ We are using [AniList API GraphQL](https://anilist.gitbook.io/anilist-apiv2-docs
 - TypeScript
 - Vite
 
-
-
 ## Todo list
 
 ### Important features
-
-- [ ] **Add Infinite Scroll Support**  
-  Create a generic `InfiniteScroll` component to handle infinite scrolling for paginated data, optimizing for large lists.
 
 - [ ] **Design Logo**  
   Create a unique and recognizable logo for branding the website.
 
 - [ ] **Implement Lazy Loading for Images**  
   Add lazy loading functionality for images to enhance loading times and improve user experience, especially on slower connections.
-
-- [ ] **Fix mobile experience**
-  The website is not currently responsive on mobile devices.
 
 ### Nice to have features
 

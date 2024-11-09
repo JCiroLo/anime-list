@@ -26,6 +26,11 @@ export const LAYOUT = {
   },
 };
 
+export const SOCIAL = {
+  github: "https://github.com/JCiroLo",
+  discord: "https://discord.gg/hikarime",
+};
+
 export const ANIME = {
   title: {
     notFound: "Title not found",

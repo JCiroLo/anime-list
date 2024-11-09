@@ -19,6 +19,7 @@ export { default as Header } from './layout/Header';
 export { default as Hero } from './layout/Hero';
 export { default as Loader } from './layout/Loader';
 export { default as Logo } from './layout/Logo';
+export { default as NetworkStatus } from './layout/NetworkStatus';
 export { default as PageWrapper } from './layout/PageWrapper';
 export { default as Sidebar } from './layout/Sidebar';
 export { default as YoutubeEmbed } from './layout/YoutubeEmbed';
