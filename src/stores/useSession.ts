@@ -19,7 +19,7 @@ const useSession = create(
   persist<TSession>(
     (set) => ({
       user: {
-        nickname: "Hikarimer",
+        nickname: "Hikari",
         avatar: "",
       },
       avatars: [],

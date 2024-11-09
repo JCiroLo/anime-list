@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { Link as RouterLink, Outlet } from "react-router-dom";
-import { Box, IconButton, Link, Stack, useTheme } from "@mui/material";
+import { Outlet } from "react-router-dom";
+import { Box, IconButton, Stack, useTheme } from "@mui/material";
 
-import { BreakpointsDebug, Header, SearchDialog, Sidebar } from "@/components";
+import { BreakpointsDebug, Header, Logo, SearchDialog, Sidebar } from "@/components";
 import { DialogProvider, PopoverProvider } from "@/providers";
-import { Env, Route } from "@/utils";
+import { Env } from "@/utils";
 import { useBreakpoints } from "@/hooks";
 import { useSettings } from "@/stores";
 import { CloseIcon } from "@/icons";
@@ -48,19 +48,7 @@ const AppWrapper: FC = () => {
                 transition: theme.transitions.create(["width", "left"]),
               }}
             >
-              <Stack justifyContent="center" alignItems="center" height={theme.sizes.header.realHeight + 16}>
-                <Link
-                  component={RouterLink}
-                  to={Route.to()}
-                  fontSize="2em"
-                  fontFamily="redwood"
-                  textAlign="center"
-                  underline="hover"
-                  color="primary.main"
-                >
-                  Hikarime
-                </Link>
-              </Stack>
+              <Logo height={theme.sizes.header.realHeight + 16} />
               <Sidebar isDialog={isTabletOrBelow} />
               {isTabletOrBelow && (
                 <Box position="absolute" zIndex={1} sx={{ top: 8, right: 8 }}>
