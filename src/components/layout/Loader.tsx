@@ -17,14 +17,14 @@ const Loader: FC<TLoaderProps> = ({ show }) => {
               position="absolute"
               left="50%"
               top="50%"
-              width={34 * 8}
-              height={34 * 8}
+              width={28 * 8}
+              height={28 * 8}
               borderRadius="50%"
               border={8}
               borderColor="#ffe1f1"
               sx={{ transform: "translate(-50%, -50%)" }}
             />
-            <Image src="/img/common/favicon.svg" alt="Logo" width={40} />
+            <Image src="/img/common/logo-transparent.png" alt="Logo" width={32} />
           </Box>
         </Grow>
       </Stack>

@@ -1,7 +1,7 @@
 @font-face {
-  font-family: "Redwood";
+  font-family: "Moonet";
   font-style: "normal";
-  src: url("/fonts/redwood.otf") format("opentype");
+  src: url("/fonts/moonet.otf") format("opentype");
 }
 
 :root {

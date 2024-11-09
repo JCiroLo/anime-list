@@ -25,7 +25,7 @@ const Hero: FC<HeroProps> = ({ slides }) => {
       >
         {slides.map((anime) => (
           <SwiperSlide key={anime.id}>
-            <AnimeBanner anime={anime} />
+            <AnimeBanner anime={anime} animated />
           </SwiperSlide>
         ))}
       </Swiper>
