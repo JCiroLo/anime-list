@@ -62,6 +62,7 @@ const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
   return (
     <Box
       ref={ref}
+      component="span"
       position="relative"
       display="flex"
       width={computedWidth}
@@ -106,6 +107,7 @@ const Image = forwardRef<TImageRef, TImageProps>((props, ref) => {
       {!isLoaded && (
         <Box
           position="absolute"
+          component="span"
           width={computedWidth}
           height={aspect ? undefined : computedHeight}
           borderRadius={borderRadius}

@@ -4,9 +4,9 @@ import { useQuery } from "@apollo/client";
 
 import { AnimeCard, ErrorMessage, Grid, Hero, Loader, PageWrapper, Text } from "@/components";
 import { MoodSadIcon } from "@/icons";
-import { useInfiniteQuery } from "@/hooks";
+import { useInfiniteQuery, useStorage } from "@/hooks";
 import { LAYOUT } from "@/constants";
-import { QueryBuilder } from "@/utils";
+import { DateUtils, QueryBuilder } from "@/utils";
 
 import type { TAnime } from "@/types/Anime";
 
@@ -18,18 +18,20 @@ type TAnimes = {
   trending: TAnime[];
 };
 
+const SEASON = DateUtils.season();
+
 const QUERIES = {
   summary: QueryBuilder.anime.summary({
     type: "ANIME",
-    season: "FALL",
-    seasonYear: 2024,
-    nextSeason: "WINTER",
-    nextYear: 2024,
+    season: SEASON.current.value,
+    seasonYear: SEASON.current.year,
+    nextSeason: SEASON.next.value,
+    nextYear: SEASON.next.year,
   }),
   season: QueryBuilder.anime.season({
     type: "ANIME",
-    season: "FALL",
-    seasonYear: 2024,
+    season: SEASON.current.value,
+    seasonYear: SEASON.current.year,
     perPage: 24,
   }),
 };
@@ -37,12 +39,11 @@ const QUERIES = {
 const Home: FC = () => {
   const [animes, setAnimes] = useState<TAnimes>({
     nextSeason: [],
+    trending: [],
     popular: [],
     season: [],
     top: [],
-    trending: [],
   });
-
   const [moreAnimes, setMoreAnimes] = useState<TAnime[]>([]);
 
   const [scrollObserver, { hasNextPage }] = useInfiniteQuery(QUERIES.season.query, {
@@ -56,9 +57,15 @@ const Home: FC = () => {
     onCompleted: (data) => setAnimes(QUERIES.summary.transform(data)),
   });
 
+  const [isFirstLoad, setIsFirstLoad] = useStorage("first-load", true, sessionStorage);
+
+  const handleLoaderClose = () => {
+    setIsFirstLoad(false);
+  };
+
   return (
     <>
-      <Loader show={response.loading} />
+      <Loader delay={isFirstLoad ? 2500 : 0} show={response.loading} displayText={isFirstLoad} onClose={handleLoaderClose} />
 
       {!response.loading && (
         <PageWrapper

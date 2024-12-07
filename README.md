@@ -25,9 +25,9 @@ We are using [AniList API GraphQL](https://anilist.gitbook.io/anilist-apiv2-docs
   API documentation for the anime database using GraphQL.
 - **Icons Library**: [Tabler icon set](https://tabler.io/icons)
   A free collection of SVG icons for use in web applications.
-- **Font**: [Lato font](https://fonts.google.com/specimen/Lato)
-  Font used in the website.
-- **UI Library**: [Material UI](https://mui.com/material-ui/getting-started)  
+- **Font**: [Moonet font](https://www.creativefabrica.com/product/moonet/ref/777922)
+  Font used in the website (personal use license).
+- **UI Library**: [Material UI V5](https://mui.com/material-ui/getting-started)  
   Provides a rich set of UI components for React applications, enabling easy and customizable designs.
 - **State Management**: [Zustand](https://github.com/pmndrs/zustand)  
   A small, fast, and scalable state management solution for React applications.
@@ -45,7 +45,7 @@ We are using [AniList API GraphQL](https://anilist.gitbook.io/anilist-apiv2-docs
   A tiny utility for constructing `className` strings conditionally.
 - **Sanitization Library**: [DOMPurify](https://github.com/cure53/DOMPurify)  
   A library used to sanitize HTML and prevent XSS attacks.
-- **Swiper Slider**: [Swiper.js](https://swiperjs.com/)  
+- **Carousel Library**: [Swiper.js](https://swiperjs.com/)  
   A powerful mobile-friendly slider for creating carousels and swipeable components.
 - **Routing Library**: [React Router DOM](https://reactrouter.com/en/main)  
   A client-side routing library for React applications.

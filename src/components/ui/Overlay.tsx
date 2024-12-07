@@ -8,7 +8,7 @@ type TGradientColor = {
   length?: number;
 };
 type TGradientProps = BoxProps & {
-  colors: ((theme: Theme) => TGradientColor[]) | TGradientColor[];
+  colors: ((theme: Theme) => (TGradientColor | string)[]) | (TGradientColor | string)[];
   zIndex?: number;
   degrees?: number;
 };
@@ -39,7 +39,12 @@ const Gradient: FC<TGradientProps> = ({ colors, zIndex = 5, degrees = 180, ...re
   const theme = useTheme();
 
   const colorsArray = typeof colors === "function" ? colors(theme) : colors;
-  const computedColors = colorsArray.map(({ color, length }) => [color, length ? `${length}%` : null].filter(Boolean).join(" ")).join(", ");
+  const computedColors = colorsArray
+    .map((item) => {
+      const { color, length } = typeof item === "string" ? { color: item } : item;
+      return [color, length ? `${length}%` : null].filter(Boolean).join(" ");
+    })
+    .join(", ");
   const gradient = `linear-gradient(${degrees}deg, ${computedColors})`;
 
   return (

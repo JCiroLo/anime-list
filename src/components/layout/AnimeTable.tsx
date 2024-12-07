@@ -3,7 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 import { Image, Text } from "@/components";
-import { Formatters, Route } from "@/utils";
+import { DateUtils, Route } from "@/utils";
 import { ANIME } from "@/constants";
 
 import type { TListAnime } from "@/types/List";
@@ -57,7 +57,7 @@ const AnimeTable: FC<TAnimeTableProps> = ({ animes }) => {
                   <Image
                     src={anime.coverImage}
                     alt={anime.title.userPreferred}
-                    width={7}
+                    width={8}
                     aspect={ANIME.coverImage.aspectRatio}
                     borderRadius={1}
                   />
@@ -93,7 +93,7 @@ const AnimeTable: FC<TAnimeTableProps> = ({ animes }) => {
               </TableCell>
               <TableCell align="left" sx={{ paddingY: 0, paddingX: 1 }}>
                 <Text variant="body2" fontWeight={400} color="text.secondary">
-                  {Formatters.time.date(watchedAt)}
+                  {DateUtils.format(watchedAt)}
                 </Text>
               </TableCell>
             </TableRow>

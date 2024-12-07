@@ -21,7 +21,7 @@ const HeroPanel: FC<HeroPanelProps> = ({ anime, viewTransitionName, hideContent,
   const dialog = useDialog();
   const { isLaptop, isDesktop, isWide, isUltraWide } = useBreakpoints();
 
-  const bannerAnimationDuration = isUltraWide ? 15 : isWide ? 15 : isDesktop ? 20 : isLaptop ? 30 : 40;
+  const bannerAnimationDuration = isUltraWide ? 20 : isWide ? 25 : isDesktop ? 25 : isLaptop ? 30 : 40;
 
   const handleWatchTrailer = () => {
     dialog.open(<TrailerDialog trailer={anime.trailer} />, { dialog: TrailerDialog.defaultDialogProps() });

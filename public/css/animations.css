@@ -1,0 +1,9 @@
+@keyframes logo-fade-in {
+  75% {
+    fill: transparent;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill: var(--color-fill, white);
+  }
+}

@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Stack, SxProps } from "@mui/material";
 
 import { Text } from "@/components";
-import { Formatters } from "@/utils";
+import { DateUtils } from "@/utils";
 import { ANIME } from "@/constants";
 
 import type { TAnime } from "@/types/Anime";
@@ -39,7 +39,7 @@ const AnimeData: FC<TAnimeDataProps> = ({ anime, sx }) => {
     },
     {
       label: "Episode duration",
-      value: Formatters.time.duration(anime.duration),
+      value: anime.duration ? anime.duration + " minutes" : null,
     },
     {
       label: "Status",
@@ -47,11 +47,11 @@ const AnimeData: FC<TAnimeDataProps> = ({ anime, sx }) => {
     },
     {
       label: "Start date",
-      value: Formatters.time.date(anime.startDate),
+      value: DateUtils.format(anime.startDate),
     },
     {
       label: "End date",
-      value: Formatters.time.date(anime.endDate),
+      value: DateUtils.format(anime.endDate),
     },
     {
       label: "Season",

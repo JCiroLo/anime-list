@@ -5,7 +5,7 @@ import { Button, DialogActions, DialogContent, DialogTitle, Stack } from "@mui/m
 
 import { ListForm, Text } from "@/components";
 import { useDialog } from "@/hooks";
-import { Formatters, Route } from "@/utils";
+import { DateUtils, Route } from "@/utils";
 import { useLists } from "@/stores";
 
 import type { TList } from "@/types/List";
@@ -42,7 +42,7 @@ const DetailsListDialog: FC<TDetailsListDialogProps> = ({ list }) => {
     <>
       <DialogTitle>List details</DialogTitle>
       <DialogContent>
-        <Stack display="grid" gridTemplateColumns="auto 1fr" spacing={1}>
+        <Stack display="grid" gridTemplateColumns="auto 1fr" gap={2} spacing={1}>
           <Text {...titleProps}>Title</Text>
           <Text {...contentProps}>{list.name}</Text>
 
@@ -56,10 +56,10 @@ const DetailsListDialog: FC<TDetailsListDialogProps> = ({ list }) => {
           <Text {...contentProps}>{list.animes.length}</Text>
 
           <Text {...titleProps}>Created at</Text>
-          <Text {...contentProps}>{Formatters.time.date(list.createdAt, "MMMM DD, YYYY")}</Text>
+          <Text {...contentProps}>{DateUtils.format(list.createdAt, "MMMM DD, YYYY")}</Text>
 
           <Text {...titleProps}>Last updated</Text>
-          <Text {...contentProps}>{Formatters.time.date(list.updatedAt, "MMMM DD, YYYY")}</Text>
+          <Text {...contentProps}>{DateUtils.format(list.updatedAt, "MMMM DD, YYYY")}</Text>
 
           <Text {...titleProps}>Created by user</Text>
           <Text {...contentProps}>{list.isCustom ? "Yes" : "No"}</Text>

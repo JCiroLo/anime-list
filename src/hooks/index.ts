@@ -7,5 +7,6 @@ export { default as useIntersectionObserver } from './useIntersectionObserver';
 export { default as useNetworkState } from './useNetworkState';
 export { default as usePopover } from './usePopover';
 export { default as useQuery } from './useQuery';
+export { default as useStorage } from './useStorage';
 export { default as useTransitions } from './useTransitions';
 export { default as useViewTransition } from './useViewTransition';

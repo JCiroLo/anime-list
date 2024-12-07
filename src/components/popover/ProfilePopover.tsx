@@ -110,7 +110,7 @@ const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl }) => {
         onClick={() => {}}
       />
       <Divider sx={{ my: 1 }} />
-      <Stack direction="row" justifyContent="center" spacing={1} marginBottom={1}>
+      <Stack direction="row" justifyContent="center" spacing={1}>
         <Tooltip title="Contact us via GitHub">
           <IconButton size="small" href={SOCIAL.github} target="_blank">
             <GithubIcon />
@@ -122,9 +122,9 @@ const ProfilePopover: FC<ProfilePopoverProps> = ({ anchorEl }) => {
           </IconButton>
         </Tooltip>
       </Stack>
-      <Text variant="body2" fontSize="0.75rem" textAlign="center" sx={{ opacity: 0.25 }}>
+      {/* <Text variant="body2" fontSize="0.75rem" textAlign="center" sx={{ opacity: 0.25 }}>
         {import.meta.env.PACKAGE_VERSION}
-      </Text>
+      </Text> */}
     </Menu>
   );
 };

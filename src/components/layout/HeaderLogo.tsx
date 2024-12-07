@@ -1,32 +1,26 @@
 import { Link as RouterLink } from "react-router-dom";
-import { Box, Link, Stack } from "@mui/material";
+import { Link, Stack } from "@mui/material";
 
-import { Image } from "@/components";
+import { Image, Text } from "@/components";
 import { useSettings } from "@/stores";
 import { Route } from "@/utils";
 
 import type { FC } from "react";
 
-type TLogoProps = {
+type THeaderLogoProps = {
   height: number;
 };
 
-const Logo: FC<TLogoProps> = ({ height }) => {
+const HeaderLogo: FC<THeaderLogoProps> = ({ height }) => {
   const { sidebar } = useSettings();
 
   return (
     <Stack justifyContent="center" alignItems="center" height={height}>
-      <Link
-        component={RouterLink}
-        to={Route.to()}
-        position="relative"
-        fontSize="3em"
-        fontFamily="moonet"
-        textAlign="center"
-        underline="none"
-        color="primary.main"
-      >
-        <Box
+      <Link component={RouterLink} to={Route.to()} position="relative" underline="none" color="primary.main">
+        <Text
+          fontSize="3em"
+          fontFamily="moonet"
+          textAlign="center"
           sx={{
             scale: sidebar.open ? 0 : 1,
             opacity: sidebar.open ? 0 : 1,
@@ -35,7 +29,7 @@ const Logo: FC<TLogoProps> = ({ height }) => {
           }}
         >
           HIKARIME
-        </Box>
+        </Text>
         <Stack
           className="link__logo-image"
           component="span"
@@ -57,4 +51,4 @@ const Logo: FC<TLogoProps> = ({ height }) => {
   );
 };
 
-export default Logo;
+export default HeaderLogo;

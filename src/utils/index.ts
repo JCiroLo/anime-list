@@ -1,11 +1,12 @@
 export { default as ApolloClient } from './ApolloClient';
 export { default as BreakpointsUtils } from './BreakpointsUtils';
+export { default as DateUtils } from './DateUtils';
 export * from './DialogUtils';
 export { default as Env } from './Env';
-export { default as Formatters } from './Formatters';
 export { default as PopoverUtils } from './PopoverUtils';
 export { default as QueryBuilder } from './QueryBuilder';
 export { default as Route } from './Route';
 export { default as Schemas } from './Schemas';
+export { default as StringUtils } from './StringUtils';
 export { default as Validators } from './Validators';
 export * from './index';

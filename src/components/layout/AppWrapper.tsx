@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Outlet } from "react-router-dom";
 import { Box, IconButton, Stack, useTheme } from "@mui/material";
 
-import { BreakpointsDebug, Header, Logo, NetworkStatus, SearchDialog, Sidebar } from "@/components";
+import { BreakpointsDebug, Header, HeaderLogo, NetworkStatus, SearchDialog, Sidebar } from "@/components";
 import { DialogProvider, PopoverProvider } from "@/providers";
 import { Env } from "@/utils";
 import { useBreakpoints } from "@/hooks";
@@ -50,7 +50,7 @@ const AppWrapper: FC = () => {
                 transition: theme.transitions.create(["width", "left"]),
               }}
             >
-              <Logo height={theme.sizes.header.realHeight + 16} />
+              <HeaderLogo height={theme.sizes.header.realHeight + 16} />
               <Sidebar isDialog={isTabletOrBelow} />
               {isTabletOrBelow && (
                 <Box position="absolute" zIndex={1} sx={{ top: 8, right: 8 }}>

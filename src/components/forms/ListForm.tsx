@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Stack, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 
-import { Formatters, Schemas, Validators } from "@/utils";
+import { Schemas, StringUtils, Validators } from "@/utils";
 
 import type { ChangeEvent, FC, FocusEvent } from "react";
 import type { SubmitHandler } from "react-hook-form";
@@ -31,7 +31,7 @@ const ListForm: FC<TListFormProps> = ({ id, list, onSubmit }) => {
       }
 
       if (name === "name") {
-        setValue("slug", Formatters.string.slugify(value));
+        setValue("slug", StringUtils.slugify(value));
       }
     }
 
@@ -42,7 +42,7 @@ const ListForm: FC<TListFormProps> = ({ id, list, onSubmit }) => {
     const { value, name } = event.target;
 
     if (name === "slug") {
-      setValue("slug", Formatters.string.slugify(value));
+      setValue("slug", StringUtils.slugify(value));
     }
 
     onBlur(event);
@@ -54,7 +54,7 @@ const ListForm: FC<TListFormProps> = ({ id, list, onSubmit }) => {
     if (!name || !slug) return;
 
     // Double check that slug has been formatted correctly
-    onSubmit({ ...data, slug: Formatters.string.slugify(data.name) });
+    onSubmit({ ...data, slug: StringUtils.slugify(data.name) });
   };
 
   return (
