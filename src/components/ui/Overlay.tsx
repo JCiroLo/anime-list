@@ -41,7 +41,7 @@ const Gradient: FC<TGradientProps> = ({ colors, zIndex = 5, degrees = 180, ...re
   const colorsArray = typeof colors === "function" ? colors(theme) : colors;
   const computedColors = colorsArray
     .map((item) => {
-      const { color, length } = typeof item === "string" ? { color: item } : item;
+      const { color, length } = typeof item === "string" ? { color: item, length: null } : item;
       return [color, length ? `${length}%` : null].filter(Boolean).join(" ");
     })
     .join(", ");

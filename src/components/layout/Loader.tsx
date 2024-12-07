@@ -8,7 +8,7 @@ import type { FC } from "react";
 type TLoaderProps = {
   delay?: number;
   show: boolean;
-  displayText: boolean;
+  displayText?: boolean;
   onClose?: () => void;
 };
 
